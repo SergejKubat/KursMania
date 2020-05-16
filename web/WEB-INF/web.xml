@@ -16,4 +16,13 @@
     <welcome-file-list>
         <welcome-file>Pocetna</welcome-file>
     </welcome-file-list>
+    <jsp-config>
+        <jsp-property-group>
+            <description>header i footer</description>
+            <url-pattern>/WEB-INF/view/</url-pattern>
+            <url-pattern>/index.jsp</url-pattern>
+            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

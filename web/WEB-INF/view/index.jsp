@@ -4,11 +4,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <title>Pocetna</title>
     </head>
     <body>
-        <c:forEach items="${requestScope.role}" var="rola">
-            <p>${rola.rolaNaziv}</p>
-        </c:forEach>
+        <h1>Hello World!</h1>
     </body>
 </html>
