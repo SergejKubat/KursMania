@@ -5,7 +5,7 @@
  */
 package com.kursmania.sessions;
 
-import com.kursmania.entities.Komentar;
+import com.kursmania.jpa.entities.Komentar;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

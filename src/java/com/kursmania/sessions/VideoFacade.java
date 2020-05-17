@@ -5,7 +5,7 @@
  */
 package com.kursmania.sessions;
 
-import com.kursmania.entities.Video;
+import com.kursmania.jpa.entities.Video;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
