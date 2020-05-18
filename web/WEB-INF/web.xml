@@ -13,6 +13,26 @@
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/pretraga</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/kurs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/korpa</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/nalog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/instruktor</url-pattern>
+    </servlet-mapping>
        
     <session-config>
         <session-timeout>
@@ -22,10 +42,11 @@
     
     <jsp-config>
         <jsp-property-group>
-            <url-pattern>/WEB-INF/view/</url-pattern>
+            <url-pattern>/WEB-INF/view/*</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>
+    
 </web-app>
