@@ -34,6 +34,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/kontakt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/onama</url-pattern>
     </servlet-mapping>
     

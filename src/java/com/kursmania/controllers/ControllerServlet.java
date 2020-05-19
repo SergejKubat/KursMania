@@ -33,7 +33,10 @@ public class ControllerServlet extends HttpServlet {
 
         } else if (putanja.equals("/jezik")) {
 
-        } else if (putanja.equals("/onama")) {
+        } else if (putanja.equals("/kontakt")) {
+
+        }
+        else if (putanja.equals("/onama")) {
 
         }
 

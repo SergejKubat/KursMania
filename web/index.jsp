@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="resources/css/main_styles.css">
+<link rel="stylesheet" type="text/css" href="resources/css/responsive.css">
 <div class="home">
     <div class="home_slider_container">
 

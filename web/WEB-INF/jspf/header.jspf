@@ -15,8 +15,6 @@
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/animate.css">
         <link href="resources/plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" type="text/css" href="resources/css/main_styles.css">
-        <link rel="stylesheet" type="text/css" href="resources/css/responsive.css">
     </head>
     <body>
         <div class="super_container">
