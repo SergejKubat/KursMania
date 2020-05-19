@@ -33,6 +33,8 @@ public class ControllerServlet extends HttpServlet {
 
         } else if (putanja.equals("/jezik")) {
 
+        } else if (putanja.equals("/onama")) {
+
         }
 
         String url = "/WEB-INF/view" + putanja + ".jsp";

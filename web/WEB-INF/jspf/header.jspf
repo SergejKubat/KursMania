@@ -2,7 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
+<html lang="sr">
     <head>
         <title>KursMania</title>
         <meta charset="utf-8">
@@ -43,8 +43,8 @@
                                         </ul>
                                         <div class="top_bar_login ml-auto">
                                             <ul>
-                                                <li><a href="#">Registracija</a></li>
-                                                <li><a href="#">Prijava</a></li>
+                                                <li><a href="/registracija">Registracija</a></li>
+                                                <li><a href="/prijava">Prijava</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -70,11 +70,10 @@
                                     </div>
                                     <nav class="main_nav_contaner ml-auto">
                                         <ul class="main_nav">
-                                            <li class="active"><a href="#">Početna</a></li>
-                                            <li><a href="about.html">O nama</a></li>
-                                            <li><a href="courses.html">Kursevi</a></li>
-                                            <li><a href="news.html">Novosti</a></li>
-                                            <li><a href="contact.html">Kontakt</a></li>
+                                            <li class="active"><a href="/">Pocetna</a></li>
+                                            <li><a href="/onama">O nama</a></li>
+                                            <li><a href="/kursevi">Kursevi</a></li>
+                                            <li><a href="/kontakt">Kontakt</a></li>
                                         </ul>
                                         <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
 
@@ -98,7 +97,7 @@
                             <div class="col">
                                 <div class="header_search_content d-flex flex-row align-items-center justify-content-end">
                                     <form action="#" class="header_search_form">
-                                        <input type="search" class="search_input" placeholder="Search" required="required">
+                                        <input type="search" class="search_input" placeholder="Pretraga" required="required">
                                         <button class="header_search_button d-flex flex-column align-items-center justify-content-center">
                                             <i class="fa fa-search" aria-hidden="true"></i>
                                         </button>
@@ -124,12 +123,10 @@
                 </div>
                 <nav class="menu_nav">
                     <ul class="menu_mm">
-                        <li class="menu_mm"><a href="index.html">Početna</a></li>
-                        <li class="menu_mm"><a href="courses.html">Kursevi</a></li>
-                        <li class="menu_mm"><a href="instructors.html">Instruktori</a></li>
-                        <li class="menu_mm"><a href="#">Događaji</a></li>
-                        <li class="menu_mm"><a href="blog.html">Blog</a></li>
-                        <li class="menu_mm"><a href="contact.html">Kontakt</a></li>
+                        <li class="menu_mm"><a href="/">Pocetna</a></li>
+                        <li class="menu_mm"><a href="/kursevi">Kursevi</a></li>
+                        <li class="menu_mm"><a href="/instruktori">Instruktori</a></li>
+                        <li class="menu_mm"><a href="/kontakt">Kontakt</a></li>
                     </ul>
                 </nav>
                 <div class="menu_extra">
@@ -145,4 +142,3 @@
                     </div>
                 </div>
             </div>
-

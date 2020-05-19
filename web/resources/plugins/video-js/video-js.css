@@ -386,7 +386,7 @@ body.vjs-full-window {
   cursor: pointer;
   opacity: 1;
   border: none;
-  background-image: url(../../images/play_big.png);
+  background-image: url(../../img/website/play_big.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
