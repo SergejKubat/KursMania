@@ -7,11 +7,11 @@
             <div class="row">
                 <div class="col">
                     <div class="home_content text-center">
-                        <div class="home_title">Contact</div>
+                        <div class="home_title">Kontakt</div>
                         <div class="breadcrumbs">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li>Contact</li>
+                                <li><a href="/">Pocetna</a></li>
+                                <li>Kontakt</li>
                             </ul>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                                     <a href="#">
                                         <div class="logo_content d-flex flex-row align-items-end justify-content-start">
                                             <div class="logo_img"><img src="resources/img/website/logo.png" alt=""></div>
-                                            <div class="logo_text">learn</div>
+                                            <div class="logo_text">KursMania</div>
                                         </div>
                                     </a>
                                 </div>

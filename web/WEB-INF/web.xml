@@ -22,6 +22,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/kursevi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/korpa</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

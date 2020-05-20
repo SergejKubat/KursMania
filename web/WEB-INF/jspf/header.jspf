@@ -33,10 +33,10 @@
                                         <ul class="top_bar_contact_list">
                                             <li><div class="question">Pitanja?</div></li>
                                             <li>
-                                                <div>(011) 6688933</div>
+                                                <div><a href="tel:0116688933">(011) 6688933</a></div>
                                             </li>
                                             <li>
-                                                <div>info@kursmania.com</div>
+                                                <div><a href="mailto:info@kursmania.com">info@kursmania.com</a></div>
                                             </li>
                                         </ul>
                                         <div class="top_bar_login ml-auto">
@@ -59,7 +59,7 @@
                             <div class="col">
                                 <div class="header_content d-flex flex-row align-items-center justify-content-start">
                                     <div class="logo_container">
-                                        <a href="#">
+                                        <a href="/">
                                             <div class="logo_content d-flex flex-row align-items-end justify-content-start">
                                                 <div class="logo_img"><img src="resources/img/website/logo.png" alt=""></div>
                                                 <div class="logo_text">KursMania</div>
