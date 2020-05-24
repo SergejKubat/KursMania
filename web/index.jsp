@@ -286,33 +286,33 @@
 
 <div class="grouped_title" style="text-align: center; margin: 20px 0;">Zasto?</div>
 
-	<!-- Video -->
+<!-- Video -->
 
-	<div class="video">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="video_container_outer">
-						<div class="video_container">
-							<video id="vid1" class="video-js vjs-default-skin" controls data-setup='{ "poster": "resources/img/website/video.jpg", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://youtu.be/5_MRXyYjHDk"}], "youtube": { "iv_load_policy": 1 } }'>
-							</video>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="video">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="video_container_outer">
+                    <div class="video_container">
+                        <video id="vid1" class="video-js vjs-default-skin" controls data-setup='{ "poster": "resources/img/website/video.jpg", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://youtu.be/5_MRXyYjHDk"}], "youtube": { "iv_load_policy": 1 } }'>
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<!-- Join -->
+<!-- Join -->
 
-	<div class="join">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-10 offset-lg-1">
-					<div class="section_title text-center"><h2>Pridruzi nam se!</h2></div>
-					<div class="section_subtitle">Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut</div>
-				</div>
-			</div>
-		</div>
-		<div class="button join_button"><a href="/registracija">Registracija<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
-	</div>
+<div class="join">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="section_title text-center"><h2>Pridruzi nam se!</h2></div>
+                <div class="section_subtitle">Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut</div>
+            </div>
+        </div>
+    </div>
+    <div class="button join_button"><a href="/registracija">Registracija<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+</div>
