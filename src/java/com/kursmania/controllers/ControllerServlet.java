@@ -16,18 +16,22 @@ public class ControllerServlet extends HttpServlet {
         String putanja = request.getServletPath();
 
         if (putanja.equals("/pretraga")) {
-            // TODO: nesto
+            
         } else if (putanja.equals("/prijava")) {
 
         } else if (putanja.equals("/registracija")) {
 
         } else if (putanja.equals("/kurs")) {
 
+        } else if (putanja.equals("/instruktori")) {
+
         } else if (putanja.equals("/instruktor")) {
 
         } else if (putanja.equals("/nalog")) {
 
         } else if (putanja.equals("/korpa")) {
+
+        } else if (putanja.equals("/kupovina")) {
 
         } else if (putanja.equals("/potvrda")) {
 

@@ -34,11 +34,11 @@
                 <div class="footer_links">
                     <div class="footer_title">Meni</div>
                     <ul class="footer_list">
-                        <li><a href="index.html">Pocetna</a></li>
-                        <li><a href="about.html">O nama</a></li>
+                        <li><a href="/">Pocetna</a></li>
+                        <li><a href="/onama">O nama</a></li>
                         <li><a href="#">Nesto</a></li>
                         <li><a href="#">Usluge</a></li>
-                        <li><a href="contact.html">Kontakt</a></li>
+                        <li><a href="/kontakt">Kontakt</a></li>
                         <li><a href="#">Cinjenice</a></li>
                     </ul>
                 </div>
@@ -48,10 +48,10 @@
                 <div class="footer_links">
                     <div class="footer_title">Korisnik linkovi</div>
                     <ul class="footer_list">
-                        <li><a href="courses.html">Kursevi</a></li>
+                        <li><a href="/kursevi">Kursevi</a></li>
                         <li><a href="#">Dogadjaji</a></li>
-                        <li><a href="news.html">Novosti</a></li>
-                        <li><a href="#">Instruktori</a></li>
+                        <li><a href="#">Novosti</a></li>
+                        <li><a href="/instruktori">Instruktori</a></li>
                         <li><a href="#">Linkovi</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
