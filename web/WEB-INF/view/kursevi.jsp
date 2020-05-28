@@ -66,8 +66,28 @@
         </div>
         <div class="row courses_row">
 
-            <!-- Course -->
-            <div class="col-lg-4 col-md-6">
+            <c:forEach var="kurs" items="${kursevi}">
+                <div class="col-lg-4 col-md-6">
+                    <div class="course">
+                        <div class="course_image"><img src="${kurs.kursSlika}" alt="${kurs.kursIme}"></div>
+                        <div class="course_body">
+                            <div class="course_header d-flex flex-row align-items-center justify-content-start">
+                                <div class="course_tag"><a href="#">New</a></div>
+                                <div class="course_price ml-auto">Cena: <span>${kurs.kursCena}$</span></div>
+                            </div>
+                            <div class="course_title"><h3><a href="/kurs?id='${kurs.kursId}'">${kurs.kursIme}</a></h3></div>
+                            <div class="course_text">${kurs.kursOpis}</div>
+                            <div class="course_footer d-flex align-items-center justify-content-start">
+                                <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
+                                <div class="course_author_name">By <a href="#">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
+                                <div class="course_sales ml-auto"><span>352</span> Sales</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+
+            <!-- <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_1.jpg" alt=""></div>
                     <div class="course_body">
@@ -86,8 +106,7 @@
                 </div>
             </div>
 
-            <!-- Course -->
-            <div class="col-lg-4 col-md-6">
+            <!-- <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_2.jpg" alt=""></div>
                     <div class="course_body">
@@ -106,7 +125,6 @@
                 </div>
             </div>
 
-            <!-- Course -->
             <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_3.jpg" alt=""></div>
@@ -126,7 +144,6 @@
                 </div>
             </div>
 
-            <!-- Course -->
             <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_4.jpg" alt=""></div>
@@ -146,7 +163,6 @@
                 </div>
             </div>
 
-            <!-- Course -->
             <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_5.jpg" alt=""></div>
@@ -166,7 +182,6 @@
                 </div>
             </div>
 
-            <!-- Course -->
             <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_6.jpg" alt=""></div>
@@ -186,7 +201,6 @@
                 </div>
             </div>
 
-            <!-- Course -->
             <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_7.jpg" alt=""></div>
@@ -206,7 +220,6 @@
                 </div>
             </div>
 
-            <!-- Course -->
             <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_8.jpg" alt=""></div>
@@ -226,7 +239,6 @@
                 </div>
             </div>
 
-            <!-- Course -->
             <div class="col-lg-4 col-md-6">
                 <div class="course">
                     <div class="course_image"><img src="resources/img/website/course_9.jpg" alt=""></div>
@@ -244,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 

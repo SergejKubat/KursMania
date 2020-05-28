@@ -8,11 +8,11 @@
             <div class="row">
                 <div class="col">
                     <div class="home_content text-center">
-                        <div class="home_title">Registracija</div>
+                        <div class="home_title">Kupovina</div>
                         <div class="breadcrumbs">
                             <ul>
                                 <li><a href="/">Pocetna</a></li>
-                                <li>Registracija</li>
+                                <li>Kupovina</li>
                             </ul>
                         </div>
                     </div>

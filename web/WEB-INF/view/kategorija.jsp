@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="resources/css/courses.css">
+ <link rel="stylesheet" type="text/css" href="resources/css/courses.css">
 <link rel="stylesheet" type="text/css" href="resources/css/courses_responsive.css">
 <div class="home">
     <div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/courses.jpg" data-speed="0.8"></div>
@@ -25,8 +25,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
-                <div class="section_title text-center"><h2>Choose your course</h2></div>
-                <div class="section_subtitle">Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut</div>
+                <div class="section_title text-center"><h2>Kategorija 1</h2></div>
+                <div class="section_subtitle">Prikazani su svi kursevi sa kategorijom kategorija 1</div>
             </div>
         </div>
 
@@ -39,23 +39,6 @@
                         <div><input type="text" class="course_input" placeholder="Level" required="required"></div>
                         <button class="course_button"><span>search course</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="category course_search">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button">Action</button>
-                            <button class="dropdown-item" type="button">Another action</button>
-                            <button class="dropdown-item" type="button">Something else here</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
