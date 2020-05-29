@@ -1,7 +1,9 @@
 package com.kursmania.controllers;
 
+import com.kursmania.sessions.KategorijaFacade;
 import com.kursmania.sessions.KursFacade;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,9 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private KursFacade kursFacade;
+
+    @EJB
+    private KategorijaFacade kategorijaFacade;
 
     @Override
     public void init() throws ServletException {
@@ -46,6 +51,9 @@ public class ControllerServlet extends HttpServlet {
         } else if (putanja.equals("/potvrda")) {
 
         } else if (putanja.equals("/kategorija")) {
+            int kategorijaId = Integer.parseInt((String) request.getParameter("id"));
+            request.setAttribute("kat", kategorijaFacade.find(kategorijaId));
+            request.setAttribute("kursevi", kursFacade.findAll().stream().filter(e -> e.getKategorijaId().getKategorijaId() == kategorijaId).collect(Collectors.toList()));
 
         } else if (putanja.equals("/jezik")) {
 
@@ -54,6 +62,8 @@ public class ControllerServlet extends HttpServlet {
         } else if (putanja.equals("/onama")) {
 
         }
+        
+        request.setAttribute("kategorije", kategorijaFacade.findAll());
 
         String url = "/WEB-INF/view" + putanja + ".jsp";
 
