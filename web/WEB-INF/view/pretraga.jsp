@@ -29,78 +29,28 @@
             <div class="col-lg-8">
                 <div class="news_posts">
 
-                    <!-- News Post -->
-                    <div class="news_post">
-                        <div class="news_post_image"><img src="resources/img/website/news_5.jpg" alt=""></div>
-                        <div class="news_post_body">
-                            <div class="news_post_date"><a href="#">April 02, 2018</a></div>
-                            <div class="news_post_title"><a href="#">Books, Kindle or Tablet?</a></div>
-                            <div class="news_post_meta d-flex flex-row align-items-start justify-content-start">
-                                <div class="news_post_author">By <a href="#">William Smith</a></div>
-                                <div class="news_post_comments"><a href="#">3 Comments</a></div>
-                                <div class="news_post_tags">
-                                    <span>in </span>
-                                    <ul>
-                                        <li><a href="#">Social Media</a></li>
-                                    </ul>
+                    <c:forEach var="kurs" items="${kursevi}">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="course">
+                                <div class="course_image"><img src="${kurs.kursSlika}" alt="${kurs.kursIme}"></div>
+                                <div class="course_body">
+                                    <div class="course_header d-flex flex-row align-items-center justify-content-start">
+                                        <div class="course_tag"><a href="#">New</a></div>
+                                        <div class="course_price ml-auto">Cena: <span>${kurs.kursCena}$</span></div>
+                                    </div>
+                                    <div class="course_title"><h3><a href="/kurs?id='${kurs.kursId}'">${kurs.kursIme}</a></h3></div>
+                                    <div class="course_text">${kurs.kursOpis}</div>
+                                    <div class="course_footer d-flex align-items-center justify-content-start">
+                                        <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
+                                        <div class="course_author_name">By <a href="#">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
+                                        <div class="course_sales ml-auto"><span>352</span> Sales</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="news_post_text">
-                                <p>Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut. Maecenas rutrum viverra sapien sed fermentum. Morbi tempor odio eget lacus tempus pulvinar. Praesent vel nisl fermentum, gravida augue.</p>
-                            </div>
-                            <div class="news_post_link"><a href="#">Read More</a></div>
                         </div>
-                    </div>
-
-                    <!-- News Post -->
-                    <div class="news_post">
-                        <div class="news_post_image"><img src="resources/img/website/news_6.jpg" alt=""></div>
-                        <div class="news_post_body">
-                            <div class="news_post_date"><a href="#">April 02, 2018</a></div>
-                            <div class="news_post_title"><a href="#">Why choose an online course?</a></div>
-                            <div class="news_post_meta d-flex flex-row align-items-start justify-content-start">
-                                <div class="news_post_author">By <a href="#">William Smith</a></div>
-                                <div class="news_post_comments"><a href="#">3 Comments</a></div>
-                                <div class="news_post_tags">
-                                    <span>in </span>
-                                    <ul>
-                                        <li><a href="#">Social Media</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="news_post_text">
-                                <p>Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut. Maecenas rutrum viverra sapien sed fermentum. Morbi tempor odio eget lacus tempus pulvinar. Praesent vel nisl fermentum, gravida augue.</p>
-                            </div>
-                            <div class="news_post_link"><a href="#">Read More</a></div>
-                        </div>
-                    </div>
-
-                    <!-- News Post -->
-                    <div class="news_post">
-                        <div class="news_post_image"><img src="resources/img/website/news_7.jpg" alt=""></div>
-                        <div class="news_post_body">
-                            <div class="news_post_date"><a href="#">April 02, 2018</a></div>
-                            <div class="news_post_title"><a href="#">10 ways to get more productive</a></div>
-                            <div class="news_post_meta d-flex flex-row align-items-start justify-content-start">
-                                <div class="news_post_author">By <a href="#">William Smith</a></div>
-                                <div class="news_post_comments"><a href="#">3 Comments</a></div>
-                                <div class="news_post_tags">
-                                    <span>in </span>
-                                    <ul>
-                                        <li><a href="#">Social Media</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="news_post_text">
-                                <p>Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut. Maecenas rutrum viverra sapien sed fermentum. Morbi tempor odio eget lacus tempus pulvinar. Praesent vel nisl fermentum, gravida augue.</p>
-                            </div>
-                            <div class="news_post_link"><a href="#">Read More</a></div>
-                        </div>
-                    </div>
-
+                    </c:forEach>
                 </div>
             </div>
-
             <!-- Sidebar -->
             <div class="col-lg-4">
                 <div class="sidebar">
@@ -192,8 +142,8 @@
             <div class="col">
                 <div class="news_pagination">
                     <ul>
-                        <li><a href="#">01</a></li>
-                        <li class="active"><a href="#">02</a></li>
+                        <li class="active"><a href="#">01</a></li>
+                        <li><a href="#">02</a></li>
                         <li><a href="#">03</a></li>
                         <li><a href="#">04</a></li>
                         <li><a href="#">05</a></li>

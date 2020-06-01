@@ -67,7 +67,7 @@
 
             <div class="col-xl-6 map_col">
                 <div class="contact_form_container" style="width: 80%;">
-                    <form action="ControllerServlet" id="registracija" class="contact_form">
+                    <form action="registracija" method="POST" id="registracija" class="contact_form">
                         <div>
                             <div class="row">
                                 <div class="col-lg-6 contact_name_col">

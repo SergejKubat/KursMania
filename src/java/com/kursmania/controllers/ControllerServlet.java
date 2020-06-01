@@ -1,6 +1,7 @@
 package com.kursmania.controllers;
 
 import com.kursmania.sessions.KategorijaFacade;
+import com.kursmania.sessions.KorisnikFacade;
 import com.kursmania.sessions.KursFacade;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ControllerServlet extends HttpServlet {
 
@@ -17,6 +19,9 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private KategorijaFacade kategorijaFacade;
+    
+    @EJB
+    private KorisnikFacade korisnikFacade;
 
     @Override
     public void init() throws ServletException {
@@ -25,11 +30,13 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String putanja = request.getServletPath();
+        HttpSession session = request.getSession();
 
         if (putanja.equals("/pretraga")) {
-
+            String q = (String) request.getParameter("q");
+            System.out.println(kursFacade.findAll().stream().filter(e -> e.getKursIme().contains(q)).collect(Collectors.toList()));
+            request.setAttribute("kursevi", kursFacade.findAll().stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())).collect(Collectors.toList()));
         } else if (putanja.equals("/prijava")) {
 
         } else if (putanja.equals("/registracija")) {
@@ -39,8 +46,11 @@ public class ControllerServlet extends HttpServlet {
         } else if (putanja.equals("/kursevi")) {
             request.setAttribute("kursevi", kursFacade.findAll());
         } else if (putanja.equals("/instruktori")) {
-
-        } else if (putanja.equals("/instruktor")) {
+            request.setAttribute("instruktori", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()));
+        } else if (putanja.equals("/instruktor")) {     
+            int instruktorId = Integer.parseInt((String) request.getParameter("id"));
+            request.setAttribute("instruktor", korisnikFacade.find(instruktorId));
+            request.setAttribute("kursevi", korisnikFacade.find(instruktorId).getKursCollection());
 
         } else if (putanja.equals("/nalog")) {
 
@@ -77,13 +87,21 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String putanja = request.getServletPath();
+        HttpSession session = request.getSession();
 
-        if (putanja.equals("/dodajUKorpu")) {
-
-        } else if (putanja.equals("/azurirajKorpu")) {
-
-        } else if (putanja.equals("/kupovina")) {
-            putanja = "potvrda";
+        if (putanja.equals("prijava")) {
+            
+        } else if (putanja.equals("registracija")) {
+            String ime = request.getParameter("ime");
+            String prezime = request.getParameter("prezime");
+            String email = request.getParameter("email");
+            String brojTelefona = request.getParameter("brt");
+            String mesto = request.getParameter("mesto");
+            String adresa = request.getParameter("adresa");
+            String lozinka = request.getParameter("lozinka");
+            System.out.println("korisnik: " + ime + " " + prezime + " " + email + " " + lozinka);
+        } else if (putanja.equals("kupovina")) {
+            
         }
 
         String url = "/WEB-INF/view" + putanja + ".jsp";

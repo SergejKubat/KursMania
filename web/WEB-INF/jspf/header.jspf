@@ -58,8 +58,8 @@
                                         </ul>
                                         <div class="top_bar_login ml-auto">
                                             <ul>
-                                                <li><a href="/registracija">Registracija</a></li>
-                                                <li><a href="/prijava">Prijava</a></li>
+                                                <li><a href="registracija">Registracija</a></li>
+                                                <li><a href="prijava">Prijava</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -86,9 +86,10 @@
                                     <nav class="main_nav_contaner ml-auto">
                                         <ul class="main_nav">
                                             <li class="active"><a href="/">Pocetna</a></li>
-                                            <li><a href="/onama">O nama</a></li>
-                                            <li><a href="/kursevi">Kursevi</a></li>
-                                            <li><a href="/kontakt">Kontakt</a></li>
+                                            <li><a href="onama">O nama</a></li>
+                                            <li><a href="kursevi">Kursevi</a></li>
+                                            <li><a href="instruktori">Instruktori</a></li>
+                                            <li><a href="kontakt">Kontakt</a></li>
                                             <li>
                                                 <div class="dropdown">
                                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Kategorija
@@ -150,9 +151,9 @@
                 <nav class="menu_nav">
                     <ul class="menu_mm">
                         <li class="menu_mm"><a href="/">Pocetna</a></li>
-                        <li class="menu_mm"><a href="/kursevi">Kursevi</a></li>
-                        <li class="menu_mm"><a href="/instruktori">Instruktori</a></li>
-                        <li class="menu_mm"><a href="/kontakt">Kontakt</a></li>
+                        <li class="menu_mm"><a href="kursevi">Kursevi</a></li>
+                        <li class="menu_mm"><a href="instruktori">Instruktori</a></li>
+                        <li class="menu_mm"><a href="kontakt">Kontakt</a></li>
                     </ul>
                 </nav>
                 <div class="menu_extra">

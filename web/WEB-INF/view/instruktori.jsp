@@ -31,136 +31,40 @@
         </div>
         <div class="row teachers_row">
 
-            <!-- Teacher -->
-            <div class="col-lg-4 col-md-6">
-                <div class="teacher">
-                    <div class="teacher_image"><img src="resources/img/website/teacher_1.jpg" alt="https://unsplash.com/@nickkarvounis"></div>
-                    <div class="teacher_body text-center">
-                        <div class="teacher_title"><a href="#">Jonathan Smith</a></div>
-                        <div class="teacher_subtitle">Marketing</div>
-                        <div class="teacher_social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                            </ul>
+            <c:forEach var="instruktor" items="${instruktori}">
+                <div class="col-lg-4 col-md-6">
+                    <div class="teacher">
+                        <div class="teacher_image"><img src="${instruktor.korisnikAvatar}" alt="${instruktor.korisnikIme} ${instruktor.korisnikIme}"></div>
+                        <div class="teacher_body text-center">
+                            <div class="teacher_title"><a href="instruktor?id=${instruktor.korisnikId}">${instruktor.korisnikIme} ${instruktor.korisnikIme}</a></div>
+                            <div class="teacher_subtitle">${instruktor.korisnikTitula}</div>
+                            <div class="teacher_social">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
+                                    <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </c:forEach>
 
-            <!-- Teacher -->
-            <div class="col-lg-4 col-md-6">
-                <div class="teacher">
-                    <div class="teacher_image"><img src="resources/img/website/teacher_2.jpg" alt="https://unsplash.com/@rawpixel"></div>
-                    <div class="teacher_body text-center">
-                        <div class="teacher_title"><a href="#">Michelle Williams</a></div>
-                        <div class="teacher_subtitle">Art & Design</div>
-                        <div class="teacher_social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Teacher -->
-            <div class="col-lg-4 col-md-6">
-                <div class="teacher">
-                    <div class="teacher_image"><img src="resources/img/website/teacher_3.jpg" alt="https://unsplash.com/@taylor_grote"></div>
-                    <div class="teacher_body text-center">
-                        <div class="teacher_title"><a href="#">Jack Gallagan</a></div>
-                        <div class="teacher_subtitle">Marketing</div>
-                        <div class="teacher_social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Teacher -->
-            <div class="col-lg-4 col-md-6">
-                <div class="teacher">
-                    <div class="teacher_image"><img src="resources/img/website/teacher_4.jpg" alt="https://unsplash.com/@benjaminrobyn"></div>
-                    <div class="teacher_body text-center">
-                        <div class="teacher_title"><a href="#">Christinne Smith</a></div>
-                        <div class="teacher_subtitle">Marketing</div>
-                        <div class="teacher_social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Teacher -->
-            <div class="col-lg-4 col-md-6">
-                <div class="teacher">
-                    <div class="teacher_image"><img src="resources/img/website/teacher_5.jpg" alt="https://unsplash.com/@christinhumephoto"></div>
-                    <div class="teacher_body text-center">
-                        <div class="teacher_title"><a href="#">Michelle Williams</a></div>
-                        <div class="teacher_subtitle">Art & Design</div>
-                        <div class="teacher_social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Teacher -->
-            <div class="col-lg-4 col-md-6">
-                <div class="teacher">
-                    <div class="teacher_image"><img src="resources/img/website/teacher_6.jpg" alt="https://unsplash.com/@rawpixel"></div>
-                    <div class="teacher_body text-center">
-                        <div class="teacher_title"><a href="#">Jack Gallagan</a></div>
-                        <div class="teacher_subtitle">Marketing</div>
-                        <div class="teacher_social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                            </ul>
-                        </div>
+            <div class="row">
+                <div class="col">
+                    <div class="courses_paginations">
+                        <ul>
+                            <li class="active"><a href="#">01</a></li>
+                            <li><a href="#">02</a></li>
+                            <li><a href="#">03</a></li>
+                            <li><a href="#">04</a></li>
+                            <li><a href="#">05</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
         </div>
-
-        <!-- Pagination -->
-        <div class="row">
-            <div class="col">
-                <div class="courses_paginations">
-                    <ul>
-                        <li class="active"><a href="#">01</a></li>
-                        <li><a href="#">02</a></li>
-                        <li><a href="#">03</a></li>
-                        <li><a href="#">04</a></li>
-                        <li><a href="#">05</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>

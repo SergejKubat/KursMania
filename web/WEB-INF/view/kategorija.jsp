@@ -34,9 +34,9 @@
         <div class="row">
             <div class="col">
                 <div class="course_search">
-                    <form action="/pretraga" method=""GET class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between">
-                        <div><input type="text" name="q" class="course_input" placeholder="Napisite nesto..." required="required"></div>
-                        <button class="course_button"><span>Pretraga</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    <form action="pretraga" method=""GET class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between">
+                        <div><input type="text" name="q" class="course_input" placeholder="Napisite nesto..." required></div>
+                        <button type="submit" class="course_button"><span>Pretraga</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </form>
                 </div>
             </div>

@@ -67,7 +67,7 @@
 
             <div class="col-xl-6 map_col">
                 <div class="contact_form_container" style="width: 80%;">
-                    <form action="ControllerServlet" id="registracija" class="contact_form">
+                    <form action="prijava" method="POST" id="registracija" class="contact_form">
                         <div><input type="email" name="email" class="contact_input" placeholder="Email" required="required"></div>
                         <div><input type="password" name="lozinka" class="contact_input" placeholder="Lozinka" required="required"></div>
                         <button class="contact_button"><span>Prijava</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
