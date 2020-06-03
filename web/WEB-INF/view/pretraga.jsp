@@ -25,7 +25,6 @@
     <div class="container">
         <div class="row">
 
-            <!-- News Posts -->
             <div class="col-lg-8">
                 <div class="news_posts">
 
@@ -51,29 +50,27 @@
                     </c:forEach>
                 </div>
             </div>
-            <!-- Sidebar -->
+
             <div class="col-lg-4">
                 <div class="sidebar">
                     <div class="sidebar_search">
-                        <form action="#" id="sidebar_search_form" class="sidebar_search_form">
-                            <input type="text" class="sidebar_search_input" placeholder="Search" required="required">
+                        <form action="pretraga" method="GET" id="sidebar_search_form" class="sidebar_search_form">
+                            <input type="text" name="q" class="sidebar_search_input" placeholder="Search" required="required">
                             <button class="sidebar_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </form>
                     </div>
                     <div class="sidebar_categories">
-                        <div class="sidebar_title">Categories</div>
+                        <div class="sidebar_title">Kategorije</div>
                         <div class="sidebar_links">
                             <ul>
-                                <li><a href="#">Education</a></li>
-                                <li><a href="#">Social Media</a></li>
-                                <li><a href="#">Lifestyle & Events</a></li>
-                                <li><a href="#">Online Learning</a></li>
-                                <li><a href="#">Uncategorized</a></li>
+                                <c:forEach var="kategorija" items="${kategorije}">
+                                    <li><a href="kategorija?id=${kategorija.kategorijaId}">${kategorija.kategorijaNaziv}</a></li>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>
                     <div class="sidebar_latest_posts">
-                        <div class="sidebar_title">Latest Posts</div>
+                        <div class="sidebar_title">Najpopularniji kursevi</div>
                         <div class="latest_posts">
 
                             <!-- News Post -->
@@ -137,7 +134,6 @@
             </div>
         </div>
 
-        <!-- Pagination -->
         <div class="row">
             <div class="col">
                 <div class="news_pagination">

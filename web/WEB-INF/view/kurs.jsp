@@ -12,8 +12,8 @@
                         <div class="breadcrumbs">
                             <ul>
                                 <li><a href="/">Pocetna</a></li>
-                                <li><a href="/kursevi">Kursevi</a></li>
-                                <li>Kurs 1</li>
+                                <li><a href="kursevi">Kursevi</a></li>
+                                <li>${kurs.kursIme}</li>
                             </ul>
                         </div>
                     </div>
@@ -31,14 +31,14 @@
             <div class="teachers">
                 <div>
                     <div class="teacher">
-                        <div class="teacher_image"><img src="resources/img/website/teacher_1.jpg" alt="https://unsplash.com/@nickkarvounis"></div>
+                        <div class="teacher_image"><img src="${kurs.getKorisnikId().korisnikAvatar}" alt="${kurs.getKorisnikId().korisnikIme} ${kurs.getKorisnikId().korisnikPrezime}"></div>
                         <div class="teacher_body text-center">
-                            <div class="teacher_title"><a href="/instruktor">Jonathan Smith</a></div>
+                            <div class="teacher_title"><a href="instruktor?id=${kurs.getKorisnikId().korisnikId}">${kurs.getKorisnikId().korisnikIme} ${kurs.getKorisnikId().korisnikPrezime}</a></div>
                             <div class="teacher_subtitle">
-                                <p>Opis autora</p>
+                                <p>${kurs.getKorisnikId().korisnikOpis}</p>
                                 <p>Broj kurseva</p>
                                 <p>Broj ucenika</p>
-                                <p>Ukupa ocena</p>
+                                <p>Ukupna ocena</p>
                                 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0
                             </div>
                             <div class="teacher_social">

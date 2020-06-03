@@ -51,20 +51,19 @@
                 </div>
             </c:forEach>
 
-            <div class="row">
-                <div class="col">
-                    <div class="courses_paginations">
-                        <ul>
-                            <li class="active"><a href="#">01</a></li>
-                            <li><a href="#">02</a></li>
-                            <li><a href="#">03</a></li>
-                            <li><a href="#">04</a></li>
-                            <li><a href="#">05</a></li>
-                        </ul>
-                    </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="courses_paginations">
+                    <ul>
+                        <li class="active"><a href="#">01</a></li>
+                        <li><a href="#">02</a></li>
+                        <li><a href="#">03</a></li>
+                        <li><a href="#">04</a></li>
+                        <li><a href="#">05</a></li>
+                    </ul>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

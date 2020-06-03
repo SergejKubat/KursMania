@@ -1,9 +1,13 @@
 package com.kursmania.controllers;
 
+import com.kursmania.jpa.entities.Kurs;
+import com.kursmania.sessions.JezikFacade;
 import com.kursmania.sessions.KategorijaFacade;
 import com.kursmania.sessions.KorisnikFacade;
 import com.kursmania.sessions.KursFacade;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -22,6 +26,9 @@ public class ControllerServlet extends HttpServlet {
     
     @EJB
     private KorisnikFacade korisnikFacade;
+    
+    @EJB
+    private JezikFacade jezikFacade;
 
     @Override
     public void init() throws ServletException {
@@ -32,26 +39,44 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String putanja = request.getServletPath();
         HttpSession session = request.getSession();
+        response.setCharacterEncoding("UTF-8");
 
         if (putanja.equals("/pretraga")) {
             String q = (String) request.getParameter("q");
-            System.out.println(kursFacade.findAll().stream().filter(e -> e.getKursIme().contains(q)).collect(Collectors.toList()));
             request.setAttribute("kursevi", kursFacade.findAll().stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())).collect(Collectors.toList()));
+            request.setAttribute("najpopKursevi", 1);
         } else if (putanja.equals("/prijava")) {
 
         } else if (putanja.equals("/registracija")) {
 
         } else if (putanja.equals("/kurs")) {
-
+            int kursId = Integer.parseInt(request.getParameter("id"));
+            request.setAttribute("kurs", kursFacade.find(kursId));
         } else if (putanja.equals("/kursevi")) {
-            request.setAttribute("kursevi", kursFacade.findAll());
+            List<Kurs> kursevi = kursFacade.findAll();
+            Kurs istaknut = null;
+            int max = 0;
+            for (Kurs k : kursevi) {
+                if (k.getEvidencijaCollection().size() > max) {
+                    istaknut = k;
+                    max = k.getEvidencijaCollection().size();
+                }
+            }
+            kursevi.remove(istaknut);
+            request.setAttribute("istaknut", istaknut);
+            request.setAttribute("kursevi", kursevi);
         } else if (putanja.equals("/instruktori")) {
             request.setAttribute("instruktori", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()));
         } else if (putanja.equals("/instruktor")) {     
             int instruktorId = Integer.parseInt((String) request.getParameter("id"));
             request.setAttribute("instruktor", korisnikFacade.find(instruktorId));
             request.setAttribute("kursevi", korisnikFacade.find(instruktorId).getKursCollection());
-
+            Collection<Kurs> kursevi = korisnikFacade.find(instruktorId).getKursCollection();
+            int brSt = 0, brO = 0;
+            brSt = kursevi.stream().map((k) -> k.getEvidencijaCollection().size()).reduce(brSt, Integer::sum);
+            brO = kursevi.stream().map((k) -> k.getOcenaCollection().size()).reduce(brO, Integer::sum);
+            request.setAttribute("brojStudenata", brSt);
+            request.setAttribute("brojOcena", brO);
         } else if (putanja.equals("/nalog")) {
 
         } else if (putanja.equals("/korpa")) {
@@ -70,7 +95,11 @@ public class ControllerServlet extends HttpServlet {
         } else if (putanja.equals("/kontakt")) {
 
         } else if (putanja.equals("/onama")) {
-
+            request.setAttribute("brojKurseva", kursFacade.findAll().size());
+            request.setAttribute("brojStudenata", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 1).collect(Collectors.toList()).size());
+            request.setAttribute("brojInstruktora", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()).size());
+            request.setAttribute("brojJezika", jezikFacade.findAll().size());
+            request.setAttribute("instruktori", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()));
         }
         
         request.setAttribute("kategorije", kategorijaFacade.findAll());

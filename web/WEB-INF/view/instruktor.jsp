@@ -12,7 +12,7 @@
                         <div class="breadcrumbs">
                             <ul>
                                 <li><a href="/">Pocetna</a></li>
-                                <li><a href="/instruktori">Instruktori</a></li>
+                                <li><a href="instruktori">Instruktori</a></li>
                                 <li>${instruktor.korisnikIme} ${instruktor.korisnikPrezime}</li>
                             </ul>
                         </div>
@@ -46,19 +46,22 @@
                 <div class="card-body">
                     <h5>INSTRUKTOR</h5>
                     <h1 class="card-title">${instruktor.korisnikIme} ${instruktor.korisnikPrezime} - ${instruktor.korisnikTitula}</h1>
+                    <br>
                     <div class="row">
                         <div class="col">
-                            <h4>Studenti:</h4>
-                            <h4 style="margin: 0">3095</h4>
+                            <h4 style="text-align: center;"><i class="fa fa-graduation-cap"></i> Studenti:</h4>
+                            <h4 style="text-align: center;">${brojStudenata}</h4>
                         </div>
                         <div class="col">
-                            <h4>Ocene:</h4>
-                            <h4>1890</h4>
+                            <h4 style="text-align: center;"><i class="fa fa-star"></i> Ocene:</h4>
+                            <h4 style="text-align: center;">${brojOcena}</h4>
                         </div>
                     </div>
                     <div class="opis" style="margin-top: 20px;">
                         <h3>O meni</h3>
+                        <br>
                         <p>${instruktor.korisnikOpis}</p>
+                        <br>
                         <h3>Moji kursevi (${kursevi.size()})</h3>
                         <br>
                         <div class="row">
@@ -71,12 +74,12 @@
                                                 <div class="course_tag"><a href="kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></div>
                                                 <div class="course_price ml-auto">Cena: <span>${kurs.kursCena}$</span></div>
                                             </div>
-                                            <div class="course_title"><h3><a href="/kurs?id='${kurs.kursId}'">${kurs.kursIme}</a></h3></div>
+                                            <div class="course_title"><h3><a href="/kurs?id=${kurs.kursId}">${kurs.kursIme}</a></h3></div>
                                             <div class="course_text">${kurs.kursOpis}</div>
                                             <div class="course_footer d-flex align-items-center justify-content-start">
-                                                <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                                                <div class="course_author_name">By <a href="instruktor?id=${kurs.korisnikId.korisnikId}">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
-                                                <div class="course_sales ml-auto"><span>352</span> Sales</div>
+                                                <div class="course_author_image"><img src="${kurs.korisnikId.korisnikAvatar}" alt="${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}"></div>
+                                                <div class="course_author_name">Autor <a href="instruktor?id=${kurs.korisnikId.korisnikId}">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
+                                                <div class="course_sales ml-auto"><span>${kurs.getEvidencijaCollection().size()}</span> Studenata</div>
                                             </div>
                                         </div>
                                     </div>

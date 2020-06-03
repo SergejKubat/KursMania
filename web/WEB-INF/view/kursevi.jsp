@@ -25,12 +25,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
-                <div class="section_title text-center"><h2>Choose your course</h2></div>
+                <div class="section_title text-center"><h2>Izaberite odgovorajuci kurs</h2></div>
                 <div class="section_subtitle">Suspendisse tincidunt magna eget massa hendrerit efficitur. Ut euismod pellentesque imperdiet. Cras laoreet gravida lectus, at viverra lorem venenatis in. Aenean id varius quam. Nullam bibendum interdum dui, ac tempor lorem convallis ut</div>
             </div>
         </div>
 
-        <!-- Course Search -->
         <div class="row">
             <div class="col">
                 <div class="course_search">
@@ -43,29 +42,28 @@
             </div>
         </div>
 
-        <!-- Featured Course -->
         <div class="row featured_row">
             <div class="col-lg-6 featured_col">
                 <div class="featured_content">
                     <div class="featured_header d-flex flex-row align-items-center justify-content-start">
-                        <div class="featured_tag"><a href="#">Featured</a></div>
-                        <div class="featured_price ml-auto">Price: <span>$35</span></div>
+                        <div class="featured_tag"><a href="#">Istaknut</a></div>
+                        <div class="course_tag"><a href="kategorija?id=${istaknut.kategorijaId.kategorijaId}">${istaknut.kategorijaId.kategorijaNaziv}</a></div>
+                        <div class="featured_price ml-auto">Cena: <span>${istaknut.kursCena}$</span></div>
                     </div>
-                    <div class="featured_title"><h3><a href="courses.html">Online Literature Course</a></h3></div>
-                    <div class="featured_text">Maecenas rutrum viverra sapien sed fermentum. Morbi tempor odio eget lacus tempus pulvinar. Donec vehicula efficitur nibh, in pretium nulla interdum lacus vehicula efficitur nibh, in pretiumvehicula efficitur nibh, in pretium tempus non.</div>
+                    <div class="featured_title"><h3><a href="kurs?id=${istaknut.kursId}">${istaknut.kursIme}</a></h3></div>
+                    <div class="featured_text">${istaknut.kursOpis}</div>
                     <div class="featured_footer d-flex align-items-center justify-content-start">
-                        <div class="featured_author_image"><img src="resources/img/website/featured_author.jpg" alt=""></div>
-                        <div class="featured_author_name">By <a href="#">James S. Morrison</a></div>
-                        <div class="featured_sales ml-auto"><span>352</span> Sales</div>
+                        <div class="featured_author_image"><img src="${istaknut.korisnikId.korisnikAvatar}" alt="${istaknut.kursIme}"></div>
+                        <div class="featured_author_name">Autor <a href="instruktor?id=${istaknut.korisnikId.korisnikId}">${istaknut.korisnikId.korisnikIme} ${istaknut.korisnikId.korisnikPrezime}</a></div>
+                        <div class="featured_sales ml-auto"><span>${istaknut.getEvidencijaCollection().size()}</span> Studenata</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 featured_col">
-                <div class="featured_background" style="background-image:url(resources/img/website/featured.jpg)"></div>
+                <div class="featured_background" style="background-image:url(${istaknut.kursSlika})"></div>
             </div>
         </div>
         <div class="row courses_row">
-
             <c:forEach var="kurs" items="${kursevi}">
                 <div class="col-lg-4 col-md-6">
                     <div class="course">
@@ -75,192 +73,19 @@
                                 <div class="course_tag"><a href="kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></div>
                                 <div class="course_price ml-auto">Cena: <span>${kurs.kursCena}$</span></div>
                             </div>
-                            <div class="course_title"><h3><a href="/kurs?id='${kurs.kursId}'">${kurs.kursIme}</a></h3></div>
+                            <div class="course_title"><h3><a href="/kurs?id=${kurs.kursId}">${kurs.kursIme}</a></h3></div>
                             <div class="course_text">${kurs.kursOpis}</div>
                             <div class="course_footer d-flex align-items-center justify-content-start">
-                                <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                                <div class="course_author_name">By <a href="instruktor?id=${kurs.korisnikId.korisnikId}">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
-                                <div class="course_sales ml-auto"><span>352</span> Sales</div>
+                                <div class="course_author_image"><img src="${kurs.korisnikId.korisnikAvatar}" alt="${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}"></div>
+                                <div class="course_author_name">Autor <a href="instruktor?id=${kurs.korisnikId.korisnikId}">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
+                                <div class="course_sales ml-auto"><span>${kurs.getEvidencijaCollection().size()}</span> Studenata</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </c:forEach>
-
-            <!-- <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_1.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">Featured</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Online Literature Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">James S. Morrison</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_2.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">New</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Social Media Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">Mark Smith</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_3.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">Featured</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Online Marketing Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/course_author_3.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">Julia Williams</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_4.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">Featured</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Online Literature Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">James S. Morrison</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_5.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">New</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Social Media Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">Mark Smith</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_6.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">Featured</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Online Marketing Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/course_author_3.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">Julia Williams</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_7.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">Featured</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Online Literature Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">James S. Morrison</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_8.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">New</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Social Media Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">Mark Smith</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="course">
-                    <div class="course_image"><img src="resources/img/website/course_9.jpg" alt=""></div>
-                    <div class="course_body">
-                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                            <div class="course_tag"><a href="#">Featured</a></div>
-                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                        </div>
-                        <div class="course_title"><h3><a href="courses.html">Online Marketing Course</a></h3></div>
-                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                        <div class="course_footer d-flex align-items-center justify-content-start">
-                            <div class="course_author_image"><img src="resources/img/website/course_author_3.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                            <div class="course_author_name">By <a href="#">Julia Williams</a></div>
-                            <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
+            </c:forEach>         
         </div>
 
-        <!-- Pagination -->
         <div class="row">
             <div class="col">
                 <div class="courses_paginations">
