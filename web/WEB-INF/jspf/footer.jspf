@@ -34,10 +34,10 @@
                     <div class="footer_title">Meni</div>
                     <ul class="footer_list">
                         <li><a href="/">Pocetna</a></li>
-                        <li><a href="/onama">O nama</a></li>
+                        <li><a href="onama">O nama</a></li>
                         <li><a href="#">Nesto</a></li>
                         <li><a href="#">Usluge</a></li>
-                        <li><a href="/kontakt">Kontakt</a></li>
+                        <li><a href="kontakt">Kontakt</a></li>
                         <li><a href="#">Cinjenice</a></li>
                     </ul>
                 </div>
@@ -47,10 +47,10 @@
                 <div class="footer_links">
                     <div class="footer_title">Korisnik linkovi</div>
                     <ul class="footer_list">
-                        <li><a href="/kursevi">Kursevi</a></li>
+                        <li><a href="kursevi">Kursevi</a></li>
                         <li><a href="#">Dogadjaji</a></li>
                         <li><a href="#">Novosti</a></li>
-                        <li><a href="/instruktori">Instruktori</a></li>
+                        <li><a href="instruktori">Instruktori</a></li>
                         <li><a href="#">Linkovi</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
@@ -63,7 +63,7 @@
                     <div class="footer_contact_info">
                         <div class="footer_contact_item">
                             <div class="footer_contact_title">Broj telefona:</div>
-                            <div class="footer_contact_line">+53 345 7953 32453</div>
+                            <div class="footer_contact_line">(011) 6688933</div>
                         </div>
                         <div class="footer_contact_item">
                             <div class="footer_contact_title">Email:</div>

@@ -22,10 +22,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Andrej Kubat
- */
 @Entity
 @Table(name = "kurs")
 @XmlRootElement
@@ -37,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Kurs.findByDatumPoslednjePromene", query = "SELECT k FROM Kurs k WHERE k.datumPoslednjePromene = :datumPoslednjePromene")
     , @NamedQuery(name = "Kurs.findByKursCena", query = "SELECT k FROM Kurs k WHERE k.kursCena = :kursCena")
     , @NamedQuery(name = "Kurs.findByKursPregledi", query = "SELECT k FROM Kurs k WHERE k.kursPregledi = :kursPregledi")})
-public class Kurs implements Serializable {
+public class Kurs implements Serializable, Comparable<Kurs> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -282,7 +278,6 @@ public class Kurs implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Kurs)) {
             return false;
         }
@@ -291,6 +286,11 @@ public class Kurs implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public int compareTo(Kurs k) {
+        return new Integer(this.getEvidencijaCollection().size()).compareTo(k.getEvidencijaCollection().size());
     }
 
     @Override

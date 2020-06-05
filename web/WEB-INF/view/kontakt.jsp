@@ -21,8 +21,6 @@
     </div>
 </div>
 
-<!-- Contact -->
-
 <div class="contact">
     <div class="container-fluid">
         <div class="row row-xl-eq-height">
@@ -47,49 +45,55 @@
                         </div>
                         <div class="col-xl-6">
                             <div class="contact_info_container">
-                                <div class="contact_info_main_title">Contact Us</div>
+                                <div class="contact_info_main_title">Kontaktirajte nas</div>
                                 <div class="contact_info">
                                     <div class="contact_info_item">
-                                        <div class="contact_info_title">Address:</div>
-                                        <div class="contact_info_line">1481 Creekside Lane Avila Beach, CA 93424</div>
+                                        <div class="contact_info_title">Adresa:</div>
+                                        <div class="contact_info_line">Mije Kovacevica 12, 11000 Beograd</div>
                                     </div>
                                     <div class="contact_info_item">
-                                        <div class="contact_info_title">Phone:</div>
-                                        <div class="contact_info_line">+53 345 7953 32453</div>
+                                        <div class="contact_info_title">Telefon:</div>
+                                        <div class="contact_info_line">(011) 6688933</div>
                                     </div>
                                     <div class="contact_info_item">
                                         <div class="contact_info_title">Email:</div>
-                                        <div class="contact_info_line">yourmail@gmail.com</div>
+                                        <div class="contact_info_line">info@kursmania.com</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="contact_form_container">
-                        <form action="#" id="contact_form" class="contact_form">
+                        <c:catch var="exception">${poruka}</c:catch>
+                        <c:if test="${exception != null}">
+                            <div style="margin-bottom: 10px;">
+                                <div class="logo_text">Vasa poruka je poslata.</div>
+                                <br>
+                                <p>Ocekujte odgovor na email u naredna 24 sata.</p>
+                            </div>
+                        </c:if> 
+                        <form action="kontakt" method="POST" id="contact_form" class="contact_form">
                             <div>
                                 <div class="row">
                                     <div class="col-lg-6 contact_name_col">
-                                        <input type="text" class="contact_input" placeholder="Name" required="required">
+                                        <input type="text" name="ime" class="contact_input" placeholder="Ime" required="required">
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="email" class="contact_input" placeholder="E-mail" required="required">
+                                        <input type="email" name="email" class="contact_input" placeholder="E-mail" required="required">
                                     </div>
                                 </div>
                             </div>
-                            <div><input type="text" class="contact_input" placeholder="Subject" required="required"></div>
-                            <div><textarea class="contact_input contact_textarea" placeholder="Message"></textarea></div>
-                            <button class="contact_button"><span>send message</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                            <div><input type="text" name="naslov" class="contact_input" placeholder="Naslov" required="required"></div>
+                            <div><textarea name="poruka" class="contact_input contact_textarea" placeholder="Poruka"></textarea></div>
+                            <button class="contact_button"><span>Posalji poruku</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <!-- Contact Map -->
             <div class="col-xl-6 map_col">
                 <div class="contact_map">
 
-                    <!-- Google Map -->
                     <div id="google_map" class="google_map">
                         <div class="map_container">
                             <div id="map"></div>

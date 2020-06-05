@@ -34,15 +34,15 @@
                                 <div class="course_image"><img src="${kurs.kursSlika}" alt="${kurs.kursIme}"></div>
                                 <div class="course_body">
                                     <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                        <div class="course_tag"><a href="#">New</a></div>
+                                        <div class="course_tag"><a href="kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></div>
                                         <div class="course_price ml-auto">Cena: <span>${kurs.kursCena}$</span></div>
                                     </div>
                                     <div class="course_title"><h3><a href="/kurs?id='${kurs.kursId}'">${kurs.kursIme}</a></h3></div>
                                     <div class="course_text">${kurs.kursOpis}</div>
                                     <div class="course_footer d-flex align-items-center justify-content-start">
-                                        <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                                        <div class="course_author_name">By <a href="#">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
-                                        <div class="course_sales ml-auto"><span>352</span> Sales</div>
+                                        <div class="course_author_image"><img src="${kurs.korisnikId.korisnikAvatar}" alt="${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}"></div>
+                                        <div class="course_author_name">By <a href="instruktori?id=${kurs.korisnikId.korisnikId}">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
+                                        <div class="course_sales ml-auto"><span>${kurs.getEvidencijaCollection().size()}</span> Studenata</div>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                             <ul>
                                 <c:forEach var="kategorija" items="${kategorije}">
                                     <li><a href="kategorija?id=${kategorija.kategorijaId}">${kategorija.kategorijaNaziv}</a></li>
-                                </c:forEach>
+                                    </c:forEach>
                             </ul>
                         </div>
                     </div>
@@ -73,45 +73,16 @@
                         <div class="sidebar_title">Najpopularniji kursevi</div>
                         <div class="latest_posts">
 
-                            <!-- News Post -->
-                            <div class="latest_post d-flex flex-row align-items-start justify-content-start">
-                                <div><div class="latest_post_image"><img src="resources/img/website/news_1.jpg" alt="https://unsplash.com/@beccatapert"></div></div>
-                                <div class="latest_post_body">
-                                    <div class="latest_post_date">April 02, 2018</div>
-                                    <div class="latest_post_title"><a href="news.html">Why Choose online education?</a></div>
-                                    <div class="latest_post_author">By <a href="#">William Smith</a></div>
+                            <c:forEach var="kurs" items="${najpopularnijiKursevi}">
+                                <div class="latest_post d-flex flex-row align-items-start justify-content-start">
+                                    <div><div class="latest_post_image"><img src="${kurs.kursSlika}" alt="${kurs.kursIme}"></div></div>
+                                    <div class="latest_post_body">
+                                        <div class="latest_post_date">${kurs.kursDatumObjavljivanja.toString()}</div>
+                                        <div class="latest_post_title"><a href="kurs?id=${kurs.kursId}">${kurs.kursIme}</a></div>
+                                        <div class="latest_post_author">Autor <a href="instruktor?id=${kurs.korisnikId.korisnikId}">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <!-- News Post -->
-                            <div class="latest_post d-flex flex-row align-items-start justify-content-start">
-                                <div><div class="latest_post_image"><img src="resources/img/website/news_2.jpg" alt="https://unsplash.com/@nbb_photos"></div></div>
-                                <div class="latest_post_body">
-                                    <div class="latest_post_date">April 02, 2018</div>
-                                    <div class="latest_post_title"><a href="news.html">Books, Kindle or tablet?</a></div>
-                                    <div class="latest_post_author">By <a href="#">William Smith</a></div>
-                                </div>
-                            </div>
-
-                            <!-- News Post -->
-                            <div class="latest_post d-flex flex-row align-items-start justify-content-start">
-                                <div><div class="latest_post_image"><img src="resources/img/website/news_3.jpg" alt="https://unsplash.com/@rawpixel"></div></div>
-                                <div class="latest_post_body">
-                                    <div class="latest_post_date">April 02, 2018</div>
-                                    <div class="latest_post_title"><a href="news.html">Why Choose online education?</a></div>
-                                    <div class="latest_post_author">By <a href="#">William Smith</a></div>
-                                </div>
-                            </div>
-
-                            <!-- News Post -->
-                            <div class="latest_post d-flex flex-row align-items-start justify-content-start">
-                                <div><div class="latest_post_image"><img src="resources/img/website/news_4.jpg" alt="https://unsplash.com/@jtylernix"></div></div>
-                                <div class="latest_post_body">
-                                    <div class="latest_post_date">April 02, 2018</div>
-                                    <div class="latest_post_title"><a href="news.html">Books, Kindle or tablet?</a></div>
-                                    <div class="latest_post_author">By <a href="#">William Smith</a></div>
-                                </div>
-                            </div>
+                            </c:forEach>
 
                         </div>
                     </div>
@@ -119,12 +90,12 @@
                         <div class="elearn">
                             <div class="elearn_background" style="background-image:url(resources/img/website/elearn.jpg)"></div>
                             <div class="elearn_content d-flex flex-column align-items-center justify-content-end">
-                                <div class="elearn_line">Get a 20% Discount</div>
-                                <div class="elearn_link"><a href="#">Register now</a></div>
+                                <div class="elearn_line">Osvojite 20% popusta</div>
+                                <div class="elearn_link"><a href="registracija">Registracija</a></div>
                                 <div class="dcount">
                                     <div class="dcount_content d-flex flex-column align-items-center justify-content-center">
                                         <div class="dcount_value">20%</div>
-                                        <div class="dcount_text">off</div>
+                                        <div class="dcount_text">popust</div>
                                     </div>
                                 </div>
                             </div>

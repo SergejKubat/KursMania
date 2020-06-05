@@ -36,10 +36,18 @@
                             <div class="teacher_title"><a href="instruktor?id=${kurs.getKorisnikId().korisnikId}">${kurs.getKorisnikId().korisnikIme} ${kurs.getKorisnikId().korisnikPrezime}</a></div>
                             <div class="teacher_subtitle">
                                 <p>${kurs.getKorisnikId().korisnikOpis}</p>
-                                <p>Broj kurseva</p>
-                                <p>Broj ucenika</p>
-                                <p>Ukupna ocena</p>
-                                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0
+                                <p>Broj kurseva: ${kurs.getKorisnikId().getKursCollection().size()}</p>
+                                <p>Broj studenata: ${brojStudenata}</p>
+                                <p>Prosecna ocena:</p>
+                                <c:forEach var = "i" begin = "0" end = "5">
+                                    <c:if test="${zvezdice > i}">
+                                        <span class="fa fa-star" style="color: #ff8a00"></span>
+                                    </c:if>
+                                    <c:if test="${zvezdice < i}">
+                                        <span class="fa fa-star"></span>
+                                    </c:if>
+                                </c:forEach>
+                                ${prosecnaOcena}
                             </div>
                             <div class="teacher_social">
                                 <ul>
@@ -55,14 +63,14 @@
                     <div>
                         <h4>Detalji o kursu:</h4>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><i class="fa fa-tasks"></i> Broj sekcija</li>
-                            <li class="list-group-item"><i class="fa fa-puzzle-piece"></i> Bloj lekcija</li>
-                            <li class="list-group-item"><i class="fa fa-video-camera"></i> Duzina celog kursa</li>
-                            <li class="list-group-item"><i class="fa fa-universal-access"></i> Dozivotni pristup</li>
+                            <li class="list-group-item"><i class="fa fa-tasks"></i> Broj sekcija: ${kurs.getSekcijaCollection().size()}</li>
+                            <li class="list-group-item"><i class="fa fa-puzzle-piece"></i> Bloj lekcija: ${brojLekcija}</li>
+                            <li class="list-group-item"><i class="fa fa-video-camera"></i> Duzina celog kursa: ${duzinaKursa}</li>
+                            <li class="list-group-item"><i class="fa fa-universal-access"></i> Dozivotni pristup</i></li>
                             <li class="list-group-item"><i class="fa fa-mobile"></i> Pristup preko mobilnog</li>
                         </ul>
                         <br><br>
-                        <h5 class="text-center"><a href="/kupovina">Iskoristi kupon</a></h5>
+                        <h5 class="text-center"><a href="kupovina">Iskoristi kupon</a></h5>
                         <br>
                         <hr>
                         <br>
@@ -81,7 +89,7 @@
                             <div class="col">
                                 <div class="video_container_outer">
                                     <div class="video_container">
-                                        <video id="vid1" class="video-js vjs-default-skin" controls data-setup='{ "poster": "resources/img/website/video.jpg", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://youtu.be/5_MRXyYjHDk"}], "youtube": { "iv_load_policy": 1 } }'>
+                                        <video id="vid1" class="video-js vjs-default-skin" controls data-setup='{ "poster": "${kurs.kursSlika}", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "${kurs.kursVideo}"}], "youtube": { "iv_load_policy": 1 } }'>
                                         </video>
                                     </div>
                                 </div>
@@ -90,18 +98,23 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title">Kurs 1</h3>
+                    <h3 class="card-title">${kurs.kursIme}</h3>
                     <h4>$24.99</h4>
-                    <h5><a href="/kategorija">Kategorija</a></h5>
-                    <h5>Jezik: Srpski</h5>
-                    <h5>Datum objavljivanja: 21.05.2020</h5>
-                    <h5>Poslednja promena: 21.05.2020</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, 
-                        sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, 
-                        sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
-                    <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0 (1234 ocena)
+                    <h5><a href="/kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></h5>
+                    <h5>Jezik: ${kurs.jezikId.jezikNaziv}</h5>
+                    <h5>Datum objavljivanja: ${kurs.kursDatumObjavljivanja}</h5>
+                    <h5>Poslednja promena: ${kurs.datumPoslednjePromene}</h5>
+                    <p class="card-text">${kurs.kursOpis}</p>
+                    <c:forEach var = "i" begin = "0" end = "5">
+                        <c:if test="${kursZvezdice > i}">
+                            <span class="fa fa-star" style="color: #ff8a00"></span>
+                        </c:if>
+                        <c:if test="${kursZvezdice < i}">
+                            <span class="fa fa-star"></span>
+                        </c:if>
+                    </c:forEach> ${kursProsecnaOcena} (${kursBrojOcena} ocena)
                     <br><br>
-                    <a href="/kupovina" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Kupi odmah</a>
+                    <a href="/kupovina?id=${kurs.kursId}" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Kupi odmah</a>
                     <br><br>
                     <h4>Sta treba da znate pre ovog kursa?</h4>
                     <br>
@@ -117,7 +130,7 @@
 
                             <div id="collapseOne1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                 <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                    ${kurs.kursZahtevi}
                                 </div>
                             </div>
                         </div>
@@ -129,86 +142,57 @@
                             <h4>Sadrzaj kursa:</h4>
                         </div>
                         <div class="col">
-                            <p class="float-right">40 lekcija</p>
+                            <p class="float-right">Broj lekcija: ${brojLekcija}</p>
                         </div>
                         <div class="col">
-                            <p class="float-right">07:56:23</p>
+                            <p class="float-right">Duzina: ${duzinaKursa}</p>
                         </div>
                     </div>
                     <div id="sekcije">
-                        <div class="card">
-                            <div class="card-header" id="headingOne">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2">
-                                                Sekcija 1
-                                            </button>
-                                        </h5>
-                                    </div>
-                                    <div class="col">
-                                        <p class="float-right">06:37</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="collapseOne2" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-
+                        <c:forEach var="sekcija" items="${sekcije}">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
                                     <div class="row">
-                                        <div class="col-4">
-                                            <div class="list-group" id="list-tab" role="tablist">
-                                                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Lekcija 1</a>
-                                                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Lekcija 2</a>
-                                                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Lekcija 3</a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Lekcija 4</a>
-                                            </div>
+                                        <div class="col">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2">
+                                                    ${sekcija.sekcijaNaslov}
+                                                </button>
+                                            </h5>
                                         </div>
-                                        <div class="col-8">
-                                            <div class="tab-content" id="nav-tabContent">
-                                                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-                                                    <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</p>
-                                                    <br>
-                                                    <a href="#" class="btn btn-primary btn-primary"><i class="fa fa-video-camera"></i> Prikazi snimak</a>
+                                        <div class="col">
+                                            <p class="float-right">${sekcija.lekcijaCollection.size()}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="collapseOne2" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="list-group" id="list-tab" role="tablist">
+                                                    <c:forEach var="lekcija" items="sekcija.lekcijaCollection">
+                                                        <a class="list-group-item list-group-item-action active" id="list-${lekcija.lekcijaIme}-list" data-toggle="list" href="#list-${lekcija.lekcijaIme}" role="tab" aria-controls="home">${lekcija.lekcijaIme}</a>
+                                                    </c:forEach>
                                                 </div>
-                                                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</div>
-                                                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</div>
-                                                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.</div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="tab-content" id="nav-tabContent">
+                                                    <c:forEach var="lekcija" items="sekcija.lekcijaCollection">
+                                                        <div class="tab-pane fade show active" id="list-${lekcija.lekcijaIme}" role="tabpanel" aria-labelledby="list-${lekcija.lekcijaIme}-list">
+                                                            <p>${lekcija.lekcijaOpis}</p>
+                                                            <br>
+                                                            <a href="#" class="btn btn-primary btn-primary"><i class="fa fa-video-camera"></i> Prikazi snimak</a>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingTwo">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Sekcija 2
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingThree">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Sekcija 3
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                                <div class="card-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
