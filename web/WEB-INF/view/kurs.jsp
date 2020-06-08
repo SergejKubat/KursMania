@@ -47,7 +47,7 @@
                                         <span class="fa fa-star"></span>
                                     </c:if>
                                 </c:forEach>
-                                ${prosecnaOcena}
+                                ${prosecnaOcena} (${brojOcena} ocena)
                             </div>
                             <div class="teacher_social">
                                 <ul>
@@ -70,7 +70,7 @@
                             <li class="list-group-item"><i class="fa fa-mobile"></i> Pristup preko mobilnog</li>
                         </ul>
                         <br><br>
-                        <h5 class="text-center"><a href="kupovina">Iskoristi kupon</a></h5>
+                        <h5 class="text-center"><a href="kupovina?id=${kurs.kursId}">Iskoristi kupon</a></h5>
                         <br>
                         <hr>
                         <br>
@@ -99,12 +99,24 @@
                 </div>
                 <div class="card-body">
                     <h3 class="card-title">${kurs.kursIme}</h3>
-                    <h4>$24.99</h4>
+                    <br>
+                    <h4>${kurs.kursCena}$</h4>
+                    <br>
                     <h5><a href="/kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></h5>
+                    <br>
                     <h5>Jezik: ${kurs.jezikId.jezikNaziv}</h5>
+                    <br>
                     <h5>Datum objavljivanja: ${kurs.kursDatumObjavljivanja}</h5>
+                    <br>
                     <h5>Poslednja promena: ${kurs.datumPoslednjePromene}</h5>
+                    <br>
                     <p class="card-text">${kurs.kursOpis}</p>
+                    <br>
+                    <h5>Tagovi:</h5>
+                    <c:forEach var="tag" items="${tagovi}">
+                        <a href="pretraga?q=${tag.tagId.tagIme}" class="badge badge-success" style="font-size: 14px">${tag.tagId.tagIme}</a>
+                    </c:forEach>
+                    <br><br>
                     <c:forEach var = "i" begin = "0" end = "5">
                         <c:if test="${kursZvezdice > i}">
                             <span class="fa fa-star" style="color: #ff8a00"></span>
@@ -137,58 +149,75 @@
                     </div>
                     <br>
                     <h4>Sta treba da naucite na ovom kursu?</h4>
+                    <br>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-4">
                             <h4>Sadrzaj kursa:</h4>
                         </div>
-                        <div class="col">
+                        <div class="col-4">
                             <p class="float-right">Broj lekcija: ${brojLekcija}</p>
                         </div>
-                        <div class="col">
+                        <div class="col-4">
                             <p class="float-right">Duzina: ${duzinaKursa}</p>
                         </div>
                     </div>
                     <div id="sekcije">
-                        <c:forEach var="sekcija" items="${sekcije}">
+                        <c:forEach var="sekcija" items="${sekcije}" varStatus="loop">
                             <div class="card">
-                                <div class="card-header" id="headingOne">
+                                <div class="card-header" id="heading${sekcija.sekcijaId}">
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="mb-0">
-                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${sekcija.sekcijaId}" aria-expanded="true" aria-controls="collapse${sekcija.sekcijaId}">
                                                     ${sekcija.sekcijaNaslov}
                                                 </button>
                                             </h5>
                                         </div>
                                         <div class="col">
-                                            <p class="float-right">${sekcija.lekcijaCollection.size()}</p>
+                                            <p class="float-right">${sekcija.lekcijaCollection.size()} lekcije</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div id="collapseOne2" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                    <div class="card-body">
+                                <div id="collapse${sekcija.sekcijaId}" class="collapse <c:if test="${loop.index == 0}">show</c:if>" aria-labelledby="heading${sekcija.sekcijaId}" data-parent="#accordion">
+                                        <div class="card-body">
 
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <div class="list-group" id="list-tab" role="tablist">
-                                                    <c:forEach var="lekcija" items="sekcija.lekcijaCollection">
-                                                        <a class="list-group-item list-group-item-action active" id="list-${lekcija.lekcijaIme}-list" data-toggle="list" href="#list-${lekcija.lekcijaIme}" role="tab" aria-controls="home">${lekcija.lekcijaIme}</a>
+                                            <div class="row">
+
+                                                <div class="col-4">
+                                                    <div class="list-group" id="list-tab" role="tablist">
+                                                    <c:forEach var="lekcija" items="${sekcija.lekcijaCollection}" varStatus="loop">
+                                                        <a class="list-group-item list-group-item-action <c:if test="${loop.index == 0}">active</c:if>" id="list-${lekcija.lekcijaId}-list" data-toggle="list" href="#list-${lekcija.lekcijaId}" role="tab" aria-controls="${lekcija.lekcijaId}">${lekcija.lekcijaIme}</a>
                                                     </c:forEach>
                                                 </div>
                                             </div>
+
                                             <div class="col-8">
                                                 <div class="tab-content" id="nav-tabContent">
-                                                    <c:forEach var="lekcija" items="sekcija.lekcijaCollection">
-                                                        <div class="tab-pane fade show active" id="list-${lekcija.lekcijaIme}" role="tabpanel" aria-labelledby="list-${lekcija.lekcijaIme}-list">
+                                                    <c:forEach var="lekcija" items="${sekcija.lekcijaCollection}" varStatus="loop">
+                                                        <div class="tab-pane fade show <c:if test="${loop.index == 0}">active</c:if>" id="list-${lekcija.lekcijaId}" role="tabpanel" aria-labelledby="list-${lekcija.lekcijaId}-list">
                                                             <p>${lekcija.lekcijaOpis}</p>
                                                             <br>
-                                                            <a href="#" class="btn btn-primary btn-primary"><i class="fa fa-video-camera"></i> Prikazi snimak</a>
+                                                            <button class="btn btn-primary btn-primary video-open" data-video="https://www.youtube.com/watch?v=zhYdRCgCw7o" data-toggle="modal" data-target="#videoModal"><i class="fa fa-video-camera"></i> Prikazi snimak</button>
+                                                            <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-body">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                            <video controls width="100%">
+                                                                                <source src="" type="video/mp4">
+                                                                            </video>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </c:forEach>
                                                 </div>
                                             </div>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -199,64 +228,26 @@
             <br>
             <h2 class="text-center">Preporuceni kursevi:</h2>
             <div class="row courses_row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="course">
-                        <div class="course_image"><img src="resources/img/website/course_1.jpg" alt=""></div>
-                        <div class="course_body">
-                            <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                <div class="course_tag"><a href="#">Featured</a></div>
-                                <div class="course_price ml-auto">Price: <span>$35</span></div>
-                            </div>
-                            <div class="course_title"><h3><a href="courses.html">Online Literature Course</a></h3></div>
-                            <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                            <div class="course_footer d-flex align-items-center justify-content-start">
-                                <div class="course_author_image"><img src="resources/img/website/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                                <div class="course_author_name">By <a href="#">James S. Morrison</a></div>
-                                <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="course">
-                        <div class="course_image"><img src="resources/img/website/course_2.jpg" alt=""></div>
-                        <div class="course_body">
-                            <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                <div class="course_tag"><a href="#">New</a></div>
-                                <div class="course_price ml-auto">Price: <span>$35</span></div>
-                            </div>
-                            <div class="course_title"><h3><a href="courses.html">Social Media Course</a></h3></div>
-                            <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                            <div class="course_footer d-flex align-items-center justify-content-start">
-                                <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                                <div class="course_author_name">By <a href="#">Mark Smith</a></div>
-                                <div class="course_sales ml-auto"><span>352</span> Sales</div>
+                <c:forEach var="preporuceniKurs" items="${preporuceniKursevi}">
+                    <div class="col-5">
+                        <div class="course">
+                            <div class="course_image"><img src="${preporuceniKurs.kursSlika}" alt="${preporuceniKurs.kursIme}"></div>
+                            <div class="course_body">
+                                <div class="course_header d-flex flex-row align-items-center justify-content-start">
+                                    <div class="course_tag"><a href="kategorija?id=${preporuceniKurs.kategorijaId.kategorijaId}">${preporuceniKurs.kategorijaId.kategorijaNaziv}</a></div>
+                                    <div class="course_price ml-auto">Cena: <span>${preporuceniKurs.kursCena}$</span></div>
+                                </div>
+                                <div class="course_title"><h3><a href="kurs?id=${preporuceniKurs.kursId}">${preporuceniKurs.kursIme}</a></h3></div>
+                                <div class="course_text">${preporuceniKurs.kursOpis}</div>
+                                <div class="course_footer d-flex align-items-center justify-content-start">
+                                    <div class="course_author_image"><img src="${preporuceniKurs.korisnikId.korisnikAvatar}"></div>
+                                    <div class="course_author_name">Autor <a href="#">${preporuceniKurs.korisnikId.korisnikIme} ${preporuceniKurs.korisnikId.korisnikPrezime}</a></div>
+                                    <div class="course_sales ml-auto"><span>${kurs.getEvidencijaCollection().size()}</span> Studenata</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Course -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="course">
-                        <div class="course_image"><img src="resources/img/website/course_3.jpg" alt=""></div>
-                        <div class="course_body">
-                            <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                <div class="course_tag"><a href="#">Featured</a></div>
-                                <div class="course_price ml-auto">Price: <span>$35</span></div>
-                            </div>
-                            <div class="course_title"><h3><a href="courses.html">Online Marketing Course</a></h3></div>
-                            <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                            <div class="course_footer d-flex align-items-center justify-content-start">
-                                <div class="course_author_image"><img src="resources/img/website/course_author_3.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                                <div class="course_author_name">By <a href="#">Julia Williams</a></div>
-                                <div class="course_sales ml-auto"><span>352</span> Sales</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
 
             <div class="card card-outline-secondary my-4">
@@ -264,16 +255,12 @@
                     Komentari
                 </div>
                 <div class="card-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
-                    <a href="#" class="btn btn-success">Leave a Review</a>
+                    <c:forEach var="komentar" items="${komentari}">
+                        <p>${komentar.komentarSadrzaj}</p>
+                        <small class="text-muted">Autor ${komentar.korisnikId.korisnikIme} ${komentar.korisnikId.korisnikPrezime} on ${komentar.komentarDatum} ${komentar.komentarVreme}</small>
+                        <hr>
+                    </c:forEach>
+                    <a href="#" class="btn btn-success">Postavi komentar</a>
                 </div>
             </div>
 
@@ -282,3 +269,17 @@
     </div>
 
 </div>
+<script>
+    $(function () {
+        $(".video-open").click(function () {
+            var theModal = $(this).data("target"),
+                    videoSRC = $(this).attr("data-video"),
+                    videoSRCauto = videoSRC + "";
+            $(theModal + ' source').attr('src', videoSRCauto);
+            $(theModal + ' video').load();
+            $(theModal + ' button.close').click(function () {
+                $(theModal + ' source').attr('src', videoSRC);
+            });
+        });
+    });
+</script>

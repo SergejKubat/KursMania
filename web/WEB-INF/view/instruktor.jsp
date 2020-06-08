@@ -30,6 +30,16 @@
         <div class="col-lg-3">
             <div style="padding: 50px 50px;">
                 <img src="${instruktor.korisnikAvatar}" style="border-radius: 100%; height: 150px; width: 150px" alt="${instruktor.korisnikIme} ${instruktor.korisnikPrezime}">
+                <p>Prosecna ocena:</p>
+                <c:forEach var = "i" begin = "0" end = "5">
+                    <c:if test="${zvezdice > i}">
+                        <span class="fa fa-star" style="color: #ff8a00"></span>
+                    </c:if>
+                    <c:if test="${zvezdice < i}">
+                        <span class="fa fa-star"></span>
+                    </c:if>
+                </c:forEach>
+                ${prosecnaOcena} <br> (${brojOcena} ocena)
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a href="#"><i class="fa fa-file-o"></i> Web sajt</a></li>

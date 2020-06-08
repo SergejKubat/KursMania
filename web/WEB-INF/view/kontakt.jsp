@@ -64,8 +64,7 @@
                         </div>
                     </div>
                     <div class="contact_form_container">
-                        <c:catch var="exception">${poruka}</c:catch>
-                        <c:if test="${exception != null}">
+                        <c:if test="${poruka != null}">
                             <div style="margin-bottom: 10px;">
                                 <div class="logo_text">Vasa poruka je poslata.</div>
                                 <br>

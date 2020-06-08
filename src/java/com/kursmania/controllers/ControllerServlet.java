@@ -1,6 +1,8 @@
 package com.kursmania.controllers;
 
+import com.kursmania.jpa.entities.Komentar;
 import com.kursmania.jpa.entities.Kurs;
+import com.kursmania.jpa.entities.KursTag;
 import com.kursmania.jpa.entities.Lekcija;
 import com.kursmania.jpa.entities.Ocena;
 import com.kursmania.jpa.entities.Sekcija;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -59,7 +62,7 @@ public class ControllerServlet extends HttpServlet {
         } else if (putanja.equals("/kurs")) {
             int kursId = Integer.parseInt(request.getParameter("id"));
             Kurs kurs = kursFacade.find(kursId);
-            kurs.getKorisnikId().setKorisnikOpis(getShortenText(kurs.getKorisnikId().getKorisnikOpis()));
+            kurs.getKorisnikId().setKorisnikOpis(getShortenText(kurs.getKorisnikId().getKorisnikOpis(), 50));
             request.setAttribute("kurs", kurs);
             Collection<Kurs> kursevi = korisnikFacade.find(kurs.getKorisnikId().getKorisnikId()).getKursCollection();
             int brSt = 0, brO = 0, zbirO = 0, brLekcija = 0, duzinaKursa = 0;
@@ -74,6 +77,7 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("brojStudenata", brSt);
             request.setAttribute("prosecnaOcena", String.format("%.2f", (double) zbirO / brO));
             request.setAttribute("zvezdice", zbirO / brO);
+            request.setAttribute("brojOcena", brO);
             brLekcija = kurs.getSekcijaCollection().stream().map((s) -> s.getLekcijaCollection().size()).reduce(brLekcija, Integer::sum);
             request.setAttribute("brojLekcija", brLekcija);
             for (Sekcija s : kurs.getSekcijaCollection()) {
@@ -92,8 +96,32 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("kursZvezdice", kursZbirOcena / kursBrojOcena);
             Collection<Sekcija> sekcije = kurs.getSekcijaCollection();
             request.setAttribute("sekcije", sekcije);
+            Collection<KursTag> kursTag = kurs.getKursTagCollection();
+            request.setAttribute("tagovi", kursTag);
+            Collection<Komentar> komentari = kurs.getKomentarCollection();
+            request.setAttribute("komentari", komentari);
+            //preporuceni kursevi
+            List<Kurs> preporuceniKursevi = kursFacade.findAll().stream().filter(e -> Objects.equals(e.getKategorijaId().getKategorijaId(), kurs.getKategorijaId().getKategorijaId())).collect(Collectors.toList());
+            preporuceniKursevi.remove(kurs);
+            if (preporuceniKursevi.size() > 2) {
+                preporuceniKursevi = preporuceniKursevi.subList(0, 2);
+            }
+            request.setAttribute("preporuceniKursevi", preporuceniKursevi);
         } else if (putanja.equals("/kursevi")) {
+            String page = (String) request.getParameter("page");
+            int pageNumber;
             List<Kurs> kursevi = kursFacade.findAll();
+            int brojKurseva = kursevi.size();
+            
+            if (page != null) {
+                pageNumber = Integer.parseInt(page);
+            }
+            else {
+                pageNumber = 1;
+            }
+            if (brojKurseva > pageNumber * 9) {
+                kursevi = kursevi.subList((pageNumber - 1) * 9, pageNumber * 9);
+            }
             Kurs istaknut = null;
             int max = 0;
             for (Kurs k : kursevi) {
@@ -105,6 +133,7 @@ public class ControllerServlet extends HttpServlet {
             kursevi.remove(istaknut);
             request.setAttribute("istaknut", istaknut);
             request.setAttribute("kursevi", kursevi);
+            request.setAttribute("brojStranica", brojKurseva / 9);
         } else if (putanja.equals("/instruktori")) {
             request.setAttribute("instruktori", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()));
         } else if (putanja.equals("/instruktor")) {
@@ -117,6 +146,15 @@ public class ControllerServlet extends HttpServlet {
             brO = kursevi.stream().map((k) -> k.getOcenaCollection().size()).reduce(brO, Integer::sum);
             request.setAttribute("brojStudenata", brSt);
             request.setAttribute("brojOcena", brO);
+            //zvezdice
+            int zbirOcena = 0;
+            for (Kurs k : kursevi) {
+               for (Ocena o : k.getOcenaCollection()) {
+                   zbirOcena += o.getOcenaVrednost();
+               }
+            }          
+            request.setAttribute("prosecnaOcena", String.format("%.2f", (double) zbirOcena / brO));
+            request.setAttribute("zvezdice", zbirOcena / brO);
         } else if (putanja.equals("/nalog")) {
 
         } else if (putanja.equals("/korpa")) {
@@ -129,7 +167,6 @@ public class ControllerServlet extends HttpServlet {
             int kategorijaId = Integer.parseInt((String) request.getParameter("id"));
             request.setAttribute("kat", kategorijaFacade.find(kategorijaId));
             request.setAttribute("kursevi", kursFacade.findAll().stream().filter(e -> e.getKategorijaId().getKategorijaId() == kategorijaId).collect(Collectors.toList()));
-
         } else if (putanja.equals("/jezik")) {
 
         } else if (putanja.equals("/kontakt")) {
@@ -158,9 +195,11 @@ public class ControllerServlet extends HttpServlet {
         String putanja = request.getServletPath();
         HttpSession session = request.getSession();
 
-        if (putanja.equals("prijava")) {
-
-        } else if (putanja.equals("registracija")) {
+        if (putanja.equals("/prijava")) {
+            String email = request.getParameter("email");
+            String lozinka = request.getParameter("lozinka");
+            System.out.println("korisnik:" + email + " " + lozinka);
+        } else if (putanja.equals("/registracija")) {
             String ime = request.getParameter("ime");
             String prezime = request.getParameter("prezime");
             String email = request.getParameter("email");
@@ -169,9 +208,9 @@ public class ControllerServlet extends HttpServlet {
             String adresa = request.getParameter("adresa");
             String lozinka = request.getParameter("lozinka");
             System.out.println("korisnik: " + ime + " " + prezime + " " + email + " " + lozinka);
-        } else if (putanja.equals("kupovina")) {
+        } else if (putanja.equals("/kupovina")) {
 
-        } else if (putanja.equals("kontakt")) {
+        } else if (putanja.equals("/kontakt")) {
             request.setAttribute("poruka", true);
         }
 
@@ -184,18 +223,19 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 
-    public String getShortenText(String text) {
+    public static String getShortenText(String text, int numOfWords) {
         String[] reci = text.split(" ");
-        if (reci.length > 50) {
+        if (reci.length < numOfWords) {
             return text;
         }
         StringBuilder noviText = new StringBuilder();
-        for (int i = 0; i < 50; i++) {
-            noviText.append(reci[i]);
+        for (int i = 0; i < numOfWords; i++) {
+            noviText.append(reci[i]).append(" ");
         }
-        return noviText.toString();
+        noviText.deleteCharAt(noviText.length() - 1);
+        return noviText.append("...").toString();
     }
-    
+
     public String numberToTime(int number) {
         int hours, minutes, seconds;
         StringBuilder time = new StringBuilder();
@@ -205,24 +245,21 @@ public class ControllerServlet extends HttpServlet {
         if (hours > 0) {
             if (hours < 10) {
                 time.append("0").append(hours).append(":");
-            }
-            else {
+            } else {
                 time.append(hours).append(":");
             }
         }
         if (minutes > 0) {
             if (minutes < 10) {
                 time.append("0").append(minutes).append(":");
-            }
-            else {
+            } else {
                 time.append(minutes).append(":");
             }
         }
         if (seconds > 0) {
             if (seconds < 10) {
                 time.append("0").append(seconds);
-            }
-            else {
+            } else {
                 time.append(seconds);
             }
         }

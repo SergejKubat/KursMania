@@ -72,7 +72,7 @@
                     <!-- For demo purpose -->
                     <div class="row mb-4">
                         <div class="col-lg-8 mx-auto text-center">
-                            <h1 class="display-4">Bootstrap Payment Forms</h1>
+                            <h1 class="display-4">Kupovina kursa</h1>
                         </div>
                     </div> <!-- End -->
                     <div class="row">
@@ -82,8 +82,8 @@
                                     <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
                                         <!-- Credit card form tabs -->
                                         <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
-                                            <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active "> <i class="fa fa-credit-card-alt"></i> Credit Card </a> </li>
-                                            <li class="nav-item"> <a data-toggle="pill" href="#paypal" class="nav-link "> <i class="fa fa-paypal"></i> Paypal </a> </li>
+                                            <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active "> <i class="fa fa-credit-card-alt"></i> Kreditna kartica </a> </li>
+                                            <li class="nav-item"> <a data-toggle="pill" href="#paypal" class="nav-link "> <i class="fa fa-paypal"></i> PayPal </a> </li>
                                             <li class="nav-item"> <a data-toggle="pill" href="#net-banking" class="nav-link "> <i class="fa fa-university"></i> Net Banking </a> </li>
                                         </ul>
                                     </div> <!-- End -->
@@ -93,19 +93,19 @@
                                         <div id="credit-card" class="tab-pane fade show active pt-3">
                                             <form role="form">
                                                 <div class="form-group"> <label for="username">
-                                                        <h6>Card Owner</h6>
-                                                    </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
+                                                        <h6>Vlasnik kartice</h6>
+                                                    </label> <input type="text" name="username" placeholder="Ime" required class="form-control "> </div>
                                                 <div class="form-group"> <label for="cardNumber">
-                                                        <h6>Card number</h6>
+                                                        <h6>Broj kartice</h6>
                                                     </label>
-                                                    <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
+                                                    <div class="input-group"> <input type="text" name="cardNumber" placeholder="Ispravan broj kartice" class="form-control " required>
                                                         <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fa fa-cc-visa"></i> <i class="fa fa-cc-mastercard"></i> <i class="fa fa-cc-amex"></i> </span> </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-8">
                                                         <div class="form-group"> <label><span class="hidden-xs">
-                                                                    <h6>Expiration Date</h6>
+                                                                    <h6>Datum isteka</h6>
                                                                 </span></label>
                                                             <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
                                                         </div>
@@ -116,36 +116,31 @@
                                                             </label> <input type="text" required class="form-control"> </div>
                                                     </div>
                                                 </div>
-                                                <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Confirm Payment </button>
+                                                <div class="card-footer"> <button type="button" class="subscribe btn btn-primary btn-block shadow-sm"> Potvrdi </button>
                                             </form>
                                         </div>
                                     </div> <!-- End -->
                                     <!-- Paypal info -->
                                     <div id="paypal" class="tab-pane fade pt-3">
-                                        <h6 class="pb-2">Select your paypal account type</h6>
+                                        <h6 class="pb-2">Izaberite vrstu PayPal naloga</h6>
                                         <div class="form-group "> <label class="radio-inline"> <input type="radio" name="optradio" checked> Domestic </label> <label class="radio-inline"> <input type="radio" name="optradio" class="ml-5">International </label></div>
-                                        <p> <button type="button" class="btn btn-primary "><i class="fab fa-paypal mr-2"></i> Log into my Paypal</button> </p>
+                                        <p> <button type="button" class="btn btn-primary "><i class="fab fa-paypal mr-2"></i> Prijavite se na PayPal</button> </p>
                                         <p class="text-muted"> Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website to view details of your order. </p>
                                     </div> <!-- End -->
                                     <!-- bank transfer info -->
                                     <div id="net-banking" class="tab-pane fade pt-3">
-                                        <div class="form-group "> <label for="Select Your Bank">
-                                                <h6>Select your Bank</h6>
+                                        <div class="form-group "> <label for="Izaberite banku">
+                                                <h6>Izaberite banku</h6>
                                             </label> <select class="form-control" id="ccmonth">
-                                                <option value="" selected disabled>--Please select your Bank--</option>
-                                                <option>Bank 1</option>
-                                                <option>Bank 2</option>
-                                                <option>Bank 3</option>
-                                                <option>Bank 4</option>
-                                                <option>Bank 5</option>
-                                                <option>Bank 6</option>
-                                                <option>Bank 7</option>
-                                                <option>Bank 8</option>
-                                                <option>Bank 9</option>
-                                                <option>Bank 10</option>
+                                                <option value="" selected disabled>--Molimo vas izaberite banku--</option>
+                                                <option>Banka 1</option>
+                                                <option>Banka 2</option>
+                                                <option>Banka 3</option>
+                                                <option>Banka 4</option>
+                                                <option>Banka 5</option>
                                             </select> </div>
                                         <div class="form-group">
-                                            <p> <button type="button" class="btn btn-primary "><i class="fas fa-mobile-alt mr-2"></i> Proceed Pyment</button> </p>
+                                            <p> <button type="button" class="btn btn-primary "><i class="fas fa-mobile-alt mr-2"></i> Izvrsi placanje</button> </p>
                                         </div>
                                         <p class="text-muted">Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website to view details of your order. </p>
                                     </div> <!-- End -->

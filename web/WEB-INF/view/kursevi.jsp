@@ -90,11 +90,9 @@
             <div class="col">
                 <div class="courses_paginations">
                     <ul>
-                        <li class="active"><a href="#">01</a></li>
-                        <li><a href="#">02</a></li>
-                        <li><a href="#">03</a></li>
-                        <li><a href="#">04</a></li>
-                        <li><a href="#">05</a></li>
+                        <c:forEach var="i" begin="0" end="${brojStranica}">
+                            <li <c:if test="${i + 1 == 1}">class="active"</c:if>><a href="kursevi?page=${i + 1}">0${i + 1}</a></li>
+                        </c:forEach>
                     </ul>
                 </div>
             </div>
