@@ -4,6 +4,10 @@
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>com.kursmania.controllers.ControllerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AJAXControllerServlet</servlet-name>
+        <servlet-class>com.kursmania.controllers.AJAXControllerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/prijava</url-pattern>
@@ -56,13 +60,19 @@
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/onama</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>AJAXControllerServlet</servlet-name>
+        <url-pattern>/preporuke</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/view/404.jsp</location>
+    </error-page>
     <jsp-config>
         <jsp-property-group>
             <url-pattern>/WEB-INF/view/*</url-pattern>
@@ -71,5 +81,4 @@
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>
-    
 </web-app>

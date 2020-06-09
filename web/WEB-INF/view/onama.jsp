@@ -1,5 +1,3 @@
-<link rel="stylesheet" type="text/css" href="resources/css/about.css">
-<link rel="stylesheet" type="text/css" href="resources/css/about_responsive.css">
 <div class="home">
     <div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/about.jpg" data-speed="0.8"></div>
     <div class="home_container">
@@ -57,7 +55,6 @@
     <div class="container">
         <div class="row milestones_container">
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website//milestone_1.svg" alt=""></div>
@@ -66,7 +63,6 @@
                 </div>
             </div>
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website/milestone_2.svg" alt=""></div>
@@ -75,7 +71,6 @@
                 </div>
             </div>
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website/milestone_3.svg" alt=""></div>
@@ -84,7 +79,6 @@
                 </div>
             </div>
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website/milestone_4.svg" alt=""></div>

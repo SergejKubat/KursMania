@@ -1,5 +1,3 @@
-<link rel="stylesheet" type="text/css" href="resources/css/courses.css">
-<link rel="stylesheet" type="text/css" href="resources/css/courses_responsive.css">
 <div class="home">
     <div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/courses.jpg" data-speed="0.8"></div>
     <div class="home_container">
@@ -44,10 +42,12 @@
                     <datalist id="kategorije">
                         <c:forEach var="kategorija" items="${kategorije}">
                             <option value="${kategorija.kategorijaNaziv}">
-                        </c:forEach>
+                            </c:forEach>
+                    </datalist>
+                    <datalist id="preporuke">
                     </datalist>
                     <form action="pretraga" method="GET" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between">
-                        <div><input name="q" type="text" class="course_input" placeholder="Kljucna rec" required="required"></div>
+                        <div><input name="q" id="ime" type="text" list="preporuke" class="course_input" placeholder="Kljucna rec" required="required"></div>
                         <div><input name="oblast" type="text" list="kategorije" class="course_input" placeholder="Oblast" required="required"></div>
                         <button class="course_button"><span>Pronadji kurs</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </form>

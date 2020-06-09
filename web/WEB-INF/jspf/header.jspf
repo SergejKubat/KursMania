@@ -16,6 +16,9 @@
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/animate.css">
         <link href="resources/plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
+        <c:forEach var="stil" items="${stilovi}">
+            <link rel="stylesheet" type="text/css" href="resources/css/${stil}.css">
+        </c:forEach>
         <link rel="icon" href="resources/img/website/favicon/favicon.ico">
         <style>
             .dropdown-submenu {
@@ -77,18 +80,18 @@
                                     </div>
                                     <nav class="main_nav_contaner ml-auto">
                                         <ul class="main_nav">
-                                            <li class="active"><a href="/">Pocetna</a></li>
+                                            <li class="active"><a href="/KursMania">Pocetna</a></li>
                                             <li <c:if test="${navigationSelector == 1}">class="active"</c:if>><a href="onama">O nama</a></li>
                                             <li <c:if test="${navigationSelector == 2}">class="active"</c:if>><a href="kursevi">Kursevi</a></li>
                                             <li <c:if test="${navigationSelector == 3}">class="active"</c:if>><a href="instruktori">Instruktori</a></li>
                                             <li <c:if test="${navigationSelector == 4}">class="active"</c:if>><a href="kontakt">Kontakt</a></li>
-                                            <li>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Kategorija
-                                                        <span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
+                                                <li>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Kategorija
+                                                            <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu">
                                                         <c:forEach var="kategorija" items="${kategorije}">
-                                                            <li><a tabindex="-1" href="/kategorija?id=${kategorija.kategorijaId}">${kategorija.kategorijaNaziv}</a></li>
+                                                            <li><a tabindex="-1" href="kategorija?id=${kategorija.kategorijaId}">${kategorija.kategorijaNaziv}</a></li>
                                                             </c:forEach>
                                                     </ul>
                                                 </div>
@@ -112,8 +115,10 @@
                         <div class="row">
                             <div class="col">
                                 <div class="header_search_content d-flex flex-row align-items-center justify-content-end">
+                                    <datalist id="preporuke">                                        
+                                    </datalist>
                                     <form action="pretraga" method="GET" class="header_search_form">
-                                        <input type="search" name="q" class="search_input" placeholder="Pretraga" required="required">
+                                        <input type="search" name="q" list="browsers" class="search_input" placeholder="Pretraga" required="required">
                                         <button class="header_search_button d-flex flex-column align-items-center justify-content-center">
                                             <i class="fa fa-search" aria-hidden="true"></i>
                                         </button>

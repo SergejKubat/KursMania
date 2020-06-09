@@ -1,6 +1,3 @@
-<link href="resources/css/shop-item.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="resources/css/courses.css">
-<link rel="stylesheet" type="text/css" href="resources/css/courses_responsive.css">
 <div class="home">
     <div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/contact.jpg" data-speed="0.8"></div>
     <div class="home_container">

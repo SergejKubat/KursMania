@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <footer class="footer">
     <div class="container">
         <div class="row">
@@ -91,5 +92,9 @@
 <script src="resources/plugins/video-js/Youtube.min.js"></script>
 <script src="resources/plugins/parallax-js-master/parallax.min.js"></script>
 <script src="resources/js/custom.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<c:forEach var="skripta" items="${skripte}">
+    <script src="resources/js/${skripta}.js"></script>
+</c:forEach>
 </body>
 </html>

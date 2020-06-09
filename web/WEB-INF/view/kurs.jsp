@@ -1,6 +1,3 @@
-<link href="resources/css/shop-item.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="resources/css/courses.css">
-<link rel="stylesheet" type="text/css" href="resources/css/courses_responsive.css">
 <div class="home">
     <div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/contact.jpg" data-speed="0.8"></div>
     <div class="home_container">
@@ -98,7 +95,14 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title">${kurs.kursIme}</h3>
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="card-title">${kurs.kursIme}</h3>
+                        </div>
+                        <div class="col">
+                            <p class="float-right">${kursBrojStudenata} studenata</p>
+                        </div>
+                    </div>
                     <br>
                     <h4>${kurs.kursCena}$</h4>
                     <br>
@@ -252,7 +256,7 @@
 
             <div class="card card-outline-secondary my-4">
                 <div class="card-header">
-                    Komentari
+                    Komentari (${kursBrojKomentara})
                 </div>
                 <div class="card-body">
                     <c:forEach var="komentar" items="${komentari}">
@@ -269,17 +273,3 @@
     </div>
 
 </div>
-<script>
-    $(function () {
-        $(".video-open").click(function () {
-            var theModal = $(this).data("target"),
-                    videoSRC = $(this).attr("data-video"),
-                    videoSRCauto = videoSRC + "";
-            $(theModal + ' source').attr('src', videoSRCauto);
-            $(theModal + ' video').load();
-            $(theModal + ' button.close').click(function () {
-                $(theModal + ' source').attr('src', videoSRC);
-            });
-        });
-    });
-</script>
