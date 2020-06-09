@@ -24,7 +24,7 @@
 <div class="contact">
     <div class="container-fluid">
         <div class="row row-xl-eq-height">
-            <!-- Contact Content -->
+
             <div class="col-xl-6">
                 <div class="contact_content">
                     <div class="row">
@@ -105,5 +105,6 @@
 
     </div>
 </div>
+<script src="resources/js/jquery-3.2.1.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
 <script src="resources/js/contact.js"></script>

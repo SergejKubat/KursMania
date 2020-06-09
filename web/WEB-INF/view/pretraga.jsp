@@ -1,5 +1,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/news.css">
 <link rel="stylesheet" type="text/css" href="resources/css/news_responsive.css">
+<link rel="stylesheet" type="text/css" href="resources/css/courses.css">
+<link rel="stylesheet" type="text/css" href="resources/css/courses_responsive.css">
 <div class="home">
     <div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/news.jpg" data-speed="0.8"></div>
     <div class="home_container">
@@ -23,13 +25,23 @@
 
 <div class="news">
     <div class="container">
+
+        <c:if test="${poruka != null}">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="section_title text-center"><h2>${poruka}</h2></div>
+                    <div class="section_subtitle">Pokusajte ponovo.</div>
+                </div>
+            </div>
+        </c:if>
+
         <div class="row">
 
             <div class="col-lg-8">
                 <div class="news_posts">
 
                     <c:forEach var="kurs" items="${kursevi}">
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-6">
                             <div class="course">
                                 <div class="course_image"><img src="${kurs.kursSlika}" alt="${kurs.kursIme}"></div>
                                 <div class="course_body">
@@ -101,20 +113,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="news_pagination">
-                    <ul>
-                        <li class="active"><a href="#">01</a></li>
-                        <li><a href="#">02</a></li>
-                        <li><a href="#">03</a></li>
-                        <li><a href="#">04</a></li>
-                        <li><a href="#">05</a></li>
-                    </ul>
                 </div>
             </div>
         </div>

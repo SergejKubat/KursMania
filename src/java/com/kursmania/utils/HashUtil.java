@@ -6,10 +6,11 @@ import java.security.SecureRandom;
 
 public class HashUtil {
 
-    public static String getSecurePassword(String passwordToHash, String hashAlgorithm, byte[] salt) {
+    public static String getSecurePassword(String passwordToHash, String hashAlgorithm) {
         String generatedPassword = null;
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
+            byte[] salt = getSalt();
             md.update(salt);
             byte[] bytes = md.digest(passwordToHash.getBytes());
             StringBuilder sb = new StringBuilder();

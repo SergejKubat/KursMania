@@ -32,11 +32,8 @@
     <body>
         <div class="super_container">
 
-            <!-- Header -->
-
             <header class="header">
 
-                <!-- Top Bar -->
                 <div class="top_bar">
                     <div class="top_bar_container">
                         <div class="container">
@@ -65,7 +62,6 @@
                     </div>				
                 </div>
 
-                <!-- Header Content -->
                 <div class="header_container">
                     <div class="container">
                         <div class="row">
@@ -82,10 +78,10 @@
                                     <nav class="main_nav_contaner ml-auto">
                                         <ul class="main_nav">
                                             <li class="active"><a href="/">Pocetna</a></li>
-                                            <li><a href="onama">O nama</a></li>
-                                            <li><a href="kursevi">Kursevi</a></li>
-                                            <li><a href="instruktori">Instruktori</a></li>
-                                            <li><a href="kontakt">Kontakt</a></li>
+                                            <li <c:if test="${navigationSelector == 1}">class="active"</c:if>><a href="onama">O nama</a></li>
+                                            <li <c:if test="${navigationSelector == 2}">class="active"</c:if>><a href="kursevi">Kursevi</a></li>
+                                            <li <c:if test="${navigationSelector == 3}">class="active"</c:if>><a href="instruktori">Instruktori</a></li>
+                                            <li <c:if test="${navigationSelector == 4}">class="active"</c:if>><a href="kontakt">Kontakt</a></li>
                                             <li>
                                                 <div class="dropdown">
                                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Kategorija
@@ -100,8 +96,6 @@
                                         </ul>
                                         <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
 
-                                        <!-- Hamburger -->
-
                                         <div class="hamburger menu_mm">
                                             <i class="fa fa-bars menu_mm" aria-hidden="true"></i>
                                         </div>
@@ -113,7 +107,6 @@
                     </div>
                 </div>
 
-                <!-- Header Search Panel -->
                 <div class="header_search_container">
                     <div class="container">
                         <div class="row">
@@ -131,8 +124,6 @@
                     </div>			
                 </div>			
             </header>
-
-            <!-- Menu -->
 
             <div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
                 <div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>

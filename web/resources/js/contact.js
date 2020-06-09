@@ -1,27 +1,6 @@
-/* JS Document */
-
-/******************************
-
-[Table of Contents]
-
-1. Vars and Inits
-2. Set Header
-3. Init Header Search
-4. Init Menu
-5. Init Google Map
-
-
-******************************/
-
 $(document).ready(function()
 {
 	"use strict";
-
-	/* 
-
-	1. Vars and Inits
-
-	*/
 
 	var menu = $('.menu');
 	var menuActive = false;
@@ -45,12 +24,6 @@ $(document).ready(function()
 	initMenu();
 	initGoogleMap();
 
-	/* 
-
-	2. Set Header
-
-	*/
-
 	function setHeader()
 	{
 		if($(window).scrollTop() > 100)
@@ -62,12 +35,6 @@ $(document).ready(function()
 			header.removeClass('scrolled');
 		}
 	}
-
-	/* 
-
-	3. Init Header Search
-
-	*/
 
 	function initHeaderSearch()
 	{
@@ -82,12 +49,6 @@ $(document).ready(function()
 			});
 		}
 	}
-
-	/* 
-
-	4. Init Menu
-
-	*/
 
 	function initMenu()
 	{
@@ -135,19 +96,13 @@ $(document).ready(function()
 		menuActive = false;
 	}
 
-	/* 
-
-	5. Init Google Map
-
-	*/
-
 	function initGoogleMap()
 	{
-		var myLatlng = new google.maps.LatLng(34.043238,-118.258338);
+		var myLatlng = new google.maps.LatLng(44.8051305,20.4833191);
     	var mapOptions = 
     	{
     		center: myLatlng,
-	       	zoom: 13,
+	       	zoom: 15,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			draggable: true,
 			scrollwheel: false,
@@ -265,10 +220,8 @@ $(document).ready(function()
 			]
     	}
 
-    	// Initialize a map with options
     	map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-		// Re-center map after window resize
 		google.maps.event.addDomListener(window, 'resize', function()
 		{
 			setTimeout(function()
