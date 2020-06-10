@@ -1,33 +1,33 @@
 package com.kursmania.utils;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 public class HashUtil {
 
-    public static String getSecurePassword(String passwordToHash, String hashAlgorithm) {
-        String generatedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
-            byte[] salt = getSalt();
-            md.update(salt);
-            byte[] bytes = md.digest(passwordToHash.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println(e.toString());
-        }
-        return generatedPassword;
-    }
+    private static final String SALT = "EHEwIy8tqB9xcIMk";
 
-    private static byte[] getSalt() throws NoSuchAlgorithmException {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        return salt;
+    public static String getSHA(String lozinka) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            lozinka = lozinka + SALT;
+
+            byte[] messageDigest = md.digest(lozinka.getBytes());
+
+            BigInteger no = new BigInteger(1, messageDigest);
+
+            String hashtext = no.toString(16);
+
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Exception thrown for incorrect algorithm: " + e);
+            return null;
+        }
     }
 }

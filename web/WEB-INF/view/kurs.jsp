@@ -130,7 +130,7 @@
                         </c:if>
                     </c:forEach> ${kursProsecnaOcena} (${kursBrojOcena} ocena)
                     <br><br>
-                    <a href="/kupovina?id=${kurs.kursId}" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Kupi odmah</a>
+                    <a href="kupovina?id=${kurs.kursId}" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Kupi odmah</a>
                     <br><br>
                     <h4>Sta treba da znate pre ovog kursa?</h4>
                     <br>

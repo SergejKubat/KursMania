@@ -9,18 +9,19 @@ import com.kursmania.jpa.entities.Lekcija;
 import com.kursmania.jpa.entities.Ocena;
 import com.kursmania.jpa.entities.Rola;
 import com.kursmania.jpa.entities.Sekcija;
-import com.kursmania.jpa.entities.Tag;
 import com.kursmania.sessions.JezikFacade;
 import com.kursmania.sessions.KategorijaFacade;
 import com.kursmania.sessions.KorisnikFacade;
 import com.kursmania.sessions.KursFacade;
 import com.kursmania.sessions.TagFacade;
 import com.kursmania.utils.HashUtil;
+import com.kursmania.utils.Utilities;
 import com.kursmania.utils.Validation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -48,6 +49,8 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private TagFacade tagFacade;
 
+    private Utilities utilities;
+
     @Override
     public void init() throws ServletException {
 
@@ -58,6 +61,7 @@ public class ControllerServlet extends HttpServlet {
         String putanja = request.getServletPath();
         HttpSession session = request.getSession();
         response.setCharacterEncoding("UTF-8");
+        utilities = new Utilities();
 
         List<String> stilovi = new ArrayList<>();
         List<String> skripte = new ArrayList<>();
@@ -83,7 +87,7 @@ public class ControllerServlet extends HttpServlet {
                 filtriraniKursevi = kursevi.stream().filter(e -> e.getKategorijaId().getKategorijaNaziv().equals(oblast)).collect(Collectors.toList());
             }
             filtriraniKursevi = kursevi.stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())
-                    || isContainsTag(q, e.getKursTagCollection())).collect(Collectors.toList());
+                    || utilities.isContainsTag(q, e.getKursTagCollection())).collect(Collectors.toList());
 
             Collections.sort(kursevi);
 
@@ -120,7 +124,7 @@ public class ControllerServlet extends HttpServlet {
 
             if (kursId != null) {
                 Kurs kurs = kursFacade.find(Integer.parseInt(kursId));
-                kurs.getKorisnikId().setKorisnikOpis(getShortenText(kurs.getKorisnikId().getKorisnikOpis(), 50));
+                kurs.getKorisnikId().setKorisnikOpis(utilities.getShortenText(kurs.getKorisnikId().getKorisnikOpis(), 50));
 
                 request.setAttribute("kurs", kurs);
 
@@ -155,7 +159,7 @@ public class ControllerServlet extends HttpServlet {
                     }
                 }
 
-                request.setAttribute("duzinaKursa", numberToTime(duzinaKursa));
+                request.setAttribute("duzinaKursa", utilities.numberToTime(duzinaKursa));
 
                 kursBrojStudenata = kurs.getEvidencijaCollection().size();
                 kursBrojOcena = kurs.getOcenaCollection().size();
@@ -219,7 +223,7 @@ public class ControllerServlet extends HttpServlet {
 
             brojKurseva = kursevi.size();
             brojStranica = brojKurseva < 9 ? 1 : brojKurseva / 9;
-            kursevi = paginationHelper(pageIndex, 9, kursevi);
+            kursevi = utilities.paginationHelper(pageIndex, 9, kursevi);
 
             if (kursevi != null) {
                 Kurs istaknut = null;
@@ -265,7 +269,7 @@ public class ControllerServlet extends HttpServlet {
 
             brojInstruktora = instruktori.size();
             brojStranica = brojInstruktora < 9 ? 1 : brojInstruktora / 9;
-            instruktori = paginationHelper(pageIndex, 9, instruktori);
+            instruktori = utilities.paginationHelper(pageIndex, 9, instruktori);
 
             request.setAttribute("instruktori", instruktori);
             request.setAttribute("brojStranica", brojStranica);
@@ -308,7 +312,8 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("zvezdice", zvezdice);
             }
         } else if (putanja.equals("/nalog")) {
-
+            Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
+            request.setAttribute("korisnik", korisnik);
         } else if (putanja.equals("/korpa")) {
 
         } else if (putanja.equals("/kupovina")) {
@@ -343,7 +348,7 @@ public class ControllerServlet extends HttpServlet {
                 List<Kurs> kursevi = kursFacade.findAll().stream().filter(e -> e.getKategorijaId().equals(kategorija)).collect(Collectors.toList());
 
                 int brojKurseva = kursevi.size();
-                kursevi = paginationHelper(pageIndex, 9, kursevi);
+                kursevi = utilities.paginationHelper(pageIndex, 9, kursevi);
 
                 Kurs istaknut = null;
                 int max = 0;
@@ -379,7 +384,7 @@ public class ControllerServlet extends HttpServlet {
             stilovi.add("about_responsive");
 
             navigationSelector = 1;
-            
+
             request.setAttribute("brojKurseva", kursFacade.findAll().size());
             request.setAttribute("brojStudenata", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 1).collect(Collectors.toList()).size());
             request.setAttribute("brojInstruktora", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()).size());
@@ -406,11 +411,48 @@ public class ControllerServlet extends HttpServlet {
         String putanja = request.getServletPath();
         HttpSession session = request.getSession();
 
+        List<String> stilovi = new ArrayList<>();
+        List<String> skripte = new ArrayList<>();
+
         if (putanja.equals("/prijava")) {
+            /* dodavanje stilova i skripti */
+
+            stilovi.add("contact");
+            stilovi.add("contact_responsive");
+
             String email = request.getParameter("email");
             String lozinka = request.getParameter("lozinka");
-            System.out.println("korisnik:" + email + " " + lozinka);
+
+            boolean valid = Validation.proveriEmail(email) && Validation.proveriLozinku(lozinka);
+
+            if (valid) {
+                Korisnik korisnik = null;
+                List<Korisnik> korisnici = korisnikFacade.findAll();
+
+                for (Korisnik k : korisnici) {
+                    if (k.getKorisnikEmail().equals(email) && k.getKorisnikLozinka().equals(HashUtil.getSHA(lozinka))) {
+                        korisnik = k;
+                    }
+                }
+                
+                if (korisnik != null) {
+                    session.setAttribute("korisnik", korisnik);
+                    putanja = "/nalog";
+                }
+                else {
+                    request.setAttribute("poruka", "Nalog sa ovim kredencijalima ne postoji.");
+                }
+            }
+            else {
+                request.setAttribute("poruka", "Podaci koje ste uneli nisu u validnom formatu.");
+            }
+
         } else if (putanja.equals("/registracija")) {
+            /* dodavanje stilova i skripti */
+
+            stilovi.add("contact");
+            stilovi.add("contact_responsive");
+
             String ime = request.getParameter("ime");
             String prezime = request.getParameter("prezime");
             String email = request.getParameter("email");
@@ -420,26 +462,55 @@ public class ControllerServlet extends HttpServlet {
             String lozinka = request.getParameter("lozinka");
             boolean valid = Validation.proveriIme(ime) && Validation.proveriIme(prezime) && Validation.proveriBrojTelefona(brojTelefona) && Validation.proveriEmail(email);
             if (valid) {
-                Korisnik korisnik = new Korisnik();
-                Rola rola = new Rola(1);
-                rola.setRolaNaziv("Student");
-                korisnik.setRolaId(rola);
-                korisnik.setKorisnikIme(ime);
-                korisnik.setKorisnikPrezime(prezime);
-                korisnik.setKorisnikEmail(email);
-                korisnik.setKorisnikBrojTelefona(brojTelefona);
-                korisnik.setKorisnikMesto(mesto);
-                korisnik.setKorisnikAdresa(adresa);
-                korisnik.setKorisnikLozinka(HashUtil.getSecurePassword(lozinka, "SHA-256"));
-                korisnikFacade.create(korisnik);
-            } else {
+                Korisnik korisnik = null;
+                List<Korisnik> korisnici = korisnikFacade.findAll();
 
+                for (Korisnik k : korisnici) {
+                    if (k.getKorisnikEmail().equals(email) || k.getKorisnikBrojTelefona().equals(brojTelefona)) {
+                        korisnik = k;
+                    }
+                }
+
+                if (korisnik == null) {
+                    korisnik = new Korisnik();
+                    Rola rola = new Rola(1);
+                    rola.setRolaNaziv("Student");
+                    korisnik.setRolaId(rola);
+                    korisnik.setKorisnikIme(ime);
+                    korisnik.setKorisnikPrezime(prezime);
+                    korisnik.setKorisnikEmail(email);
+                    korisnik.setKorisnikBrojTelefona(brojTelefona);
+                    korisnik.setKorisnikMesto(mesto);
+                    korisnik.setKorisnikAdresa(adresa);
+                    korisnik.setKorisnikAvatar("resources/img/ostale/default_avatar.png");
+                    korisnik.setKorisnikTitula("Dodajte titulu");
+                    korisnik.setKorisnikOpis("Dodajte opis");
+                    korisnik.setKorisnikDatumRegistracije(new Date());
+                    korisnik.setKorisnikLozinka(HashUtil.getSHA(lozinka));
+                    korisnik.setKorisnikIsBlocked(Short.MIN_VALUE);
+                    korisnikFacade.create(korisnik);
+                    putanja = "/prijava";
+                } else {
+                    request.setAttribute("poruka", "Nalog sa ovim mejlom ili brojem telefona vec postoji.");
+                }
+            } else {
+                request.setAttribute("poruka", "Podaci koje ste uneli nisu u validnom formatu.");
             }
         } else if (putanja.equals("/kupovina")) {
 
         } else if (putanja.equals("/kontakt")) {
+            /* dodavanje stilova i skripti */
+
+            stilovi.add("contact");
+            stilovi.add("contact_responsive");
+
+            skripte.add("contact");
+
             request.setAttribute("poruka", true);
         }
+
+        request.setAttribute("stilovi", stilovi);
+        request.setAttribute("skripte", skripte);
 
         String url = "/WEB-INF/view" + putanja + ".jsp";
 
@@ -448,73 +519,6 @@ public class ControllerServlet extends HttpServlet {
         } catch (IOException | ServletException ex) {
             System.out.println(ex.toString());
         }
-    }
-
-    public static String getShortenText(String text, int numOfWords) {
-        String[] reci = text.split(" ");
-        if (reci.length < numOfWords) {
-            return text;
-        }
-        StringBuilder noviText = new StringBuilder();
-        for (int i = 0; i < numOfWords; i++) {
-            noviText.append(reci[i]).append(" ");
-        }
-        noviText.deleteCharAt(noviText.length() - 1);
-        return noviText.append("...").toString();
-    }
-
-    public String numberToTime(int number) {
-        int hours, minutes, seconds;
-        StringBuilder time = new StringBuilder();
-        hours = number / 3600;
-        minutes = (number % 3600) / 60;
-        seconds = number - (hours * 3600 + minutes * 60);
-        if (hours > 0) {
-            if (hours < 10) {
-                time.append("0").append(hours).append(":");
-            } else {
-                time.append(hours).append(":");
-            }
-        }
-        if (minutes > 0) {
-            if (minutes < 10) {
-                time.append("0").append(minutes).append(":");
-            } else {
-                time.append(minutes).append(":");
-            }
-        }
-        if (seconds > 0) {
-            if (seconds < 10) {
-                time.append("0").append(seconds);
-            } else {
-                time.append(seconds);
-            }
-        }
-        return time.toString();
-    }
-
-    public <T> List<T> paginationHelper(int pageIndex, int itemsPerPage, List<T> list) {
-        int startIndex, endIndex;
-        startIndex = (pageIndex - 1) * itemsPerPage;
-        endIndex = pageIndex * itemsPerPage;
-        if (startIndex >= list.size()) {
-            return null;
-        }
-        if (endIndex >= list.size()) {
-            endIndex = list.size();
-        }
-        return list.subList(startIndex, endIndex);
-    }
-
-    public boolean isContainsTag(String tag, Collection<KursTag> tagovi) {
-        boolean contains = false;
-        for (KursTag kt : tagovi) {
-            Tag t = tagFacade.find(kt.getTagId().getTagId());
-            if (t.getTagIme().equals(tag)) {
-                contains = true;
-            }
-        }
-        return contains;
     }
 
 }

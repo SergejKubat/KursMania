@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class Validation {
 
     private static final String REGEX_IME = "[a-zA-Z0-9]{3,32}";
-    private static final String REGEX_LOZINKA = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+    private static final String REGEX_LOZINKA = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$";
     private static final String REGEX_EMAIL = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
     private static final String REGEX_BROJ_TELEFONA = "[0-9]{3}-[0-9]{3}-[0-9]{3,4}";
 
