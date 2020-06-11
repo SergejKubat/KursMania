@@ -11,6 +11,7 @@
         <meta name="description" content="Elearn project">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="resources/css/bootstrap4/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link href="resources/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
@@ -29,6 +30,19 @@
                 top: 0;
                 left: 100%;
                 margin-top: -1px;
+            }
+
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #ff8a00; 
+            }
+
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #ff6600; 
             }
         </style>
     </head>
@@ -54,8 +68,14 @@
                                         </ul>
                                         <div class="top_bar_login ml-auto">
                                             <ul>
-                                                <li><a href="registracija">Registracija</a></li>
-                                                <li><a href="prijava">Prijava</a></li>
+                                                <c:if test="${korisnik == null}">
+                                                    <li><a href="registracija">Registracija</a></li>
+                                                    <li><a href="prijava">Prijava</a></li>
+                                                    </c:if>
+                                                    <c:if test="${korisnik != null}">
+                                                    <li><a href="nalog"><img src="resources/img/ostale/default_avatar.png" alt="Korisnik" style="width: 32px; height: 32px; border-radius: 100%" />${korisnik.korisnikIme} ${korisnik.korisnikPrezime}</a></li>
+                                                    <li><a href="odjava">Odjava</a></li>
+                                                    </c:if>
                                             </ul>
                                         </div>
                                     </div>

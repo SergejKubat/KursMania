@@ -1,5 +1,6 @@
 package com.kursmania.controllers;
 
+import com.kursmania.jpa.entities.Evidencija;
 import com.kursmania.jpa.entities.Kategorija;
 import com.kursmania.jpa.entities.Komentar;
 import com.kursmania.jpa.entities.Korisnik;
@@ -60,6 +61,7 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String putanja = request.getServletPath();
         HttpSession session = request.getSession();
+        Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
         response.setCharacterEncoding("UTF-8");
         utilities = new Utilities();
 
@@ -312,8 +314,23 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("zvezdice", zvezdice);
             }
         } else if (putanja.equals("/nalog")) {
-            Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
-            request.setAttribute("korisnik", korisnik);
+            /* dodavanje stilova i skripti */
+
+            stilovi.add("contact");
+            stilovi.add("contact_responsive");
+
+            if (korisnik != null) {
+                Collection<Evidencija> evidencija = korisnik.getEvidencijaCollection();
+                Collection<Komentar> komentari = korisnik.getKomentarCollection();
+                List<Kurs> kursevi = new ArrayList<>();
+
+                for (Evidencija e : evidencija) {
+                    kursevi.add(kursFacade.find(e.getKursId().getKursId()));
+                }
+
+                request.setAttribute("kursevi", kursevi);
+                request.setAttribute("komentari", komentari);
+            }
         } else if (putanja.equals("/korpa")) {
 
         } else if (putanja.equals("/kupovina")) {
@@ -390,6 +407,11 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("brojInstruktora", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()).size());
             request.setAttribute("brojJezika", jezikFacade.findAll().size());
             request.setAttribute("instruktori", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()));
+        } else if (putanja.equals("/odjava")) {
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setHeader("Expires", "0");
+            session.invalidate();
+            putanja = "/prijava";
         }
 
         request.setAttribute("kategorije", kategorijaFacade.findAll());
@@ -410,6 +432,7 @@ public class ControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String putanja = request.getServletPath();
         HttpSession session = request.getSession();
+        Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
 
         List<String> stilovi = new ArrayList<>();
         List<String> skripte = new ArrayList<>();
@@ -426,24 +449,22 @@ public class ControllerServlet extends HttpServlet {
             boolean valid = Validation.proveriEmail(email) && Validation.proveriLozinku(lozinka);
 
             if (valid) {
-                Korisnik korisnik = null;
+                Korisnik kor = null;
                 List<Korisnik> korisnici = korisnikFacade.findAll();
 
                 for (Korisnik k : korisnici) {
                     if (k.getKorisnikEmail().equals(email) && k.getKorisnikLozinka().equals(HashUtil.getSHA(lozinka))) {
-                        korisnik = k;
+                        kor = k;
                     }
                 }
-                
-                if (korisnik != null) {
-                    session.setAttribute("korisnik", korisnik);
+
+                if (kor != null) {
+                    session.setAttribute("korisnik", kor);
                     putanja = "/nalog";
-                }
-                else {
+                } else {
                     request.setAttribute("poruka", "Nalog sa ovim kredencijalima ne postoji.");
                 }
-            }
-            else {
+            } else {
                 request.setAttribute("poruka", "Podaci koje ste uneli nisu u validnom formatu.");
             }
 
@@ -462,32 +483,32 @@ public class ControllerServlet extends HttpServlet {
             String lozinka = request.getParameter("lozinka");
             boolean valid = Validation.proveriIme(ime) && Validation.proveriIme(prezime) && Validation.proveriBrojTelefona(brojTelefona) && Validation.proveriEmail(email);
             if (valid) {
-                Korisnik korisnik = null;
+                Korisnik kor = null;
                 List<Korisnik> korisnici = korisnikFacade.findAll();
 
                 for (Korisnik k : korisnici) {
                     if (k.getKorisnikEmail().equals(email) || k.getKorisnikBrojTelefona().equals(brojTelefona)) {
-                        korisnik = k;
+                        kor = k;
                     }
                 }
 
-                if (korisnik == null) {
-                    korisnik = new Korisnik();
+                if (kor == null) {
+                    kor = new Korisnik();
                     Rola rola = new Rola(1);
                     rola.setRolaNaziv("Student");
-                    korisnik.setRolaId(rola);
-                    korisnik.setKorisnikIme(ime);
-                    korisnik.setKorisnikPrezime(prezime);
-                    korisnik.setKorisnikEmail(email);
-                    korisnik.setKorisnikBrojTelefona(brojTelefona);
-                    korisnik.setKorisnikMesto(mesto);
-                    korisnik.setKorisnikAdresa(adresa);
-                    korisnik.setKorisnikAvatar("resources/img/ostale/default_avatar.png");
-                    korisnik.setKorisnikTitula("Dodajte titulu");
-                    korisnik.setKorisnikOpis("Dodajte opis");
-                    korisnik.setKorisnikDatumRegistracije(new Date());
-                    korisnik.setKorisnikLozinka(HashUtil.getSHA(lozinka));
-                    korisnik.setKorisnikIsBlocked(Short.MIN_VALUE);
+                    kor.setRolaId(rola);
+                    kor.setKorisnikIme(ime);
+                    kor.setKorisnikPrezime(prezime);
+                    kor.setKorisnikEmail(email);
+                    kor.setKorisnikBrojTelefona(brojTelefona);
+                    kor.setKorisnikMesto(mesto);
+                    kor.setKorisnikAdresa(adresa);
+                    kor.setKorisnikAvatar("resources/img/ostale/default_avatar.png");
+                    kor.setKorisnikTitula("Dodajte titulu");
+                    kor.setKorisnikOpis("Dodajte opis");
+                    kor.setKorisnikDatumRegistracije(new Date());
+                    kor.setKorisnikLozinka(HashUtil.getSHA(lozinka));
+                    kor.setKorisnikIsBlocked(Short.MIN_VALUE);
                     korisnikFacade.create(korisnik);
                     putanja = "/prijava";
                 } else {
@@ -507,6 +528,8 @@ public class ControllerServlet extends HttpServlet {
             skripte.add("contact");
 
             request.setAttribute("poruka", true);
+        } else if (putanja.equals("/azuriranjeSlike")) {
+            
         }
 
         request.setAttribute("stilovi", stilovi);
