@@ -18,11 +18,13 @@ import com.kursmania.sessions.TagFacade;
 import com.kursmania.utils.HashUtil;
 import com.kursmania.utils.Utilities;
 import com.kursmania.utils.Validation;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -32,6 +34,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class ControllerServlet extends HttpServlet {
 
@@ -54,7 +59,7 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-
+        getServletContext().setAttribute("kategorije", kategorijaFacade.findAll());
     }
 
     @Override
@@ -117,6 +122,8 @@ public class ControllerServlet extends HttpServlet {
             stilovi.add("shop-item");
             stilovi.add("courses");
             stilovi.add("courses_responsive");
+            stilovi.add("contact");
+            stilovi.add("contact_responsive");
 
             skripte.add("video-player");
 
@@ -322,6 +329,7 @@ public class ControllerServlet extends HttpServlet {
             if (korisnik != null) {
                 Collection<Evidencija> evidencija = korisnik.getEvidencijaCollection();
                 Collection<Komentar> komentari = korisnik.getKomentarCollection();
+                Collection<Ocena> ocene = korisnik.getOcenaCollection();
                 List<Kurs> kursevi = new ArrayList<>();
 
                 for (Evidencija e : evidencija) {
@@ -330,6 +338,7 @@ public class ControllerServlet extends HttpServlet {
 
                 request.setAttribute("kursevi", kursevi);
                 request.setAttribute("komentari", komentari);
+                request.setAttribute("ocene", ocene);
             }
         } else if (putanja.equals("/korpa")) {
 
@@ -414,7 +423,7 @@ public class ControllerServlet extends HttpServlet {
             putanja = "/prijava";
         }
 
-        request.setAttribute("kategorije", kategorijaFacade.findAll());
+        //request.setAttribute("kategorije", kategorijaFacade.findAll());
         request.setAttribute("stilovi", stilovi);
         request.setAttribute("skripte", skripte);
         request.setAttribute("navigationSelector", navigationSelector);
@@ -529,7 +538,56 @@ public class ControllerServlet extends HttpServlet {
 
             request.setAttribute("poruka", true);
         } else if (putanja.equals("/azuriranjeSlike")) {
-            
+            File file;
+            int maxFileSize = 5000 * 1024;
+            int maxMemSize = 5000 * 1024;
+
+            String filePath = "resources/img/ostale";
+
+            String contentType = request.getContentType();
+
+            if ((contentType.contains("multipart/form-data"))) {
+                DiskFileItemFactory factory = new DiskFileItemFactory();
+                factory.setSizeThreshold(maxMemSize);
+
+                factory.setRepository(new File("C:\\Users\\Andrej Kubat\\Documents\\NetBeansProjects\\KursMania\\web"));
+
+                ServletFileUpload upload = new ServletFileUpload(factory);
+
+                upload.setSizeMax(maxFileSize);
+
+                try {
+
+                    List fileItems = upload.parseRequest(request);
+
+                    Iterator i = fileItems.iterator();
+
+                    while (i.hasNext()) {
+                        FileItem fi = (FileItem) i.next();
+                        if (!fi.isFormField()) {
+
+                            String fieldName = fi.getFieldName();
+                            String fileName = fi.getName();
+                            boolean isInMemory = fi.isInMemory();
+                            long sizeInBytes = fi.getSize();
+
+                            if (fileName.lastIndexOf("\\") >= 0) {
+                                file = new File(filePath
+                                        + fileName.substring(fileName.lastIndexOf("\\")));
+                            } else {
+                                file = new File(filePath
+                                        + fileName.substring(fileName.lastIndexOf("\\") + 1));
+                            }
+                            fi.write(file);
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            } else {
+                System.out.println("Greska!");
+            }
         }
 
         request.setAttribute("stilovi", stilovi);

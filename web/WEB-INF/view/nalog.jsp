@@ -46,7 +46,7 @@
                     </div>
                     <div class="text-center">
                         <br>
-                        <label for="avatar" style="font-size: 20px"><i class="fa fa-picture-o"></i> Promeni sliku</label>
+                        <label for="avatar" style="font-size: 20px"><i class="fa fa-picture-o"></i> Izaberi sliku</label>
                         <br>
                         <form action="azuriranjeSlike" method="POST" enctype="multipart/form-data">
                             <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" value="Promeni sliku">
@@ -59,42 +59,6 @@
                         <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>${korisnik.korisnikEmail}</p>
                         <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>${korisnik.korisnikBrojTelefona}</p>
                         <hr>
-
-                        <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Skills</b></p>
-                        <p>Adobe Photoshop</p>
-                        <div class="w3-light-grey w3-round-xlarge w3-small">
-                            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:90%">90%</div>
-                        </div>
-                        <p>Photography</p>
-                        <div class="w3-light-grey w3-round-xlarge w3-small">
-                            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:80%">
-                                <div class="w3-center w3-text-white">80%</div>
-                            </div>
-                        </div>
-                        <p>Illustrator</p>
-                        <div class="w3-light-grey w3-round-xlarge w3-small">
-                            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:75%">75%</div>
-                        </div>
-                        <p>Media</p>
-                        <div class="w3-light-grey w3-round-xlarge w3-small">
-                            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:50%">50%</div>
-                        </div>
-                        <br>
-
-                        <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Languages</b></p>
-                        <p>English</p>
-                        <div class="w3-light-grey w3-round-xlarge">
-                            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
-                        </div>
-                        <p>Spanish</p>
-                        <div class="w3-light-grey w3-round-xlarge">
-                            <div class="w3-round-xlarge w3-teal" style="height:24px;width:55%"></div>
-                        </div>
-                        <p>German</p>
-                        <div class="w3-light-grey w3-round-xlarge">
-                            <div class="w3-round-xlarge w3-teal" style="height:24px;width:25%"></div>
-                        </div>
-                        <br>
                     </div>
                 </div><br>
 
@@ -115,7 +79,7 @@
                     <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Kursevi</h2>
                     <c:forEach var="kurs" items="${kursevi}">
                         <div class="w3-container">
-                            <h5 class="w3-opacity"><b>${kurs.kursIme}</b></h5>
+                            <h5 class="w3-opacity"><b><a href="kurs?id=${kurs.kursId}">${kurs.kursIme}</a></b></h5>
                             <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>${kurs.kursDatumObjavljivanja}</h6>
                             <p>${kurs.kursOpis}</p>
                             <hr>
@@ -126,11 +90,46 @@
                 <div class="w3-container w3-card w3-white">
                     <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-comments fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Komentari</h2>
                     <c:forEach var="komentar" items="${komentari}">
-                        <div class="w3-container">
-                            <h5 class="w3-opacity"><b>${komentar.komentarDatum} ${komentar.komentarVreme}</b></h5>
-                            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
-                            <p>${komentar.komentarSadrzaj}</p>
-                            <hr>
+                        <div id="komentar-${komentar.komentarId}" class="row">
+                            <div class="col-9">
+                                <div class="w3-container">
+                                    <h5 class="w3-opacity"><b><a href="kurs?id=${komentar.kursId.kursId}">${komentar.kursId.kursIme}</a></b></h5>
+                                    <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>${komentar.komentarDatum} ${komentar.komentarVreme}</h6>
+                                    <p>${komentar.komentarSadrzaj}</p>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="col-3" style="text-align: center">
+                                <button id="btnKomentar-${komentar.komentarId}" class="btn btn-danger p-1" style="margin-top: 30px"><i class="fa fa-trash-o"></i> Obrisi komentar</button>
+                            </div>
+                        </div>
+                    </c:forEach> 
+                </div>
+
+                <div class="w3-container w3-card w3-white">
+                    <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-star fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Ocene</h2>
+                    <c:forEach var="ocena" items="${ocene}">
+                        <div id="ocena-${ocena.ocenaId}" class="row">
+                            <div class="col-9">
+                                <div class="w3-container">
+                                    <h5 class="w3-opacity">
+                                        <a href="kurs?id=${ocena.kursId.kursId}">${ocena.kursId.kursIme}</a> -
+                                        <c:forEach var = "i" begin = "0" end = "5">
+                                            <c:if test="${ocena.ocenaVrednost > i}">
+                                                <span class="fa fa-star" style="color: #ff8a00"></span>
+                                            </c:if>
+                                            <c:if test="${ocena.ocenaVrednost < i}">
+                                                <span class="fa fa-star"></span>
+                                            </c:if>
+                                        </c:forEach>
+                                        ${ocena.ocenaVrednost}
+                                    </h5>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <button id="btnOcena-${ocena.ocenaId}" class="btn btn-danger p-1" style="margin-top: 10px"><i class="fa fa-trash-o"></i> Obrisi ocenu</button>
+                            </div>
                         </div>
                     </c:forEach> 
                 </div>
@@ -141,3 +140,37 @@
 
     </div>
 </div>
+
+<script>
+    <c:forEach var="komentar" items="${komentari}">
+    var btnKomentar${komentar.komentarId} = document.querySelector('#btnKomentar-${komentar.komentarId}');
+    btnKomentar${komentar.komentarId}.addEventListener('click', function (e) {
+        id = e.target.id.split('-')[1];
+        var komentar = document.querySelector('#komentar-' + id);
+        komentar.remove();
+        brisanje('komentar', id);
+    });
+    </c:forEach>
+    <c:forEach var="ocena" items="${ocene}">
+    var btnOcena${ocena.ocenaId} = document.querySelector('#btnOcena-${ocena.ocenaId}');
+    btnOcena${ocena.ocenaId}.addEventListener('click', function (e) {
+        id = e.target.id.split('-')[1];
+        var ocena = document.querySelector('#ocena-' + id);
+        ocena.remove();
+        brisanje('ocena', id);
+    });
+    </c:forEach>
+        
+    function posaljiZahtev(tip, id) {
+        var xhr = new XMLHttpRequest();
+        var url;
+        if (tip === 'komentar') {
+            url = 'obrisiKomentar?id=' + id;
+        }
+        if (tip === 'ocena') {
+            url = 'obrisiOcenu?id=' + id;
+        }
+        xhr.open('DELETE', url);
+        xhr.send();
+    }
+</script>

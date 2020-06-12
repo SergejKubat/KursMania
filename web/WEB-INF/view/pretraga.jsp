@@ -63,7 +63,7 @@
                 <div class="sidebar">
                     <div class="sidebar_search">
                         <form action="pretraga" method="GET" id="sidebar_search_form" class="sidebar_search_form">
-                            <input type="text" name="q" class="sidebar_search_input" placeholder="Search" required="required">
+                            <input type="text" name="q" class="sidebar_search_input" placeholder="Pretraga" required="required">
                             <button class="sidebar_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </form>
                     </div>

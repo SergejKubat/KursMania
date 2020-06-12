@@ -1,7 +1,7 @@
-var ime = document.querySelector("#ime");
-var dataList = document.querySelector("#preporuke");
+var ime = document.querySelector('#ime');
+var dataList = document.querySelector('#preporuke');
 
-ime.addEventListener("keyup", getPreporuke);
+ime.addEventListener('keyup', getPreporuke);
 
 function getPreporuke() {
     dataList.innerHTML = '';

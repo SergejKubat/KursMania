@@ -361,6 +361,25 @@
                 </div>
             </div>
 
+            <c:if test="${korisnik != null}">
+                <div>
+                    <div class="contact_form_container" style="width: 80%;">
+                        <c:if test="${poruka != null}">
+                            <div class="row mb-4">
+                                <div class="col-lg-8 mx-auto text-center">
+                                    <h1 class="display-5">${poruka}</h1>
+                                </div>
+                            </div> 
+                        </c:if>
+                        <form action="prijava" method="POST" id="registracija" class="contact_form">
+                            <div><input type="email" name="email" class="contact_input" placeholder="Email" required="required"></div>
+                            <div><input type="password" name="lozinka" class="contact_input" placeholder="Lozinka" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}"></div>
+                            <button class="contact_button"><span>Prijava</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                        </form>
+                    </div>
+                </div>
+            </c:if>
+
         </div>
 
     </div>
@@ -400,11 +419,11 @@
 <c:if test="${korisnik != null}">
     <script>
         var btn = document.getElementById("myBtn");
-        
+
         var adresa = window.location.href;
         var reci = adresa.split('/');
         var putanja = '';
-        
+
         for (i = 0; i < reci.length - 1; i++) {
             putanja += reci[i];
         }

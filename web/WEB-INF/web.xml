@@ -11,6 +11,7 @@
     <servlet>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>com.kursmania.controllers.ControllerServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>  
     </servlet>
     <servlet>
         <servlet-name>AJAXControllerServlet</servlet-name>
@@ -79,6 +80,14 @@
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/preporuke</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AJAXControllerServlet</servlet-name>
+        <url-pattern>/obrisiKomentar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AJAXControllerServlet</servlet-name>
+        <url-pattern>/obrisiOcenu</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

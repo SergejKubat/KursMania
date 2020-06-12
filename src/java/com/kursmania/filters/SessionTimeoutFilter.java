@@ -7,12 +7,10 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
-@WebFilter(servletNames = {"ControllerServlet"})
 public class SessionTimeoutFilter implements Filter {
 
     @Override
@@ -27,8 +25,7 @@ public class SessionTimeoutFilter implements Filter {
         if (session == null) {
             try {
                 req.getRequestDispatcher("/index.jsp").forward(request, response);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (IOException | ServletException ex) {
             }
             return;
         }
