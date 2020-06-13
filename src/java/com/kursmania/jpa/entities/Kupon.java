@@ -121,7 +121,7 @@ public class Kupon implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Kupon[ kuponId=" + kuponId + " ]";
+        return "com.kursmania.jpa.entities.Kupon[ kuponId=" + kuponId + " ]";
     }
     
 }

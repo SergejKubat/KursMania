@@ -40,13 +40,13 @@ public class RolaJpaController implements Serializable {
 
     public void create(Rola rola) throws RollbackFailureException, Exception {
         if (rola.getKorisnikCollection() == null) {
-            rola.setKorisnikCollection(new ArrayList<>());
+            rola.setKorisnikCollection(new ArrayList<Korisnik>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Collection<Korisnik> attachedKorisnikCollection = new ArrayList<>();
+            Collection<Korisnik> attachedKorisnikCollection = new ArrayList<Korisnik>();
             for (Korisnik korisnikCollectionKorisnikToAttach : rola.getKorisnikCollection()) {
                 korisnikCollectionKorisnikToAttach = em.getReference(korisnikCollectionKorisnikToAttach.getClass(), korisnikCollectionKorisnikToAttach.getKorisnikId());
                 attachedKorisnikCollection.add(korisnikCollectionKorisnikToAttach);

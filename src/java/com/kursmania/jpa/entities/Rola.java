@@ -100,7 +100,7 @@ public class Rola implements Serializable {
 
     @Override
     public String toString() {
-        return "rolaId: " + rolaId + ", rolaNaziv:" + rolaNaziv;
+        return "com.kursmania.jpa.entities.Rola[ rolaId=" + rolaId + " ]";
     }
     
 }

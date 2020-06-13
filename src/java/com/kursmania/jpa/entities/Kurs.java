@@ -1,8 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.kursmania.jpa.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,12 +20,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author Andrej Kubat
+ */
 @Entity
 @Table(name = "kurs")
 @XmlRootElement
@@ -32,8 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Kurs.findByKursDatumObjavljivanja", query = "SELECT k FROM Kurs k WHERE k.kursDatumObjavljivanja = :kursDatumObjavljivanja")
     , @NamedQuery(name = "Kurs.findByDatumPoslednjePromene", query = "SELECT k FROM Kurs k WHERE k.datumPoslednjePromene = :datumPoslednjePromene")
     , @NamedQuery(name = "Kurs.findByKursCena", query = "SELECT k FROM Kurs k WHERE k.kursCena = :kursCena")
-    , @NamedQuery(name = "Kurs.findByKursPregledi", query = "SELECT k FROM Kurs k WHERE k.kursPregledi = :kursPregledi")})
-public class Kurs implements Serializable, Comparable<Kurs> {
+    , @NamedQuery(name = "Kurs.findByKursPregledi", query = "SELECT k FROM Kurs k WHERE k.kursPregledi = :kursPregledi")
+    , @NamedQuery(name = "Kurs.findByKursJavan", query = "SELECT k FROM Kurs k WHERE k.kursJavan = :kursJavan")})
+public class Kurs implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,12 +59,12 @@ public class Kurs implements Serializable, Comparable<Kurs> {
     @Size(max = 16777215)
     @Column(name = "KURS_ZAHTEVI")
     private String kursZahtevi;
+    @Size(max = 50)
     @Column(name = "KURS_DATUM_OBJAVLJIVANJA")
-    @Temporal(TemporalType.DATE)
-    private Date kursDatumObjavljivanja;
+    private String kursDatumObjavljivanja;
+    @Size(max = 50)
     @Column(name = "DATUM_POSLEDNJE_PROMENE")
-    @Temporal(TemporalType.DATE)
-    private Date datumPoslednjePromene;
+    private String datumPoslednjePromene;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "KURS_CENA")
     private Float kursCena;
@@ -71,10 +78,10 @@ public class Kurs implements Serializable, Comparable<Kurs> {
     private String kursVideo;
     @Column(name = "KURS_PREGLEDI")
     private Integer kursPregledi;
+    @Column(name = "KURS_JAVAN")
+    private Short kursJavan;
     @OneToMany(mappedBy = "kursId")
     private Collection<Komentar> komentarCollection;
-    @OneToMany(mappedBy = "kursId")
-    private Collection<Korpa> korpaCollection;
     @OneToMany(mappedBy = "kursId")
     private Collection<Ocena> ocenaCollection;
     @OneToMany(mappedBy = "kursId")
@@ -134,19 +141,19 @@ public class Kurs implements Serializable, Comparable<Kurs> {
         this.kursZahtevi = kursZahtevi;
     }
 
-    public Date getKursDatumObjavljivanja() {
+    public String getKursDatumObjavljivanja() {
         return kursDatumObjavljivanja;
     }
 
-    public void setKursDatumObjavljivanja(Date kursDatumObjavljivanja) {
+    public void setKursDatumObjavljivanja(String kursDatumObjavljivanja) {
         this.kursDatumObjavljivanja = kursDatumObjavljivanja;
     }
 
-    public Date getDatumPoslednjePromene() {
+    public String getDatumPoslednjePromene() {
         return datumPoslednjePromene;
     }
 
-    public void setDatumPoslednjePromene(Date datumPoslednjePromene) {
+    public void setDatumPoslednjePromene(String datumPoslednjePromene) {
         this.datumPoslednjePromene = datumPoslednjePromene;
     }
 
@@ -182,6 +189,14 @@ public class Kurs implements Serializable, Comparable<Kurs> {
         this.kursPregledi = kursPregledi;
     }
 
+    public Short getKursJavan() {
+        return kursJavan;
+    }
+
+    public void setKursJavan(Short kursJavan) {
+        this.kursJavan = kursJavan;
+    }
+
     @XmlTransient
     public Collection<Komentar> getKomentarCollection() {
         return komentarCollection;
@@ -189,15 +204,6 @@ public class Kurs implements Serializable, Comparable<Kurs> {
 
     public void setKomentarCollection(Collection<Komentar> komentarCollection) {
         this.komentarCollection = komentarCollection;
-    }
-
-    @XmlTransient
-    public Collection<Korpa> getKorpaCollection() {
-        return korpaCollection;
-    }
-
-    public void setKorpaCollection(Collection<Korpa> korpaCollection) {
-        this.korpaCollection = korpaCollection;
     }
 
     @XmlTransient
@@ -278,6 +284,7 @@ public class Kurs implements Serializable, Comparable<Kurs> {
 
     @Override
     public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Kurs)) {
             return false;
         }
@@ -287,15 +294,10 @@ public class Kurs implements Serializable, Comparable<Kurs> {
         }
         return true;
     }
-    
-    @Override
-    public int compareTo(Kurs k) {
-        return new Integer(this.getEvidencijaCollection().size()).compareTo(k.getEvidencijaCollection().size());
-    }
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Kurs[ kursId=" + kursId + " ]";
+        return "com.kursmania.jpa.entities.Kurs[ kursId=" + kursId + " ]";
     }
     
 }

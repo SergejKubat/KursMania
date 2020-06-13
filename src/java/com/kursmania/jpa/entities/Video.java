@@ -6,6 +6,7 @@
 package com.kursmania.jpa.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +18,11 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -50,6 +53,8 @@ public class Video implements Serializable {
     private String videoAdresa;
     @Column(name = "VIDEO_DUZINA_TRAJANJA")
     private Integer videoDuzinaTrajanja;
+    @OneToMany(mappedBy = "videoId")
+    private Collection<Lekcija> lekcijaCollection;
     @JoinColumn(name = "LEKCIJA_ID", referencedColumnName = "LEKCIJA_ID")
     @ManyToOne
     private Lekcija lekcijaId;
@@ -93,6 +98,15 @@ public class Video implements Serializable {
         this.videoDuzinaTrajanja = videoDuzinaTrajanja;
     }
 
+    @XmlTransient
+    public Collection<Lekcija> getLekcijaCollection() {
+        return lekcijaCollection;
+    }
+
+    public void setLekcijaCollection(Collection<Lekcija> lekcijaCollection) {
+        this.lekcijaCollection = lekcijaCollection;
+    }
+
     public Lekcija getLekcijaId() {
         return lekcijaId;
     }
@@ -123,7 +137,7 @@ public class Video implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Video[ videoId=" + videoId + " ]";
+        return "com.kursmania.jpa.entities.Video[ videoId=" + videoId + " ]";
     }
     
 }

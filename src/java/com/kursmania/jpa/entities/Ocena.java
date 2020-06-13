@@ -108,7 +108,7 @@ public class Ocena implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Ocena[ ocenaId=" + ocenaId + " ]";
+        return "com.kursmania.jpa.entities.Ocena[ ocenaId=" + ocenaId + " ]";
     }
     
 }

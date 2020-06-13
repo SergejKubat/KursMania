@@ -6,7 +6,6 @@
 package com.kursmania.jpa.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evidencija.findAll", query = "SELECT e FROM Evidencija e")
-    , @NamedQuery(name = "Evidencija.findByEvidencijaId", query = "SELECT e FROM Evidencija e WHERE e.evidencijaId = :evidencijaId")
+    , @NamedQuery(name = "Evidencija.findByEvidancijaId", query = "SELECT e FROM Evidencija e WHERE e.evidancijaId = :evidancijaId")
     , @NamedQuery(name = "Evidencija.findByEvidencijaDatum", query = "SELECT e FROM Evidencija e WHERE e.evidencijaDatum = :evidencijaDatum")})
 public class Evidencija implements Serializable {
 
@@ -39,14 +37,11 @@ public class Evidencija implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "EVIDENCIJA_ID")
-    private Integer evidencijaId;
+    @Column(name = "EVIDANCIJA_ID")
+    private Integer evidancijaId;
+    @Size(max = 50)
     @Column(name = "EVIDENCIJA_DATUM")
-    @Temporal(TemporalType.DATE)
-    private Date evidencijaDatum;
-    @JoinColumn(name = "KARTICA_ID", referencedColumnName = "KARTICA_ID")
-    @ManyToOne
-    private Kartica karticaId;
+    private String evidencijaDatum;
     @JoinColumn(name = "KORISNIK_ID", referencedColumnName = "KORISNIK_ID")
     @ManyToOne
     private Korisnik korisnikId;
@@ -57,32 +52,24 @@ public class Evidencija implements Serializable {
     public Evidencija() {
     }
 
-    public Evidencija(Integer evidencijaId) {
-        this.evidencijaId = evidencijaId;
+    public Evidencija(Integer evidancijaId) {
+        this.evidancijaId = evidancijaId;
     }
 
-    public Integer getEvidencijaId() {
-        return evidencijaId;
+    public Integer getEvidancijaId() {
+        return evidancijaId;
     }
 
-    public void setEvidencijaId(Integer evidencijaId) {
-        this.evidencijaId = evidencijaId;
+    public void setEvidancijaId(Integer evidancijaId) {
+        this.evidancijaId = evidancijaId;
     }
 
-    public Date getEvidencijaDatum() {
+    public String getEvidencijaDatum() {
         return evidencijaDatum;
     }
 
-    public void setEvidencijaDatum(Date evidencijaDatum) {
+    public void setEvidencijaDatum(String evidencijaDatum) {
         this.evidencijaDatum = evidencijaDatum;
-    }
-
-    public Kartica getKarticaId() {
-        return karticaId;
-    }
-
-    public void setKarticaId(Kartica karticaId) {
-        this.karticaId = karticaId;
     }
 
     public Korisnik getKorisnikId() {
@@ -104,7 +91,7 @@ public class Evidencija implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (evidencijaId != null ? evidencijaId.hashCode() : 0);
+        hash += (evidancijaId != null ? evidancijaId.hashCode() : 0);
         return hash;
     }
 
@@ -115,7 +102,7 @@ public class Evidencija implements Serializable {
             return false;
         }
         Evidencija other = (Evidencija) object;
-        if ((this.evidencijaId == null && other.evidencijaId != null) || (this.evidencijaId != null && !this.evidencijaId.equals(other.evidencijaId))) {
+        if ((this.evidancijaId == null && other.evidancijaId != null) || (this.evidancijaId != null && !this.evidancijaId.equals(other.evidancijaId))) {
             return false;
         }
         return true;
@@ -123,7 +110,7 @@ public class Evidencija implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Evidencija[ evidencijaId=" + evidencijaId + " ]";
+        return "com.kursmania.jpa.entities.Evidencija[ evidancijaId=" + evidancijaId + " ]";
     }
     
 }

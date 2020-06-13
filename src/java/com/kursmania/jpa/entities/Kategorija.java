@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.kursmania.jpa.entities;
 
 import java.io.Serializable;
@@ -8,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -18,6 +21,10 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author Andrej Kubat
+ */
 @Entity
 @Table(name = "kategorija")
 @XmlRootElement
@@ -36,11 +43,6 @@ public class Kategorija implements Serializable {
     @Size(max = 100)
     @Column(name = "KATEGORIJA_NAZIV")
     private String kategorijaNaziv;
-    @OneToMany(mappedBy = "nadKategorijaId")
-    private Collection<Kategorija> kategorijaCollection;
-    @JoinColumn(name = "NAD_KATEGORIJA_ID", referencedColumnName = "KATEGORIJA_ID")
-    @ManyToOne
-    private Kategorija nadKategorijaId;
     @OneToMany(mappedBy = "kategorijaId")
     private Collection<Kurs> kursCollection;
 
@@ -65,23 +67,6 @@ public class Kategorija implements Serializable {
 
     public void setKategorijaNaziv(String kategorijaNaziv) {
         this.kategorijaNaziv = kategorijaNaziv;
-    }
-
-    @XmlTransient
-    public Collection<Kategorija> getKategorijaCollection() {
-        return kategorijaCollection;
-    }
-
-    public void setKategorijaCollection(Collection<Kategorija> kategorijaCollection) {
-        this.kategorijaCollection = kategorijaCollection;
-    }
-
-    public Kategorija getNadKategorijaId() {
-        return nadKategorijaId;
-    }
-
-    public void setNadKategorijaId(Kategorija nadKategorijaId) {
-        this.nadKategorijaId = nadKategorijaId;
     }
 
     @XmlTransient
@@ -115,7 +100,7 @@ public class Kategorija implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Kategorija[ kategorijaId=" + kategorijaId + " ]";
+        return "com.kursmania.jpa.entities.Kategorija[ kategorijaId=" + kategorijaId + " ]";
     }
     
 }

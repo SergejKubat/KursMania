@@ -15,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.kursmania.jpa.entities.Korisnik;
 import com.kursmania.jpa.entities.Kurs;
-import com.kursmania.jpa.entities.Lekcija;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -53,11 +52,6 @@ public class KomentarJpaController implements Serializable {
                 kursId = em.getReference(kursId.getClass(), kursId.getKursId());
                 komentar.setKursId(kursId);
             }
-            Lekcija lekcijaId = komentar.getLekcijaId();
-            if (lekcijaId != null) {
-                lekcijaId = em.getReference(lekcijaId.getClass(), lekcijaId.getLekcijaId());
-                komentar.setLekcijaId(lekcijaId);
-            }
             em.persist(komentar);
             if (korisnikId != null) {
                 korisnikId.getKomentarCollection().add(komentar);
@@ -66,10 +60,6 @@ public class KomentarJpaController implements Serializable {
             if (kursId != null) {
                 kursId.getKomentarCollection().add(komentar);
                 kursId = em.merge(kursId);
-            }
-            if (lekcijaId != null) {
-                lekcijaId.getKomentarCollection().add(komentar);
-                lekcijaId = em.merge(lekcijaId);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -96,8 +86,6 @@ public class KomentarJpaController implements Serializable {
             Korisnik korisnikIdNew = komentar.getKorisnikId();
             Kurs kursIdOld = persistentKomentar.getKursId();
             Kurs kursIdNew = komentar.getKursId();
-            Lekcija lekcijaIdOld = persistentKomentar.getLekcijaId();
-            Lekcija lekcijaIdNew = komentar.getLekcijaId();
             if (korisnikIdNew != null) {
                 korisnikIdNew = em.getReference(korisnikIdNew.getClass(), korisnikIdNew.getKorisnikId());
                 komentar.setKorisnikId(korisnikIdNew);
@@ -105,10 +93,6 @@ public class KomentarJpaController implements Serializable {
             if (kursIdNew != null) {
                 kursIdNew = em.getReference(kursIdNew.getClass(), kursIdNew.getKursId());
                 komentar.setKursId(kursIdNew);
-            }
-            if (lekcijaIdNew != null) {
-                lekcijaIdNew = em.getReference(lekcijaIdNew.getClass(), lekcijaIdNew.getLekcijaId());
-                komentar.setLekcijaId(lekcijaIdNew);
             }
             komentar = em.merge(komentar);
             if (korisnikIdOld != null && !korisnikIdOld.equals(korisnikIdNew)) {
@@ -126,14 +110,6 @@ public class KomentarJpaController implements Serializable {
             if (kursIdNew != null && !kursIdNew.equals(kursIdOld)) {
                 kursIdNew.getKomentarCollection().add(komentar);
                 kursIdNew = em.merge(kursIdNew);
-            }
-            if (lekcijaIdOld != null && !lekcijaIdOld.equals(lekcijaIdNew)) {
-                lekcijaIdOld.getKomentarCollection().remove(komentar);
-                lekcijaIdOld = em.merge(lekcijaIdOld);
-            }
-            if (lekcijaIdNew != null && !lekcijaIdNew.equals(lekcijaIdOld)) {
-                lekcijaIdNew.getKomentarCollection().add(komentar);
-                lekcijaIdNew = em.merge(lekcijaIdNew);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -178,11 +154,6 @@ public class KomentarJpaController implements Serializable {
             if (kursId != null) {
                 kursId.getKomentarCollection().remove(komentar);
                 kursId = em.merge(kursId);
-            }
-            Lekcija lekcijaId = komentar.getLekcijaId();
-            if (lekcijaId != null) {
-                lekcijaId.getKomentarCollection().remove(komentar);
-                lekcijaId = em.merge(lekcijaId);
             }
             em.remove(komentar);
             utx.commit();

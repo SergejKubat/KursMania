@@ -6,7 +6,6 @@
 package com.kursmania.jpa.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,8 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -48,9 +45,9 @@ public class Komentar implements Serializable {
     @Size(max = 16777215)
     @Column(name = "KOMENTAR_SADRZAJ")
     private String komentarSadrzaj;
+    @Size(max = 50)
     @Column(name = "KOMENTAR_DATUM")
-    @Temporal(TemporalType.DATE)
-    private Date komentarDatum;
+    private String komentarDatum;
     @Size(max = 50)
     @Column(name = "KOMENTAR_VREME")
     private String komentarVreme;
@@ -60,9 +57,6 @@ public class Komentar implements Serializable {
     @JoinColumn(name = "KURS_ID", referencedColumnName = "KURS_ID")
     @ManyToOne
     private Kurs kursId;
-    @JoinColumn(name = "LEKCIJA_ID", referencedColumnName = "LEKCIJA_ID")
-    @ManyToOne
-    private Lekcija lekcijaId;
 
     public Komentar() {
     }
@@ -87,11 +81,11 @@ public class Komentar implements Serializable {
         this.komentarSadrzaj = komentarSadrzaj;
     }
 
-    public Date getKomentarDatum() {
+    public String getKomentarDatum() {
         return komentarDatum;
     }
 
-    public void setKomentarDatum(Date komentarDatum) {
+    public void setKomentarDatum(String komentarDatum) {
         this.komentarDatum = komentarDatum;
     }
 
@@ -119,14 +113,6 @@ public class Komentar implements Serializable {
         this.kursId = kursId;
     }
 
-    public Lekcija getLekcijaId() {
-        return lekcijaId;
-    }
-
-    public void setLekcijaId(Lekcija lekcijaId) {
-        this.lekcijaId = lekcijaId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -149,7 +135,7 @@ public class Komentar implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Komentar[ komentarId=" + komentarId + " ]";
+        return "com.kursmania.jpa.entities.Komentar[ komentarId=" + komentarId + " ]";
     }
     
 }

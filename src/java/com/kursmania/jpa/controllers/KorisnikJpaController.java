@@ -16,9 +16,7 @@ import com.kursmania.jpa.entities.Rola;
 import com.kursmania.jpa.entities.Komentar;
 import java.util.ArrayList;
 import java.util.Collection;
-import com.kursmania.jpa.entities.Korpa;
 import com.kursmania.jpa.entities.Ocena;
-import com.kursmania.jpa.entities.Kartica;
 import com.kursmania.jpa.entities.Evidencija;
 import com.kursmania.jpa.entities.Korisnik;
 import com.kursmania.jpa.entities.Kurs;
@@ -48,14 +46,8 @@ public class KorisnikJpaController implements Serializable {
         if (korisnik.getKomentarCollection() == null) {
             korisnik.setKomentarCollection(new ArrayList<Komentar>());
         }
-        if (korisnik.getKorpaCollection() == null) {
-            korisnik.setKorpaCollection(new ArrayList<Korpa>());
-        }
         if (korisnik.getOcenaCollection() == null) {
             korisnik.setOcenaCollection(new ArrayList<Ocena>());
-        }
-        if (korisnik.getKarticaCollection() == null) {
-            korisnik.setKarticaCollection(new ArrayList<Kartica>());
         }
         if (korisnik.getEvidencijaCollection() == null) {
             korisnik.setEvidencijaCollection(new ArrayList<Evidencija>());
@@ -78,27 +70,15 @@ public class KorisnikJpaController implements Serializable {
                 attachedKomentarCollection.add(komentarCollectionKomentarToAttach);
             }
             korisnik.setKomentarCollection(attachedKomentarCollection);
-            Collection<Korpa> attachedKorpaCollection = new ArrayList<Korpa>();
-            for (Korpa korpaCollectionKorpaToAttach : korisnik.getKorpaCollection()) {
-                korpaCollectionKorpaToAttach = em.getReference(korpaCollectionKorpaToAttach.getClass(), korpaCollectionKorpaToAttach.getKorpaId());
-                attachedKorpaCollection.add(korpaCollectionKorpaToAttach);
-            }
-            korisnik.setKorpaCollection(attachedKorpaCollection);
             Collection<Ocena> attachedOcenaCollection = new ArrayList<Ocena>();
             for (Ocena ocenaCollectionOcenaToAttach : korisnik.getOcenaCollection()) {
                 ocenaCollectionOcenaToAttach = em.getReference(ocenaCollectionOcenaToAttach.getClass(), ocenaCollectionOcenaToAttach.getOcenaId());
                 attachedOcenaCollection.add(ocenaCollectionOcenaToAttach);
             }
             korisnik.setOcenaCollection(attachedOcenaCollection);
-            Collection<Kartica> attachedKarticaCollection = new ArrayList<Kartica>();
-            for (Kartica karticaCollectionKarticaToAttach : korisnik.getKarticaCollection()) {
-                karticaCollectionKarticaToAttach = em.getReference(karticaCollectionKarticaToAttach.getClass(), karticaCollectionKarticaToAttach.getKarticaId());
-                attachedKarticaCollection.add(karticaCollectionKarticaToAttach);
-            }
-            korisnik.setKarticaCollection(attachedKarticaCollection);
             Collection<Evidencija> attachedEvidencijaCollection = new ArrayList<Evidencija>();
             for (Evidencija evidencijaCollectionEvidencijaToAttach : korisnik.getEvidencijaCollection()) {
-                evidencijaCollectionEvidencijaToAttach = em.getReference(evidencijaCollectionEvidencijaToAttach.getClass(), evidencijaCollectionEvidencijaToAttach.getEvidencijaId());
+                evidencijaCollectionEvidencijaToAttach = em.getReference(evidencijaCollectionEvidencijaToAttach.getClass(), evidencijaCollectionEvidencijaToAttach.getEvidancijaId());
                 attachedEvidencijaCollection.add(evidencijaCollectionEvidencijaToAttach);
             }
             korisnik.setEvidencijaCollection(attachedEvidencijaCollection);
@@ -122,15 +102,6 @@ public class KorisnikJpaController implements Serializable {
                     oldKorisnikIdOfKomentarCollectionKomentar = em.merge(oldKorisnikIdOfKomentarCollectionKomentar);
                 }
             }
-            for (Korpa korpaCollectionKorpa : korisnik.getKorpaCollection()) {
-                Korisnik oldKorisnikIdOfKorpaCollectionKorpa = korpaCollectionKorpa.getKorisnikId();
-                korpaCollectionKorpa.setKorisnikId(korisnik);
-                korpaCollectionKorpa = em.merge(korpaCollectionKorpa);
-                if (oldKorisnikIdOfKorpaCollectionKorpa != null) {
-                    oldKorisnikIdOfKorpaCollectionKorpa.getKorpaCollection().remove(korpaCollectionKorpa);
-                    oldKorisnikIdOfKorpaCollectionKorpa = em.merge(oldKorisnikIdOfKorpaCollectionKorpa);
-                }
-            }
             for (Ocena ocenaCollectionOcena : korisnik.getOcenaCollection()) {
                 Korisnik oldKorisnikIdOfOcenaCollectionOcena = ocenaCollectionOcena.getKorisnikId();
                 ocenaCollectionOcena.setKorisnikId(korisnik);
@@ -138,15 +109,6 @@ public class KorisnikJpaController implements Serializable {
                 if (oldKorisnikIdOfOcenaCollectionOcena != null) {
                     oldKorisnikIdOfOcenaCollectionOcena.getOcenaCollection().remove(ocenaCollectionOcena);
                     oldKorisnikIdOfOcenaCollectionOcena = em.merge(oldKorisnikIdOfOcenaCollectionOcena);
-                }
-            }
-            for (Kartica karticaCollectionKartica : korisnik.getKarticaCollection()) {
-                Korisnik oldKorisnikIdOfKarticaCollectionKartica = karticaCollectionKartica.getKorisnikId();
-                karticaCollectionKartica.setKorisnikId(korisnik);
-                karticaCollectionKartica = em.merge(karticaCollectionKartica);
-                if (oldKorisnikIdOfKarticaCollectionKartica != null) {
-                    oldKorisnikIdOfKarticaCollectionKartica.getKarticaCollection().remove(karticaCollectionKartica);
-                    oldKorisnikIdOfKarticaCollectionKartica = em.merge(oldKorisnikIdOfKarticaCollectionKartica);
                 }
             }
             for (Evidencija evidencijaCollectionEvidencija : korisnik.getEvidencijaCollection()) {
@@ -192,12 +154,8 @@ public class KorisnikJpaController implements Serializable {
             Rola rolaIdNew = korisnik.getRolaId();
             Collection<Komentar> komentarCollectionOld = persistentKorisnik.getKomentarCollection();
             Collection<Komentar> komentarCollectionNew = korisnik.getKomentarCollection();
-            Collection<Korpa> korpaCollectionOld = persistentKorisnik.getKorpaCollection();
-            Collection<Korpa> korpaCollectionNew = korisnik.getKorpaCollection();
             Collection<Ocena> ocenaCollectionOld = persistentKorisnik.getOcenaCollection();
             Collection<Ocena> ocenaCollectionNew = korisnik.getOcenaCollection();
-            Collection<Kartica> karticaCollectionOld = persistentKorisnik.getKarticaCollection();
-            Collection<Kartica> karticaCollectionNew = korisnik.getKarticaCollection();
             Collection<Evidencija> evidencijaCollectionOld = persistentKorisnik.getEvidencijaCollection();
             Collection<Evidencija> evidencijaCollectionNew = korisnik.getEvidencijaCollection();
             Collection<Kurs> kursCollectionOld = persistentKorisnik.getKursCollection();
@@ -213,13 +171,6 @@ public class KorisnikJpaController implements Serializable {
             }
             komentarCollectionNew = attachedKomentarCollectionNew;
             korisnik.setKomentarCollection(komentarCollectionNew);
-            Collection<Korpa> attachedKorpaCollectionNew = new ArrayList<Korpa>();
-            for (Korpa korpaCollectionNewKorpaToAttach : korpaCollectionNew) {
-                korpaCollectionNewKorpaToAttach = em.getReference(korpaCollectionNewKorpaToAttach.getClass(), korpaCollectionNewKorpaToAttach.getKorpaId());
-                attachedKorpaCollectionNew.add(korpaCollectionNewKorpaToAttach);
-            }
-            korpaCollectionNew = attachedKorpaCollectionNew;
-            korisnik.setKorpaCollection(korpaCollectionNew);
             Collection<Ocena> attachedOcenaCollectionNew = new ArrayList<Ocena>();
             for (Ocena ocenaCollectionNewOcenaToAttach : ocenaCollectionNew) {
                 ocenaCollectionNewOcenaToAttach = em.getReference(ocenaCollectionNewOcenaToAttach.getClass(), ocenaCollectionNewOcenaToAttach.getOcenaId());
@@ -227,16 +178,9 @@ public class KorisnikJpaController implements Serializable {
             }
             ocenaCollectionNew = attachedOcenaCollectionNew;
             korisnik.setOcenaCollection(ocenaCollectionNew);
-            Collection<Kartica> attachedKarticaCollectionNew = new ArrayList<Kartica>();
-            for (Kartica karticaCollectionNewKarticaToAttach : karticaCollectionNew) {
-                karticaCollectionNewKarticaToAttach = em.getReference(karticaCollectionNewKarticaToAttach.getClass(), karticaCollectionNewKarticaToAttach.getKarticaId());
-                attachedKarticaCollectionNew.add(karticaCollectionNewKarticaToAttach);
-            }
-            karticaCollectionNew = attachedKarticaCollectionNew;
-            korisnik.setKarticaCollection(karticaCollectionNew);
             Collection<Evidencija> attachedEvidencijaCollectionNew = new ArrayList<Evidencija>();
             for (Evidencija evidencijaCollectionNewEvidencijaToAttach : evidencijaCollectionNew) {
-                evidencijaCollectionNewEvidencijaToAttach = em.getReference(evidencijaCollectionNewEvidencijaToAttach.getClass(), evidencijaCollectionNewEvidencijaToAttach.getEvidencijaId());
+                evidencijaCollectionNewEvidencijaToAttach = em.getReference(evidencijaCollectionNewEvidencijaToAttach.getClass(), evidencijaCollectionNewEvidencijaToAttach.getEvidancijaId());
                 attachedEvidencijaCollectionNew.add(evidencijaCollectionNewEvidencijaToAttach);
             }
             evidencijaCollectionNew = attachedEvidencijaCollectionNew;
@@ -274,23 +218,6 @@ public class KorisnikJpaController implements Serializable {
                     }
                 }
             }
-            for (Korpa korpaCollectionOldKorpa : korpaCollectionOld) {
-                if (!korpaCollectionNew.contains(korpaCollectionOldKorpa)) {
-                    korpaCollectionOldKorpa.setKorisnikId(null);
-                    korpaCollectionOldKorpa = em.merge(korpaCollectionOldKorpa);
-                }
-            }
-            for (Korpa korpaCollectionNewKorpa : korpaCollectionNew) {
-                if (!korpaCollectionOld.contains(korpaCollectionNewKorpa)) {
-                    Korisnik oldKorisnikIdOfKorpaCollectionNewKorpa = korpaCollectionNewKorpa.getKorisnikId();
-                    korpaCollectionNewKorpa.setKorisnikId(korisnik);
-                    korpaCollectionNewKorpa = em.merge(korpaCollectionNewKorpa);
-                    if (oldKorisnikIdOfKorpaCollectionNewKorpa != null && !oldKorisnikIdOfKorpaCollectionNewKorpa.equals(korisnik)) {
-                        oldKorisnikIdOfKorpaCollectionNewKorpa.getKorpaCollection().remove(korpaCollectionNewKorpa);
-                        oldKorisnikIdOfKorpaCollectionNewKorpa = em.merge(oldKorisnikIdOfKorpaCollectionNewKorpa);
-                    }
-                }
-            }
             for (Ocena ocenaCollectionOldOcena : ocenaCollectionOld) {
                 if (!ocenaCollectionNew.contains(ocenaCollectionOldOcena)) {
                     ocenaCollectionOldOcena.setKorisnikId(null);
@@ -305,23 +232,6 @@ public class KorisnikJpaController implements Serializable {
                     if (oldKorisnikIdOfOcenaCollectionNewOcena != null && !oldKorisnikIdOfOcenaCollectionNewOcena.equals(korisnik)) {
                         oldKorisnikIdOfOcenaCollectionNewOcena.getOcenaCollection().remove(ocenaCollectionNewOcena);
                         oldKorisnikIdOfOcenaCollectionNewOcena = em.merge(oldKorisnikIdOfOcenaCollectionNewOcena);
-                    }
-                }
-            }
-            for (Kartica karticaCollectionOldKartica : karticaCollectionOld) {
-                if (!karticaCollectionNew.contains(karticaCollectionOldKartica)) {
-                    karticaCollectionOldKartica.setKorisnikId(null);
-                    karticaCollectionOldKartica = em.merge(karticaCollectionOldKartica);
-                }
-            }
-            for (Kartica karticaCollectionNewKartica : karticaCollectionNew) {
-                if (!karticaCollectionOld.contains(karticaCollectionNewKartica)) {
-                    Korisnik oldKorisnikIdOfKarticaCollectionNewKartica = karticaCollectionNewKartica.getKorisnikId();
-                    karticaCollectionNewKartica.setKorisnikId(korisnik);
-                    karticaCollectionNewKartica = em.merge(karticaCollectionNewKartica);
-                    if (oldKorisnikIdOfKarticaCollectionNewKartica != null && !oldKorisnikIdOfKarticaCollectionNewKartica.equals(korisnik)) {
-                        oldKorisnikIdOfKarticaCollectionNewKartica.getKarticaCollection().remove(karticaCollectionNewKartica);
-                        oldKorisnikIdOfKarticaCollectionNewKartica = em.merge(oldKorisnikIdOfKarticaCollectionNewKartica);
                     }
                 }
             }
@@ -403,20 +313,10 @@ public class KorisnikJpaController implements Serializable {
                 komentarCollectionKomentar.setKorisnikId(null);
                 komentarCollectionKomentar = em.merge(komentarCollectionKomentar);
             }
-            Collection<Korpa> korpaCollection = korisnik.getKorpaCollection();
-            for (Korpa korpaCollectionKorpa : korpaCollection) {
-                korpaCollectionKorpa.setKorisnikId(null);
-                korpaCollectionKorpa = em.merge(korpaCollectionKorpa);
-            }
             Collection<Ocena> ocenaCollection = korisnik.getOcenaCollection();
             for (Ocena ocenaCollectionOcena : ocenaCollection) {
                 ocenaCollectionOcena.setKorisnikId(null);
                 ocenaCollectionOcena = em.merge(ocenaCollectionOcena);
-            }
-            Collection<Kartica> karticaCollection = korisnik.getKarticaCollection();
-            for (Kartica karticaCollectionKartica : karticaCollection) {
-                karticaCollectionKartica.setKorisnikId(null);
-                karticaCollectionKartica = em.merge(karticaCollectionKartica);
             }
             Collection<Evidencija> evidencijaCollection = korisnik.getEvidencijaCollection();
             for (Evidencija evidencijaCollectionEvidencija : evidencijaCollection) {

@@ -13,7 +13,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.kursmania.jpa.entities.Kartica;
 import com.kursmania.jpa.entities.Korisnik;
 import com.kursmania.jpa.entities.Kurs;
 import java.util.List;
@@ -43,11 +42,6 @@ public class EvidencijaJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            Kartica karticaId = evidencija.getKarticaId();
-            if (karticaId != null) {
-                karticaId = em.getReference(karticaId.getClass(), karticaId.getKarticaId());
-                evidencija.setKarticaId(karticaId);
-            }
             Korisnik korisnikId = evidencija.getKorisnikId();
             if (korisnikId != null) {
                 korisnikId = em.getReference(korisnikId.getClass(), korisnikId.getKorisnikId());
@@ -59,10 +53,6 @@ public class EvidencijaJpaController implements Serializable {
                 evidencija.setKursId(kursId);
             }
             em.persist(evidencija);
-            if (karticaId != null) {
-                karticaId.getEvidencijaCollection().add(evidencija);
-                karticaId = em.merge(karticaId);
-            }
             if (korisnikId != null) {
                 korisnikId.getEvidencijaCollection().add(evidencija);
                 korisnikId = em.merge(korisnikId);
@@ -91,17 +81,11 @@ public class EvidencijaJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            Evidencija persistentEvidencija = em.find(Evidencija.class, evidencija.getEvidencijaId());
-            Kartica karticaIdOld = persistentEvidencija.getKarticaId();
-            Kartica karticaIdNew = evidencija.getKarticaId();
+            Evidencija persistentEvidencija = em.find(Evidencija.class, evidencija.getEvidancijaId());
             Korisnik korisnikIdOld = persistentEvidencija.getKorisnikId();
             Korisnik korisnikIdNew = evidencija.getKorisnikId();
             Kurs kursIdOld = persistentEvidencija.getKursId();
             Kurs kursIdNew = evidencija.getKursId();
-            if (karticaIdNew != null) {
-                karticaIdNew = em.getReference(karticaIdNew.getClass(), karticaIdNew.getKarticaId());
-                evidencija.setKarticaId(karticaIdNew);
-            }
             if (korisnikIdNew != null) {
                 korisnikIdNew = em.getReference(korisnikIdNew.getClass(), korisnikIdNew.getKorisnikId());
                 evidencija.setKorisnikId(korisnikIdNew);
@@ -111,14 +95,6 @@ public class EvidencijaJpaController implements Serializable {
                 evidencija.setKursId(kursIdNew);
             }
             evidencija = em.merge(evidencija);
-            if (karticaIdOld != null && !karticaIdOld.equals(karticaIdNew)) {
-                karticaIdOld.getEvidencijaCollection().remove(evidencija);
-                karticaIdOld = em.merge(karticaIdOld);
-            }
-            if (karticaIdNew != null && !karticaIdNew.equals(karticaIdOld)) {
-                karticaIdNew.getEvidencijaCollection().add(evidencija);
-                karticaIdNew = em.merge(karticaIdNew);
-            }
             if (korisnikIdOld != null && !korisnikIdOld.equals(korisnikIdNew)) {
                 korisnikIdOld.getEvidencijaCollection().remove(evidencija);
                 korisnikIdOld = em.merge(korisnikIdOld);
@@ -144,7 +120,7 @@ public class EvidencijaJpaController implements Serializable {
             }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = evidencija.getEvidencijaId();
+                Integer id = evidencija.getEvidancijaId();
                 if (findEvidencija(id) == null) {
                     throw new NonexistentEntityException("The evidencija with id " + id + " no longer exists.");
                 }
@@ -165,14 +141,9 @@ public class EvidencijaJpaController implements Serializable {
             Evidencija evidencija;
             try {
                 evidencija = em.getReference(Evidencija.class, id);
-                evidencija.getEvidencijaId();
+                evidencija.getEvidancijaId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The evidencija with id " + id + " no longer exists.", enfe);
-            }
-            Kartica karticaId = evidencija.getKarticaId();
-            if (karticaId != null) {
-                karticaId.getEvidencijaCollection().remove(evidencija);
-                karticaId = em.merge(karticaId);
             }
             Korisnik korisnikId = evidencija.getKorisnikId();
             if (korisnikId != null) {

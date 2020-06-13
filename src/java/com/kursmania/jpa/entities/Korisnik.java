@@ -7,7 +7,6 @@ package com.kursmania.jpa.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -67,6 +64,12 @@ public class Korisnik implements Serializable {
     @Size(max = 15)
     @Column(name = "KORISNIK_BROJ_TELEFONA")
     private String korisnikBrojTelefona;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "KORISNIK_TITULA")
+    private String korisnikTitula;
     @Size(max = 50)
     @Column(name = "KORISNIK_MESTO")
     private String korisnikMesto;
@@ -81,17 +84,11 @@ public class Korisnik implements Serializable {
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
-    @Column(name = "KORISNIK_TITULA")
-    private String korisnikTitula;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
     @Column(name = "KORISNIK_OPIS")
     private String korisnikOpis;
+    @Size(max = 50)
     @Column(name = "KORISNIK_DATUM_REGISTRACIJE")
-    @Temporal(TemporalType.DATE)
-    private Date korisnikDatumRegistracije;
+    private String korisnikDatumRegistracije;
     @Size(max = 100)
     @Column(name = "KORISNIK_LOZINKA")
     private String korisnikLozinka;
@@ -100,14 +97,10 @@ public class Korisnik implements Serializable {
     @OneToMany(mappedBy = "korisnikId")
     private Collection<Komentar> komentarCollection;
     @OneToMany(mappedBy = "korisnikId")
-    private Collection<Korpa> korpaCollection;
-    @OneToMany(mappedBy = "korisnikId")
     private Collection<Ocena> ocenaCollection;
     @JoinColumn(name = "ROLA_ID", referencedColumnName = "ROLA_ID")
     @ManyToOne
     private Rola rolaId;
-    @OneToMany(mappedBy = "korisnikId")
-    private Collection<Kartica> karticaCollection;
     @OneToMany(mappedBy = "korisnikId")
     private Collection<Evidencija> evidencijaCollection;
     @OneToMany(mappedBy = "korisnikId")
@@ -166,6 +159,14 @@ public class Korisnik implements Serializable {
         this.korisnikBrojTelefona = korisnikBrojTelefona;
     }
 
+    public String getKorisnikTitula() {
+        return korisnikTitula;
+    }
+
+    public void setKorisnikTitula(String korisnikTitula) {
+        this.korisnikTitula = korisnikTitula;
+    }
+
     public String getKorisnikMesto() {
         return korisnikMesto;
     }
@@ -190,14 +191,6 @@ public class Korisnik implements Serializable {
         this.korisnikAvatar = korisnikAvatar;
     }
 
-    public String getKorisnikTitula() {
-        return korisnikTitula;
-    }
-
-    public void setKorisnikTitula(String korisnikTitula) {
-        this.korisnikTitula = korisnikTitula;
-    }
-
     public String getKorisnikOpis() {
         return korisnikOpis;
     }
@@ -206,11 +199,11 @@ public class Korisnik implements Serializable {
         this.korisnikOpis = korisnikOpis;
     }
 
-    public Date getKorisnikDatumRegistracije() {
+    public String getKorisnikDatumRegistracije() {
         return korisnikDatumRegistracije;
     }
 
-    public void setKorisnikDatumRegistracije(Date korisnikDatumRegistracije) {
+    public void setKorisnikDatumRegistracije(String korisnikDatumRegistracije) {
         this.korisnikDatumRegistracije = korisnikDatumRegistracije;
     }
 
@@ -240,15 +233,6 @@ public class Korisnik implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Korpa> getKorpaCollection() {
-        return korpaCollection;
-    }
-
-    public void setKorpaCollection(Collection<Korpa> korpaCollection) {
-        this.korpaCollection = korpaCollection;
-    }
-
-    @XmlTransient
     public Collection<Ocena> getOcenaCollection() {
         return ocenaCollection;
     }
@@ -263,15 +247,6 @@ public class Korisnik implements Serializable {
 
     public void setRolaId(Rola rolaId) {
         this.rolaId = rolaId;
-    }
-
-    @XmlTransient
-    public Collection<Kartica> getKarticaCollection() {
-        return karticaCollection;
-    }
-
-    public void setKarticaCollection(Collection<Kartica> karticaCollection) {
-        this.karticaCollection = karticaCollection;
     }
 
     @XmlTransient
@@ -314,7 +289,7 @@ public class Korisnik implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Korisnik[ korisnikId=" + korisnikId + " ]";
+        return "com.kursmania.jpa.entities.Korisnik[ korisnikId=" + korisnikId + " ]";
     }
     
 }

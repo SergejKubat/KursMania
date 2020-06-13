@@ -20,7 +20,10 @@ import com.kursmania.utils.Utilities;
 import com.kursmania.utils.Validation;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -96,12 +99,11 @@ public class ControllerServlet extends HttpServlet {
             filtriraniKursevi = kursevi.stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())
                     || utilities.isContainsTag(q, e.getKursTagCollection())).collect(Collectors.toList());
 
-            Collections.sort(kursevi);
-
+            //Collections.sort(kursevi);
             if (filtriraniKursevi.isEmpty()) {
                 request.setAttribute("poruka", "Nazalost, nije pronadjen ni jedan kurs.");
             } else {
-                Collections.sort(filtriraniKursevi);
+                //Collections.sort(filtriraniKursevi);
                 request.setAttribute("kursevi", filtriraniKursevi);
             }
 
@@ -515,7 +517,12 @@ public class ControllerServlet extends HttpServlet {
                     kor.setKorisnikAvatar("resources/img/ostale/default_avatar.png");
                     kor.setKorisnikTitula("Dodajte titulu");
                     kor.setKorisnikOpis("Dodajte opis");
-                    kor.setKorisnikDatumRegistracije(new Date());
+
+                    Date date = Calendar.getInstance().getTime();
+                    DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+                    String datum = dateFormat.format(date);
+
+                    kor.setKorisnikDatumRegistracije(datum);
                     kor.setKorisnikLozinka(HashUtil.getSHA(lozinka));
                     kor.setKorisnikIsBlocked(Short.MIN_VALUE);
                     korisnikFacade.create(korisnik);

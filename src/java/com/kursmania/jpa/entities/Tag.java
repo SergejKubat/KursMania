@@ -100,7 +100,7 @@ public class Tag implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Tag[ tagId=" + tagId + " ]";
+        return "com.kursmania.jpa.entities.Tag[ tagId=" + tagId + " ]";
     }
     
 }

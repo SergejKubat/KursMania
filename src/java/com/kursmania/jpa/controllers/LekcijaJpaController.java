@@ -7,17 +7,16 @@ package com.kursmania.jpa.controllers;
 
 import com.kursmania.jpa.controllers.exceptions.NonexistentEntityException;
 import com.kursmania.jpa.controllers.exceptions.RollbackFailureException;
+import com.kursmania.jpa.entities.Lekcija;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.kursmania.jpa.entities.Sekcija;
-import com.kursmania.jpa.entities.Komentar;
-import com.kursmania.jpa.entities.Lekcija;
+import com.kursmania.jpa.entities.Video;
 import java.util.ArrayList;
 import java.util.Collection;
-import com.kursmania.jpa.entities.Video;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +40,6 @@ public class LekcijaJpaController implements Serializable {
     }
 
     public void create(Lekcija lekcija) throws RollbackFailureException, Exception {
-        if (lekcija.getKomentarCollection() == null) {
-            lekcija.setKomentarCollection(new ArrayList<Komentar>());
-        }
         if (lekcija.getVideoCollection() == null) {
             lekcija.setVideoCollection(new ArrayList<Video>());
         }
@@ -56,12 +52,11 @@ public class LekcijaJpaController implements Serializable {
                 sekcijaId = em.getReference(sekcijaId.getClass(), sekcijaId.getSekcijaId());
                 lekcija.setSekcijaId(sekcijaId);
             }
-            Collection<Komentar> attachedKomentarCollection = new ArrayList<Komentar>();
-            for (Komentar komentarCollectionKomentarToAttach : lekcija.getKomentarCollection()) {
-                komentarCollectionKomentarToAttach = em.getReference(komentarCollectionKomentarToAttach.getClass(), komentarCollectionKomentarToAttach.getKomentarId());
-                attachedKomentarCollection.add(komentarCollectionKomentarToAttach);
+            Video videoId = lekcija.getVideoId();
+            if (videoId != null) {
+                videoId = em.getReference(videoId.getClass(), videoId.getVideoId());
+                lekcija.setVideoId(videoId);
             }
-            lekcija.setKomentarCollection(attachedKomentarCollection);
             Collection<Video> attachedVideoCollection = new ArrayList<Video>();
             for (Video videoCollectionVideoToAttach : lekcija.getVideoCollection()) {
                 videoCollectionVideoToAttach = em.getReference(videoCollectionVideoToAttach.getClass(), videoCollectionVideoToAttach.getVideoId());
@@ -73,14 +68,9 @@ public class LekcijaJpaController implements Serializable {
                 sekcijaId.getLekcijaCollection().add(lekcija);
                 sekcijaId = em.merge(sekcijaId);
             }
-            for (Komentar komentarCollectionKomentar : lekcija.getKomentarCollection()) {
-                Lekcija oldLekcijaIdOfKomentarCollectionKomentar = komentarCollectionKomentar.getLekcijaId();
-                komentarCollectionKomentar.setLekcijaId(lekcija);
-                komentarCollectionKomentar = em.merge(komentarCollectionKomentar);
-                if (oldLekcijaIdOfKomentarCollectionKomentar != null) {
-                    oldLekcijaIdOfKomentarCollectionKomentar.getKomentarCollection().remove(komentarCollectionKomentar);
-                    oldLekcijaIdOfKomentarCollectionKomentar = em.merge(oldLekcijaIdOfKomentarCollectionKomentar);
-                }
+            if (videoId != null) {
+                videoId.getLekcijaCollection().add(lekcija);
+                videoId = em.merge(videoId);
             }
             for (Video videoCollectionVideo : lekcija.getVideoCollection()) {
                 Lekcija oldLekcijaIdOfVideoCollectionVideo = videoCollectionVideo.getLekcijaId();
@@ -114,21 +104,18 @@ public class LekcijaJpaController implements Serializable {
             Lekcija persistentLekcija = em.find(Lekcija.class, lekcija.getLekcijaId());
             Sekcija sekcijaIdOld = persistentLekcija.getSekcijaId();
             Sekcija sekcijaIdNew = lekcija.getSekcijaId();
-            Collection<Komentar> komentarCollectionOld = persistentLekcija.getKomentarCollection();
-            Collection<Komentar> komentarCollectionNew = lekcija.getKomentarCollection();
+            Video videoIdOld = persistentLekcija.getVideoId();
+            Video videoIdNew = lekcija.getVideoId();
             Collection<Video> videoCollectionOld = persistentLekcija.getVideoCollection();
             Collection<Video> videoCollectionNew = lekcija.getVideoCollection();
             if (sekcijaIdNew != null) {
                 sekcijaIdNew = em.getReference(sekcijaIdNew.getClass(), sekcijaIdNew.getSekcijaId());
                 lekcija.setSekcijaId(sekcijaIdNew);
             }
-            Collection<Komentar> attachedKomentarCollectionNew = new ArrayList<Komentar>();
-            for (Komentar komentarCollectionNewKomentarToAttach : komentarCollectionNew) {
-                komentarCollectionNewKomentarToAttach = em.getReference(komentarCollectionNewKomentarToAttach.getClass(), komentarCollectionNewKomentarToAttach.getKomentarId());
-                attachedKomentarCollectionNew.add(komentarCollectionNewKomentarToAttach);
+            if (videoIdNew != null) {
+                videoIdNew = em.getReference(videoIdNew.getClass(), videoIdNew.getVideoId());
+                lekcija.setVideoId(videoIdNew);
             }
-            komentarCollectionNew = attachedKomentarCollectionNew;
-            lekcija.setKomentarCollection(komentarCollectionNew);
             Collection<Video> attachedVideoCollectionNew = new ArrayList<Video>();
             for (Video videoCollectionNewVideoToAttach : videoCollectionNew) {
                 videoCollectionNewVideoToAttach = em.getReference(videoCollectionNewVideoToAttach.getClass(), videoCollectionNewVideoToAttach.getVideoId());
@@ -145,22 +132,13 @@ public class LekcijaJpaController implements Serializable {
                 sekcijaIdNew.getLekcijaCollection().add(lekcija);
                 sekcijaIdNew = em.merge(sekcijaIdNew);
             }
-            for (Komentar komentarCollectionOldKomentar : komentarCollectionOld) {
-                if (!komentarCollectionNew.contains(komentarCollectionOldKomentar)) {
-                    komentarCollectionOldKomentar.setLekcijaId(null);
-                    komentarCollectionOldKomentar = em.merge(komentarCollectionOldKomentar);
-                }
+            if (videoIdOld != null && !videoIdOld.equals(videoIdNew)) {
+                videoIdOld.getLekcijaCollection().remove(lekcija);
+                videoIdOld = em.merge(videoIdOld);
             }
-            for (Komentar komentarCollectionNewKomentar : komentarCollectionNew) {
-                if (!komentarCollectionOld.contains(komentarCollectionNewKomentar)) {
-                    Lekcija oldLekcijaIdOfKomentarCollectionNewKomentar = komentarCollectionNewKomentar.getLekcijaId();
-                    komentarCollectionNewKomentar.setLekcijaId(lekcija);
-                    komentarCollectionNewKomentar = em.merge(komentarCollectionNewKomentar);
-                    if (oldLekcijaIdOfKomentarCollectionNewKomentar != null && !oldLekcijaIdOfKomentarCollectionNewKomentar.equals(lekcija)) {
-                        oldLekcijaIdOfKomentarCollectionNewKomentar.getKomentarCollection().remove(komentarCollectionNewKomentar);
-                        oldLekcijaIdOfKomentarCollectionNewKomentar = em.merge(oldLekcijaIdOfKomentarCollectionNewKomentar);
-                    }
-                }
+            if (videoIdNew != null && !videoIdNew.equals(videoIdOld)) {
+                videoIdNew.getLekcijaCollection().add(lekcija);
+                videoIdNew = em.merge(videoIdNew);
             }
             for (Video videoCollectionOldVideo : videoCollectionOld) {
                 if (!videoCollectionNew.contains(videoCollectionOldVideo)) {
@@ -218,10 +196,10 @@ public class LekcijaJpaController implements Serializable {
                 sekcijaId.getLekcijaCollection().remove(lekcija);
                 sekcijaId = em.merge(sekcijaId);
             }
-            Collection<Komentar> komentarCollection = lekcija.getKomentarCollection();
-            for (Komentar komentarCollectionKomentar : komentarCollection) {
-                komentarCollectionKomentar.setLekcijaId(null);
-                komentarCollectionKomentar = em.merge(komentarCollectionKomentar);
+            Video videoId = lekcija.getVideoId();
+            if (videoId != null) {
+                videoId.getLekcijaCollection().remove(lekcija);
+                videoId = em.merge(videoId);
             }
             Collection<Video> videoCollection = lekcija.getVideoCollection();
             for (Video videoCollectionVideo : videoCollection) {

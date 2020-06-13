@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.kursmania.jpa.entities;
 
 import java.io.Serializable;
@@ -19,6 +24,10 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author Andrej Kubat
+ */
 @Entity
 @Table(name = "lekcija")
 @XmlRootElement
@@ -44,8 +53,9 @@ public class Lekcija implements Serializable {
     @JoinColumn(name = "SEKCIJA_ID", referencedColumnName = "SEKCIJA_ID")
     @ManyToOne
     private Sekcija sekcijaId;
-    @OneToMany(mappedBy = "lekcijaId")
-    private Collection<Komentar> komentarCollection;
+    @JoinColumn(name = "VIDEO_ID", referencedColumnName = "VIDEO_ID")
+    @ManyToOne
+    private Video videoId;
     @OneToMany(mappedBy = "lekcijaId")
     private Collection<Video> videoCollection;
 
@@ -88,13 +98,12 @@ public class Lekcija implements Serializable {
         this.sekcijaId = sekcijaId;
     }
 
-    @XmlTransient
-    public Collection<Komentar> getKomentarCollection() {
-        return komentarCollection;
+    public Video getVideoId() {
+        return videoId;
     }
 
-    public void setKomentarCollection(Collection<Komentar> komentarCollection) {
-        this.komentarCollection = komentarCollection;
+    public void setVideoId(Video videoId) {
+        this.videoId = videoId;
     }
 
     @XmlTransient
@@ -128,7 +137,7 @@ public class Lekcija implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Lekcija[ lekcijaId=" + lekcijaId + " ]";
+        return "com.kursmania.jpa.entities.Lekcija[ lekcijaId=" + lekcijaId + " ]";
     }
     
 }

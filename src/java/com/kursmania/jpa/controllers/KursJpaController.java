@@ -18,7 +18,6 @@ import com.kursmania.jpa.entities.Korisnik;
 import com.kursmania.jpa.entities.Komentar;
 import java.util.ArrayList;
 import java.util.Collection;
-import com.kursmania.jpa.entities.Korpa;
 import com.kursmania.jpa.entities.Ocena;
 import com.kursmania.jpa.entities.Sekcija;
 import com.kursmania.jpa.entities.KursTag;
@@ -50,9 +49,6 @@ public class KursJpaController implements Serializable {
     public void create(Kurs kurs) throws RollbackFailureException, Exception {
         if (kurs.getKomentarCollection() == null) {
             kurs.setKomentarCollection(new ArrayList<Komentar>());
-        }
-        if (kurs.getKorpaCollection() == null) {
-            kurs.setKorpaCollection(new ArrayList<Korpa>());
         }
         if (kurs.getOcenaCollection() == null) {
             kurs.setOcenaCollection(new ArrayList<Ocena>());
@@ -94,12 +90,6 @@ public class KursJpaController implements Serializable {
                 attachedKomentarCollection.add(komentarCollectionKomentarToAttach);
             }
             kurs.setKomentarCollection(attachedKomentarCollection);
-            Collection<Korpa> attachedKorpaCollection = new ArrayList<Korpa>();
-            for (Korpa korpaCollectionKorpaToAttach : kurs.getKorpaCollection()) {
-                korpaCollectionKorpaToAttach = em.getReference(korpaCollectionKorpaToAttach.getClass(), korpaCollectionKorpaToAttach.getKorpaId());
-                attachedKorpaCollection.add(korpaCollectionKorpaToAttach);
-            }
-            kurs.setKorpaCollection(attachedKorpaCollection);
             Collection<Ocena> attachedOcenaCollection = new ArrayList<Ocena>();
             for (Ocena ocenaCollectionOcenaToAttach : kurs.getOcenaCollection()) {
                 ocenaCollectionOcenaToAttach = em.getReference(ocenaCollectionOcenaToAttach.getClass(), ocenaCollectionOcenaToAttach.getOcenaId());
@@ -120,7 +110,7 @@ public class KursJpaController implements Serializable {
             kurs.setKursTagCollection(attachedKursTagCollection);
             Collection<Evidencija> attachedEvidencijaCollection = new ArrayList<Evidencija>();
             for (Evidencija evidencijaCollectionEvidencijaToAttach : kurs.getEvidencijaCollection()) {
-                evidencijaCollectionEvidencijaToAttach = em.getReference(evidencijaCollectionEvidencijaToAttach.getClass(), evidencijaCollectionEvidencijaToAttach.getEvidencijaId());
+                evidencijaCollectionEvidencijaToAttach = em.getReference(evidencijaCollectionEvidencijaToAttach.getClass(), evidencijaCollectionEvidencijaToAttach.getEvidancijaId());
                 attachedEvidencijaCollection.add(evidencijaCollectionEvidencijaToAttach);
             }
             kurs.setEvidencijaCollection(attachedEvidencijaCollection);
@@ -150,15 +140,6 @@ public class KursJpaController implements Serializable {
                 if (oldKursIdOfKomentarCollectionKomentar != null) {
                     oldKursIdOfKomentarCollectionKomentar.getKomentarCollection().remove(komentarCollectionKomentar);
                     oldKursIdOfKomentarCollectionKomentar = em.merge(oldKursIdOfKomentarCollectionKomentar);
-                }
-            }
-            for (Korpa korpaCollectionKorpa : kurs.getKorpaCollection()) {
-                Kurs oldKursIdOfKorpaCollectionKorpa = korpaCollectionKorpa.getKursId();
-                korpaCollectionKorpa.setKursId(kurs);
-                korpaCollectionKorpa = em.merge(korpaCollectionKorpa);
-                if (oldKursIdOfKorpaCollectionKorpa != null) {
-                    oldKursIdOfKorpaCollectionKorpa.getKorpaCollection().remove(korpaCollectionKorpa);
-                    oldKursIdOfKorpaCollectionKorpa = em.merge(oldKursIdOfKorpaCollectionKorpa);
                 }
             }
             for (Ocena ocenaCollectionOcena : kurs.getOcenaCollection()) {
@@ -235,8 +216,6 @@ public class KursJpaController implements Serializable {
             Korisnik korisnikIdNew = kurs.getKorisnikId();
             Collection<Komentar> komentarCollectionOld = persistentKurs.getKomentarCollection();
             Collection<Komentar> komentarCollectionNew = kurs.getKomentarCollection();
-            Collection<Korpa> korpaCollectionOld = persistentKurs.getKorpaCollection();
-            Collection<Korpa> korpaCollectionNew = kurs.getKorpaCollection();
             Collection<Ocena> ocenaCollectionOld = persistentKurs.getOcenaCollection();
             Collection<Ocena> ocenaCollectionNew = kurs.getOcenaCollection();
             Collection<Sekcija> sekcijaCollectionOld = persistentKurs.getSekcijaCollection();
@@ -266,13 +245,6 @@ public class KursJpaController implements Serializable {
             }
             komentarCollectionNew = attachedKomentarCollectionNew;
             kurs.setKomentarCollection(komentarCollectionNew);
-            Collection<Korpa> attachedKorpaCollectionNew = new ArrayList<Korpa>();
-            for (Korpa korpaCollectionNewKorpaToAttach : korpaCollectionNew) {
-                korpaCollectionNewKorpaToAttach = em.getReference(korpaCollectionNewKorpaToAttach.getClass(), korpaCollectionNewKorpaToAttach.getKorpaId());
-                attachedKorpaCollectionNew.add(korpaCollectionNewKorpaToAttach);
-            }
-            korpaCollectionNew = attachedKorpaCollectionNew;
-            kurs.setKorpaCollection(korpaCollectionNew);
             Collection<Ocena> attachedOcenaCollectionNew = new ArrayList<Ocena>();
             for (Ocena ocenaCollectionNewOcenaToAttach : ocenaCollectionNew) {
                 ocenaCollectionNewOcenaToAttach = em.getReference(ocenaCollectionNewOcenaToAttach.getClass(), ocenaCollectionNewOcenaToAttach.getOcenaId());
@@ -296,7 +268,7 @@ public class KursJpaController implements Serializable {
             kurs.setKursTagCollection(kursTagCollectionNew);
             Collection<Evidencija> attachedEvidencijaCollectionNew = new ArrayList<Evidencija>();
             for (Evidencija evidencijaCollectionNewEvidencijaToAttach : evidencijaCollectionNew) {
-                evidencijaCollectionNewEvidencijaToAttach = em.getReference(evidencijaCollectionNewEvidencijaToAttach.getClass(), evidencijaCollectionNewEvidencijaToAttach.getEvidencijaId());
+                evidencijaCollectionNewEvidencijaToAttach = em.getReference(evidencijaCollectionNewEvidencijaToAttach.getClass(), evidencijaCollectionNewEvidencijaToAttach.getEvidancijaId());
                 attachedEvidencijaCollectionNew.add(evidencijaCollectionNewEvidencijaToAttach);
             }
             evidencijaCollectionNew = attachedEvidencijaCollectionNew;
@@ -347,23 +319,6 @@ public class KursJpaController implements Serializable {
                     if (oldKursIdOfKomentarCollectionNewKomentar != null && !oldKursIdOfKomentarCollectionNewKomentar.equals(kurs)) {
                         oldKursIdOfKomentarCollectionNewKomentar.getKomentarCollection().remove(komentarCollectionNewKomentar);
                         oldKursIdOfKomentarCollectionNewKomentar = em.merge(oldKursIdOfKomentarCollectionNewKomentar);
-                    }
-                }
-            }
-            for (Korpa korpaCollectionOldKorpa : korpaCollectionOld) {
-                if (!korpaCollectionNew.contains(korpaCollectionOldKorpa)) {
-                    korpaCollectionOldKorpa.setKursId(null);
-                    korpaCollectionOldKorpa = em.merge(korpaCollectionOldKorpa);
-                }
-            }
-            for (Korpa korpaCollectionNewKorpa : korpaCollectionNew) {
-                if (!korpaCollectionOld.contains(korpaCollectionNewKorpa)) {
-                    Kurs oldKursIdOfKorpaCollectionNewKorpa = korpaCollectionNewKorpa.getKursId();
-                    korpaCollectionNewKorpa.setKursId(kurs);
-                    korpaCollectionNewKorpa = em.merge(korpaCollectionNewKorpa);
-                    if (oldKursIdOfKorpaCollectionNewKorpa != null && !oldKursIdOfKorpaCollectionNewKorpa.equals(kurs)) {
-                        oldKursIdOfKorpaCollectionNewKorpa.getKorpaCollection().remove(korpaCollectionNewKorpa);
-                        oldKursIdOfKorpaCollectionNewKorpa = em.merge(oldKursIdOfKorpaCollectionNewKorpa);
                     }
                 }
             }
@@ -505,11 +460,6 @@ public class KursJpaController implements Serializable {
             for (Komentar komentarCollectionKomentar : komentarCollection) {
                 komentarCollectionKomentar.setKursId(null);
                 komentarCollectionKomentar = em.merge(komentarCollectionKomentar);
-            }
-            Collection<Korpa> korpaCollection = kurs.getKorpaCollection();
-            for (Korpa korpaCollectionKorpa : korpaCollection) {
-                korpaCollectionKorpa.setKursId(null);
-                korpaCollectionKorpa = em.merge(korpaCollectionKorpa);
             }
             Collection<Ocena> ocenaCollection = kurs.getOcenaCollection();
             for (Ocena ocenaCollectionOcena : ocenaCollection) {

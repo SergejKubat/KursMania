@@ -100,7 +100,7 @@ public class Jezik implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kursmania.entiteti.Jezik[ jezikId=" + jezikId + " ]";
+        return "com.kursmania.jpa.entities.Jezik[ jezikId=" + jezikId + " ]";
     }
     
 }
