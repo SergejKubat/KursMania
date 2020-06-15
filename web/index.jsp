@@ -3,10 +3,8 @@
 <div class="home">
     <div class="home_slider_container">
 
-        <!-- Home Slider -->
         <div class="owl-carousel owl-theme home_slider">
 
-            <!-- Slider Item -->
             <div class="owl-item">
                 <div class="home_slider_background" style="background-image:url(resources/img/website/index.jpg)"></div>
                 <div class="home_container">
@@ -30,7 +28,6 @@
                 </div>
             </div>
 
-            <!-- Slider Item -->
             <div class="owl-item">
                 <div class="home_slider_background" style="background-image:url(resources/img/website/index.jpg)"></div>
                 <div class="home_container">
@@ -54,7 +51,6 @@
                 </div>
             </div>
 
-            <!-- Slider Item -->
             <div class="owl-item">
                 <div class="home_slider_background" style="background-image:url(resources/img/website/index.jpg)"></div>
                 <div class="home_container">
@@ -82,13 +78,10 @@
     </div>
 </div>
 
-<!-- Featured Course -->
-
 <div class="featured">
     <div class="container">
         <div class="row">
             <div class="col">
-                <!-- Home Slider Nav -->
                 <div class="home_slider_nav_container d-flex flex-row align-items-start justify-content-between">
                     <div class="home_slider_nav home_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
                     <div class="home_slider_nav home_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
@@ -131,10 +124,17 @@
         <div class="row">
             <div class="col">
                 <div class="course_search">
-                    <form action="#" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between">
-                        <div><input type="text" class="course_input" placeholder="Ime" required="required"></div>
-                        <div><input type="text" class="course_input" placeholder="Oblast" required="required"></div>
-                        <button class="course_button"><span>Pretrazite kurseve</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    <datalist id="kategorije">
+                        <c:forEach var="kategorija" items="${kategorije}">
+                            <option value="${kategorija.kategorijaNaziv}">
+                            </c:forEach>
+                    </datalist>
+                    <datalist id="preporuke">
+                    </datalist>
+                    <form action="pretraga" method="GET" class="course_search_form d-flex flex-md-row flex-column align-items-start justify-content-between">
+                        <div><input name="q" id="ime" type="text" list="preporuke" class="course_input" placeholder="Kljucna rec" required="required"></div>
+                        <div><input name="oblast" type="text" list="kategorije" class="course_input" placeholder="Oblast" required="required"></div>
+                        <button class="course_button"><span>Pronadji kurs</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </form>
                 </div>
             </div>
@@ -142,11 +142,9 @@
         <div class="row">
             <div class="col">
 
-                <!-- Courses Slider -->
                 <div class="courses_slider_container">
                     <div class="owl-carousel owl-theme courses_slider">
 
-                        <!-- Slider Item -->
                         <div class="owl-item">
                             <div class="course">
                                 <div class="course_image"><img src="resources/img/website/course_1.jpg" alt=""></div>
@@ -166,7 +164,6 @@
                             </div>
                         </div>
 
-                        <!-- Slider Item -->
                         <div class="owl-item">
                             <div class="course">
                                 <div class="course_image"><img src="resources/img/website/course_2.jpg" alt=""></div>
@@ -186,7 +183,6 @@
                             </div>
                         </div>
 
-                        <!-- Slider Item -->
                         <div class="owl-item">
                             <div class="course">
                                 <div class="course_image"><img src="resources/img/website/course_3.jpg" alt="https://unsplash.com/@annademy"></div>
@@ -227,7 +223,6 @@
 
                     </div>
 
-                    <!-- Courses Slider Nav -->
                     <div class="courses_slider_nav courses_slider_prev trans_200"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
                     <div class="courses_slider_nav courses_slider_next trans_200"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
 
@@ -237,45 +232,39 @@
     </div>
 </div>
 
-<!-- Milestones -->
-
 <div class="milestones">
     <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/milestones.jpg" data-speed="0.8"></div>
     <div class="container">
         <div class="row milestones_container">
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website/milestone_1.svg" alt=""></div>
-                    <div class="milestone_counter" data-end-value="1548">0</div>
+                    <div class="milestone_counter" data-end-value="${brojKurseva}">0</div>
                     <div class="milestone_text">Kursevi</div> 
                 </div>
             </div>
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website/milestone_2.svg" alt=""></div>
-                    <div class="milestone_counter" data-end-value="7286">0</div>
-                    <div class="milestone_text">Ucenici</div>
+                    <div class="milestone_counter" data-end-value="${brojStudenata}">0</div>
+                    <div class="milestone_text">Studenti</div>
                 </div>
             </div>
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website/milestone_3.svg" alt=""></div>
-                    <div class="milestone_counter" data-end-value="257">0</div>
+                    <div class="milestone_counter" data-end-value="${brojInstruktora}">0</div>
                     <div class="milestone_text">Instruktori</div>
                 </div>
             </div>
 
-            <!-- Milestone -->
             <div class="col-lg-3 milestone_col">
                 <div class="milestone text-center">
                     <div class="milestone_icon"><img src="resources/img/website/milestone_4.svg" alt=""></div>
-                    <div class="milestone_counter" data-end-value="39">0</div>
+                    <div class="milestone_counter" data-end-value="${brojJezika}">0</div>
                     <div class="milestone_text">Jezici</div>
                 </div>
             </div>
@@ -285,8 +274,6 @@
 </div>
 
 <div class="grouped_title" style="text-align: center; margin: 20px 0;">Zasto?</div>
-
-<!-- Video -->
 
 <div class="video">
     <div class="container">
@@ -303,8 +290,6 @@
     </div>
 </div>
 
-<!-- Join -->
-
 <div class="join">
     <div class="container">
         <div class="row">
@@ -314,5 +299,7 @@
             </div>
         </div>
     </div>
-    <div class="button join_button"><a href="/registracija">Registracija<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+    <div class="button join_button"><a href="registracija">Registracija<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
 </div>
+
+<script src="resources/js/preporuke.js"></script>
