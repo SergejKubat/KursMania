@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -345,11 +346,11 @@ public class ControllerServlet extends HttpServlet {
             filtriraniKursevi = kursevi.stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())
                     || utilities.isContainsTag(q, e.getKursTagCollection())).collect(Collectors.toList());
 
-            //Collections.sort(kursevi);
+            Collections.sort(kursevi);
             if (filtriraniKursevi.isEmpty()) {
                 request.setAttribute("poruka", "Nazalost, nije pronadjen ni jedan kurs.");
             } else {
-                //Collections.sort(filtriraniKursevi);
+                Collections.sort(filtriraniKursevi);
                 request.setAttribute("kursevi", filtriraniKursevi);
             }
 

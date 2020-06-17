@@ -21,7 +21,6 @@ public class SessionTimeoutFilter implements Filter {
 
         HttpSession session = req.getSession(false);
 
-        // if session doesn't exist, forward user to welcome page
         if (session == null) {
             try {
                 req.getRequestDispatcher("/index.jsp").forward(request, response);

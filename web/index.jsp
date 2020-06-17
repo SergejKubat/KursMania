@@ -18,8 +18,8 @@
                                         <div class="home_subtitle">Maecenas rutrum viverra sapien sed fermentum. Morbi tempor odio eget lacus tempus pulvinar. Praesent vel nisl fermentum, gravida augue ut, fermentum ipsum.</div>
                                     </div>
                                     <div class="home_buttons">
-                                        <div class="button home_button"><a href="/onama">Detalji<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
-                                        <div class="button home_button"><a href="/kursevi">Svi kursevi<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+                                        <div class="button home_button"><a href="onama">Detalji<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
+                                        <div class="button home_button"><a href="kursevi">Svi kursevi<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
                                     </div>
                                 </div>
                             </div>
