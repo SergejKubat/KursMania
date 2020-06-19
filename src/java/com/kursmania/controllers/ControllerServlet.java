@@ -80,6 +80,7 @@ public class ControllerServlet extends HttpServlet {
         utilities = new Utilities();
 
         if (putanja.equals("/pretraga")) {
+
             String q = request.getParameter("q");
             if (q != null) {
                 initializePage(putanja, request, response);
@@ -87,16 +88,22 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 response.sendError(404);
             }
+
         } else if (putanja.equals("/prijava")) {
+
             response.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
             response.setHeader("Pragma", "no-cache");
             response.setHeader("Expires", "0");
             initializePage(putanja, request, response);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
         } else if (putanja.equals("/registracija")) {
+
             initializePage(putanja, request, response);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
         } else if (putanja.equals("/kurs")) {
+
             String id = request.getParameter("id");
             if (id != null) {
                 try {
@@ -109,13 +116,19 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 response.sendError(404);
             }
+
         } else if (putanja.equals("/kursevi")) {
+
             initializePage(putanja, request, response);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
         } else if (putanja.equals("/instruktori")) {
+
             initializePage(putanja, request, response);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
         } else if (putanja.equals("/instruktor")) {
+
             String id = request.getParameter("id");
             if (id != null) {
                 try {
@@ -128,23 +141,29 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 response.sendError(404);
             }
+
         } else if (putanja.equals("/nalog")) {
+
             if (korisnik != null) {
                 initializePage(putanja, request, response);
                 request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
             } else {
                 response.sendError(404);
             }
+
         } else if (putanja.equals("/kupovina")) {
+
             if (korisnik != null) {
                 initializePage(putanja, request, response);
                 request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
             } else {
                 response.sendError(404);
             }
+
         } else if (putanja.equals("/potvrda")) {
 
         } else if (putanja.equals("/kategorija")) {
+
             String id = request.getParameter("id");
             if (id != null) {
                 try {
@@ -157,17 +176,24 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 response.sendError(404);
             }
+
         } else if (putanja.equals("/jezik")) {
 
         } else if (putanja.equals("/kontakt")) {
+
             initializePage(putanja, request, response);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
         } else if (putanja.equals("/onama")) {
+
             initializePage(putanja, request, response);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
         } else if (putanja.equals("/odjava")) {
+
             session.invalidate();
             response.sendRedirect("prijava");
+
         }
     }
 
@@ -178,10 +204,13 @@ public class ControllerServlet extends HttpServlet {
         korisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (putanja.equals("/prijava")) {
+
             initializePage(putanja, request, response);
 
             String email = request.getParameter("email");
             String lozinka = request.getParameter("lozinka");
+
+            String kursId = request.getParameter("kursId");
 
             boolean valid = Validation.proveriEmail(email) && Validation.proveriLozinku(lozinka);
 
@@ -197,7 +226,11 @@ public class ControllerServlet extends HttpServlet {
 
                 if (kor != null) {
                     session.setAttribute("korisnik", kor);
-                    response.sendRedirect("nalog");
+                    if (kursId != null) {
+                        response.sendRedirect("kupovina?id=" + Integer.parseInt(kursId));
+                    } else {
+                        response.sendRedirect("nalog");
+                    }
                 } else {
                     request.setAttribute("poruka", "Nalog sa ovim kredencijalima ne postoji.");
                     request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
@@ -208,6 +241,7 @@ public class ControllerServlet extends HttpServlet {
             }
 
         } else if (putanja.equals("/registracija")) {
+
             initializePage(putanja, request, response);
 
             String ime = request.getParameter("ime");
@@ -260,13 +294,17 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("poruka", "Podaci koje ste uneli nisu u validnom formatu.");
                 request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
             }
+
         } else if (putanja.equals("/kupovina")) {
 
         } else if (putanja.equals("/kontakt")) {
+
             initializePage(putanja, request, response);
             request.setAttribute("poruka", true);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
         } else if (putanja.equals("/azuriranjeSlike")) {
+
             File file;
             int maxFileSize = 5000 * 1024;
             int maxMemSize = 5000 * 1024;
@@ -317,6 +355,7 @@ public class ControllerServlet extends HttpServlet {
             } else {
                 System.out.println("Greska!");
             }
+
         }
     }
 
@@ -327,6 +366,7 @@ public class ControllerServlet extends HttpServlet {
         int navigationSelector = 0;
 
         if (pageName.equals("/pretraga")) {
+
             stilovi.add("news");
             stilovi.add("news_responsive");
             stilovi.add("courses");
@@ -334,8 +374,8 @@ public class ControllerServlet extends HttpServlet {
 
             navigationSelector = 2;
 
-            String q = (String) request.getParameter("q");
-            String oblast = (String) request.getParameter("oblast");
+            String q = request.getParameter("q");
+            String oblast = request.getParameter("oblast");
 
             List<Kurs> kursevi = kursFacade.findAll();
             List<Kurs> filtriraniKursevi;
@@ -343,8 +383,8 @@ public class ControllerServlet extends HttpServlet {
             if (oblast != null) {
                 filtriraniKursevi = kursevi.stream().filter(e -> e.getKategorijaId().getKategorijaNaziv().equals(oblast)).collect(Collectors.toList());
             }
-            filtriraniKursevi = kursevi.stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())
-                    || utilities.isContainsTag(q, e.getKursTagCollection())).collect(Collectors.toList());
+
+            filtriraniKursevi = kursevi.stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())).collect(Collectors.toList());
 
             Collections.sort(kursevi);
             if (filtriraniKursevi.isEmpty()) {
@@ -354,14 +394,20 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("kursevi", filtriraniKursevi);
             }
 
-            request.setAttribute("najpopularnijiKursevi", kursevi);
+            request.setAttribute("najpopularnijiKursevi", kursevi.subList(0, 2));
+
         } else if (pageName.equals("/prijava")) {
+
             stilovi.add("contact");
             stilovi.add("contact_responsive");
+
         } else if (pageName.equals("/registracija")) {
+
             stilovi.add("contact");
             stilovi.add("contact_responsive");
+
         } else if (pageName.equals("/kurs")) {
+
             stilovi.add("shop-item");
             stilovi.add("courses");
             stilovi.add("courses_responsive");
@@ -447,8 +493,10 @@ public class ControllerServlet extends HttpServlet {
                 }
 
                 request.setAttribute("preporuceniKursevi", preporuceniKursevi);
+
             }
         } else if (pageName.equals("/kursevi")) {
+
             stilovi.add("courses");
             stilovi.add("courses_responsive");
 
@@ -493,7 +541,9 @@ public class ControllerServlet extends HttpServlet {
 
             request.setAttribute("brojStranica", brojStranica);
             request.setAttribute("index", pageIndex);
+
         } else if (pageName.equals("/instruktori")) {
+
             stilovi.add("shop-item");
             stilovi.add("courses");
             stilovi.add("courses_responsive");
@@ -520,7 +570,9 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("instruktori", instruktori);
             request.setAttribute("brojStranica", brojStranica);
             request.setAttribute("index", pageIndex);
+
         } else if (pageName.equals("/instruktor")) {
+
             stilovi.add("shop-item");
             stilovi.add("courses");
             stilovi.add("courses_responsive");
@@ -555,7 +607,9 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("prosecnaOcena", String.format("%.2f", prosecnaOcena));
                 request.setAttribute("zvezdice", zvezdice);
             }
+
         } else if (pageName.equals("/nalog")) {
+
             stilovi.add("contact");
             stilovi.add("contact_responsive");
 
@@ -572,14 +626,18 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("kursevi", kursevi);
                 request.setAttribute("komentari", komentari);
                 request.setAttribute("ocene", ocene);
+
             }
         } else if (pageName.equals("/kupovina")) {
+
             stilovi.add("contact");
             stilovi.add("contact_responsive");
             stilovi.add("payment");
+
         } else if (pageName.equals("/potvrda")) {
 
         } else if (pageName.equals("/kategorija")) {
+
             stilovi.add("courses");
             stilovi.add("courses_responsive");
 
@@ -599,36 +657,45 @@ public class ControllerServlet extends HttpServlet {
                 Kategorija kategorija = kategorijaFacade.find(Integer.parseInt(kategorijaId));
                 List<Kurs> kursevi = kursFacade.findAll().stream().filter(e -> e.getKategorijaId().equals(kategorija)).collect(Collectors.toList());
 
-                int brojKurseva = kursevi.size();
-                kursevi = utilities.paginationHelper(pageIndex, 9, kursevi);
+                if (kursevi.size() > 0) {
+                    int brojKurseva = kursevi.size();
+                    kursevi = utilities.paginationHelper(pageIndex, 9, kursevi);
 
-                Kurs istaknut = null;
-                int max = 0;
-                for (Kurs k : kursevi) {
-                    if (k.getEvidencijaCollection().size() > max) {
-                        istaknut = k;
-                        max = k.getEvidencijaCollection().size();
+                    Kurs istaknut = null;
+                    int max = 0;
+                    for (Kurs k : kursevi) {
+                        if (k.getEvidencijaCollection().size() > max) {
+                            istaknut = k;
+                            max = k.getEvidencijaCollection().size();
+                        }
                     }
+                    kursevi.remove(istaknut);
+                    request.setAttribute("istaknut", istaknut);
+                    request.setAttribute("brojStranica", brojKurseva < 9 ? 1 : brojKurseva / 9);
+                } else {
+                    request.setAttribute("poruka", "Nazalost, nijedan kurs nema trazenu kategoriju.");
                 }
-                kursevi.remove(istaknut);
 
                 request.setAttribute("kat", kategorija);
-                request.setAttribute("istaknut", istaknut);
                 request.setAttribute("kursevi", kursevi);
-                request.setAttribute("brojStranica", brojKurseva < 9 ? 1 : brojKurseva / 9);
                 request.setAttribute("index", pageIndex);
             }
+
         } else if (pageName.equals("/kontakt")) {
+
             stilovi.add("contact");
             stilovi.add("contact_responsive");
 
             skripte.add("contact");
+
         } else if (pageName.equals("/onama")) {
+
             stilovi.add("about");
             stilovi.add("about_responsive");
 
             navigationSelector = 1;
             request.setAttribute("instruktori", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()));
+
         }
 
         request.setAttribute("stilovi", stilovi);

@@ -1,6 +1,7 @@
 package com.kursmania.controllers;
 
 import com.kursmania.jpa.entities.Komentar;
+import com.kursmania.jpa.entities.Korisnik;
 import com.kursmania.jpa.entities.Kurs;
 import com.kursmania.jpa.entities.Ocena;
 import com.kursmania.jpa.entities.Tag;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AJAXControllerServlet extends HttpServlet {
 
@@ -37,6 +39,8 @@ public class AJAXControllerServlet extends HttpServlet {
     private List<Kurs> kursevi;
 
     private List<String> reci;
+    
+    Korisnik korisnik;
 
     @Override
     public void init() throws ServletException {
@@ -71,13 +75,17 @@ public class AJAXControllerServlet extends HttpServlet {
         String putanja = req.getServletPath();
 
         if (putanja.equals("/obrisiKomentar")) {
+
             int komentarId = Integer.parseInt((String) req.getParameter("id"));
             Komentar komentar = komentarFacade.find(komentarId);
             komentarFacade.remove(komentar);
+
         } else if (putanja.equals("/obrisiOcenu")) {
+
             int ocenaId = Integer.parseInt((String) req.getParameter("id"));
             Ocena ocena = ocenaFacade.find(ocenaId);
             ocenaFacade.remove(ocena);
+
         }
     }
 
@@ -88,6 +96,25 @@ public class AJAXControllerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String putanja = req.getServletPath();
+        HttpSession session = req.getSession();
+        
+
+        if (putanja.equals("/dodavanjeKomentara")) {
+
+            String sadrzaj = req.getParameter("komentar");
+            int kursId = Integer.parseInt((String) req.getParameter("kursId"));
+            Kurs kurs = kursFacade.find(kursId);
+            korisnik = (Korisnik) session.getAttribute("korisnik");
+            
+            Komentar komentar = new Komentar();
+            komentar.setKorisnikId(korisnik);
+            komentar.setKursId(kurs);
+            komentar.setKomentarSadrzaj(sadrzaj);
+            komentar.setKomentarDatum("06-19-2020");
+            komentar.setKomentarVreme("07:27");
+            
+            komentarFacade.create(komentar);
+        }
     }
 }

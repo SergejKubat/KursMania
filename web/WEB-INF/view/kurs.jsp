@@ -136,17 +136,22 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Niste prijavljeni!</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        ...
+                                        <div style="width: 80%;">
+                                            <form action="prijava" method="POST" id="prijava" class="contact_form">
+                                                <div><input type="email" name="email" class="contact_input" placeholder="Email" required="required"></div>
+                                                <div><input type="password" name="lozinka" class="contact_input" placeholder="Lozinka" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}"></div>
+                                                <div><input type="hidden" name="kursId" value="${kurs.kursId}"></div>
+                                                <button class="contact_button"><span>Prijava</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
                                     </div>
                                 </div>
                             </div>
@@ -280,31 +285,25 @@
                     Komentari (${kursBrojKomentara})
                 </div>
                 <div class="card-body">
-                    <c:forEach var="komentar" items="${komentari}">
-                        <p>${komentar.komentarSadrzaj}</p>
-                        <small class="text-muted">Autor ${komentar.korisnikId.korisnikIme} ${komentar.korisnikId.korisnikPrezime} on ${komentar.komentarDatum} ${komentar.komentarVreme}</small>
-                        <hr>
-                    </c:forEach>
-                    <a href="#" class="btn btn-success">Postavi komentar</a>
+                    <div id="komentari">
+                        <c:forEach var="komentar" items="${komentari}">
+                            <p>${komentar.komentarSadrzaj}</p>
+                            <small class="text-muted">Autor ${komentar.korisnikId.korisnikIme} ${komentar.korisnikId.korisnikPrezime} datum ${komentar.komentarDatum} ${komentar.komentarVreme}</small>
+                            <hr>
+                        </c:forEach>
+                    </div>
+                    <c:if test="${korisnik != null}">
+                        <button id="komentarisi" class="btn btn-success">Postavi komentar</button>
+                    </c:if>
                 </div>
             </div>
 
             <c:if test="${korisnik != null}">
-                <div>
-                    <div class="contact_form_container" style="width: 80%;">
-                        <c:if test="${poruka != null}">
-                            <div class="row mb-4">
-                                <div class="col-lg-8 mx-auto text-center">
-                                    <h1 class="display-5">${poruka}</h1>
-                                </div>
-                            </div> 
-                        </c:if>
-                        <form action="prijava" method="POST" id="registracija" class="contact_form">
-                            <div><input type="email" name="email" class="contact_input" placeholder="Email" required="required"></div>
-                            <div><input type="password" name="lozinka" class="contact_input" placeholder="Lozinka" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}"></div>
-                            <button class="contact_button"><span>Prijava</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                        </form>
-                    </div>
+                <div id="komentarBody" style="width: 80%; margin-bottom: 30px; display: none;">
+                    <form id="komentarForma" class="contact_form">
+                        <div><textarea id="komentarTekst" class="contact_input contact_textarea" placeholder="Napisite komentar"></textarea></div>
+                        <button id="posaljiKomentar" class="contact_button"><span>Posalji komentar</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    </form>
                 </div>
             </c:if>
 
@@ -313,3 +312,38 @@
     </div>
 
 </div>
+<c:if test="${korisnik != null}">
+    <script>
+        var komentarisi = document.querySelector('#komentarisi');
+        var komentarBody = document.querySelector('#komentarBody');
+        komentarisi.addEventListener('click', function () {
+            komentarBody.style.display = 'block';
+            var komentarForma = document.querySelector('#komentarForma');
+            var komentarTekst = document.querySelector('#komentarTekst');
+            komentarForma.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var tekst = komentarTekst.value;
+                postaviKomentar(tekst);
+                tekst.value = '';
+            });
+        });
+
+        function postaviKomentar(komentar) {
+            var xhr = new XMLHttpRequest();
+            var url = 'dodavanjeKomentara';
+            var parametri = 'komentar=' + komentar + '&kursId=' + ${kurs.kursId};
+
+            xhr.open('POST', url);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var komentari = document.querySelector('#komentari');
+                    komentari.innerHTML += '<p>' + komentar + '</p><small class="text-muted">Autor ${korisnik.korisnikIme} ${korisnik.korisnikPrezime} datum 06/19/2020 7:27</small><hr>';
+                }
+            }
+
+            xhr.send(parametri);
+        }
+    </script>
+</c:if>

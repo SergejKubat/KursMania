@@ -83,6 +83,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
+        <url-pattern>/dodavanjeKomentara</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/obrisiKomentar</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

@@ -69,14 +69,13 @@ public class Utilities {
     }
 
     public boolean isContainsTag(String tag, Collection<KursTag> tagovi) {
-        boolean contains = false;
         for (KursTag kt : tagovi) {
             Tag t = tagFacade.find(kt.getTagId().getTagId());
             if (t.getTagIme().equals(tag)) {
-                contains = true;
+                return true;
             }
         }
-        return contains;
+        return false;
     }
     
 }
