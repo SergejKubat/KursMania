@@ -10,6 +10,7 @@ import com.kursmania.sessions.KursFacade;
 import com.kursmania.sessions.OcenaFacade;
 import com.kursmania.sessions.TagFacade;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class AJAXControllerServlet extends HttpServlet {
     private List<Kurs> kursevi;
 
     private List<String> reci;
-    
+
     Korisnik korisnik;
 
     @Override
@@ -98,7 +99,6 @@ public class AJAXControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String putanja = req.getServletPath();
         HttpSession session = req.getSession();
-        
 
         if (putanja.equals("/dodavanjeKomentara")) {
 
@@ -106,14 +106,27 @@ public class AJAXControllerServlet extends HttpServlet {
             int kursId = Integer.parseInt((String) req.getParameter("kursId"));
             Kurs kurs = kursFacade.find(kursId);
             korisnik = (Korisnik) session.getAttribute("korisnik");
+
+            LocalDateTime now = LocalDateTime.now();
+
+            int g = now.getYear();
+            int m = now.getMonthValue();
+            int d = now.getDayOfMonth();
+            int s = now.getHour();
+            int min = now.getMinute();
             
+            String mesec = m > 9 ? String.valueOf(m) : "0" + String.valueOf(m);
+            String dan = d > 9 ? String.valueOf(d) : "0" + String.valueOf(d);
+            String sat = s > 9 ? String.valueOf(s) : "0" + String.valueOf(s);
+            String minut = min > 9 ? String.valueOf(min) : "0" + String.valueOf(min);
+
             Komentar komentar = new Komentar();
             komentar.setKorisnikId(korisnik);
             komentar.setKursId(kurs);
             komentar.setKomentarSadrzaj(sadrzaj);
-            komentar.setKomentarDatum("06-19-2020");
-            komentar.setKomentarVreme("07:27");
-            
+            komentar.setKomentarDatum(mesec + "-" + dan + "-" + g);
+            komentar.setKomentarVreme(sat + ":" + minut);
+
             komentarFacade.create(komentar);
         }
     }

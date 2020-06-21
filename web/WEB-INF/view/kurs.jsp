@@ -106,7 +106,7 @@
                     <br>
                     <h4>${kurs.kursCena}$</h4>
                     <br>
-                    <h5><a href="/kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></h5>
+                    <h5><a href="kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></h5>
                     <br>
                     <h5>Jezik: ${kurs.jezikId.jezikNaziv}</h5>
                     <br>
@@ -130,7 +130,7 @@
                         </c:if>
                     </c:forEach> ${kursProsecnaOcena} (${kursBrojOcena} ocena)
                     <br><br>
-                    <button class="btn btn-lg btn-success" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-cart"></i> Kupi odmah</button>
+                    <button id="kupovina" class="btn btn-lg btn-success" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-cart"></i> Kupi odmah</button>
                     <c:if test="${korisnik == null}">
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -314,6 +314,7 @@
 </div>
 <c:if test="${korisnik != null}">
     <script>
+
         var komentarisi = document.querySelector('#komentarisi');
         var komentarBody = document.querySelector('#komentarBody');
         komentarisi.addEventListener('click', function () {
@@ -324,7 +325,7 @@
                 e.preventDefault();
                 var tekst = komentarTekst.value;
                 postaviKomentar(tekst);
-                tekst.value = '';
+                komentarTekst.value = '';
             });
         });
 
@@ -339,11 +340,25 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var komentari = document.querySelector('#komentari');
-                    komentari.innerHTML += '<p>' + komentar + '</p><small class="text-muted">Autor ${korisnik.korisnikIme} ${korisnik.korisnikPrezime} datum 06/19/2020 7:27</small><hr>';
+                    var datum = new Date();
+                    var mesec = datum.getMonth() + 1;
+                    var mesec = mesec > 9 ? mesec : '0' + mesec;
+                    var dan = datum.getDate() > 9 ? datum.getDate() : '0' + datum.getDate();
+                    var godina = datum.getFullYear();
+                    var sat = datum.getHours() > 9 ? datum.getHours() : '0' + datum.getHours();
+                    var minut = datum.getMinutes() > 9 ? datum.getMinutes() : '0' + datum.getMinutes();
+                    komentari.innerHTML += '<p>' + komentar + '</p><small class="text-muted">Autor ${korisnik.korisnikIme} ${korisnik.korisnikPrezime} Datum ' + mesec + '-' + dan + '-' + godina + ' ' + sat + ':' + minut + '</small><hr>';
                 }
             }
 
             xhr.send(parametri);
         }
+
+        var kupovinaBtn = document.querySelector('#kupovina');
+
+        kupovinaBtn.addEventListener('click', function() {
+                window.location.href = '';
+                window.location.replace("kupovina?id=${kurs.kursId}");
+        });
     </script>
 </c:if>
