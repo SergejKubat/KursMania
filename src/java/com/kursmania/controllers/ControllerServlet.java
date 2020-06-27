@@ -493,6 +493,18 @@ public class ControllerServlet extends HttpServlet {
                 }
 
                 request.setAttribute("preporuceniKursevi", preporuceniKursevi);
+                
+                int ocenaId = -1, ocenaVrednost = -1;
+                
+                for (Ocena o : korisnik.getOcenaCollection()) {
+                    if (o.getKursId().getKursId() == Integer.parseInt(kursId)) {
+                        ocenaVrednost = o.getOcenaVrednost();
+                        ocenaId = o.getOcenaId();
+                    }
+                }
+                
+                request.setAttribute("ocenaVrednost", ocenaVrednost);
+                request.setAttribute("ocenaId", ocenaId);
 
             }
         } else if (pageName.equals("/kursevi")) {

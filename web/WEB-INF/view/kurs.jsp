@@ -1,3 +1,8 @@
+<style>
+    .checked {
+        color: #ff8a00;
+    }
+</style>
 <div class="home">
     <div class="home_background parallax_background parallax-window" data-parallax="scroll" data-image-src="resources/img/website/contact.jpg" data-speed="0.8"></div>
     <div class="home_container">
@@ -121,15 +126,53 @@
                         <a href="pretraga?q=${tag.tagId.tagIme}" class="badge badge-success" style="font-size: 14px">${tag.tagId.tagIme}</a>
                     </c:forEach>
                     <br><br>
+                    <h5>Ocene:</h5>
                     <c:forEach var = "i" begin = "0" end = "5">
                         <c:if test="${kursZvezdice > i}">
-                            <span class="fa fa-star" style="color: #ff8a00"></span>
+                            <span class="fa fa-star checked" style="font-size: 20px"></span>
                         </c:if>
                         <c:if test="${kursZvezdice < i}">
-                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star" style="font-size: 20px"></span>
                         </c:if>
                     </c:forEach> ${kursProsecnaOcena} (${kursBrojOcena} ocena)
                     <br><br>
+
+                    <c:if test="${korisnik != null}">
+
+                        <h5>Oceni kurs:</h5>
+                        <c:if test="${ocenaVrednost == -1}">
+
+                            <div id="ocena">
+                                <c:forEach var = "i" begin = "1" end = "5">
+                                    <span id="o-${i}" class="fa fa-star" style="font-size: 20px"></span>
+                                </c:forEach>
+                                <button id="ocenaBtn" class="btn btn-primary ml-1">Oceni</button>
+                                <p id="ocena-potvrda" style="display: none">Ocena dodata.</p>
+                            </div>
+                            <br>
+
+                        </c:if>
+
+                        <c:if test="${ocenaVrednost != -1}">
+
+                            <div id="ocena">
+                                <c:forEach var = "i" begin = "1" end = "5">
+                                    <c:if test="${ocenaVrednost >= i}">
+                                        <span id="o-${i}" class="fa fa-star checked" style="font-size: 20px"></span>
+                                    </c:if>
+                                    <c:if test="${ocenaVrednost < i}">
+                                        <span id="o-${i}" class="fa fa-star" style="font-size: 20px"></span>
+                                    </c:if>
+                                </c:forEach>
+                                <button id="ocenaBtn" class="btn btn-primary ml-1">Promeni ocenu</button>
+                                <p id="ocena-potvrda" style="display: none">Ocena promenjena.</p>
+                            </div>
+                            <br>
+
+                        </c:if>
+
+                    </c:if>
+
                     <button id="kupovina" class="btn btn-lg btn-success" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-cart"></i> Kupi odmah</button>
                     <c:if test="${korisnik == null}">
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -356,9 +399,72 @@
 
         var kupovinaBtn = document.querySelector('#kupovina');
 
-        kupovinaBtn.addEventListener('click', function() {
-                window.location.href = '';
-                window.location.replace("kupovina?id=${kurs.kursId}");
+        kupovinaBtn.addEventListener('click', function () {
+            window.location.href = '';
+            window.location.replace("kupovina?id=${kurs.kursId}");
         });
+
+        var ocena = document.querySelector('#ocena');
+        var ocenaBtn = document.querySelector('#ocenaBtn');
+        var ocenaPotvrda = document.querySelector('#ocena-potvrda');
+        var ocenaVrednost;
+
+        ocena.addEventListener('click', function (e) {
+            var o = e.target;
+            var oVrednost = o.id.split('-')[1];
+            if (oVrednost !== null && oVrednost > 0 && oVrednost < 6) {
+                ocenaVrednost = oVrednost;
+                for (var i = 1; i <= 5; i++) {
+                    document.querySelector('#o-' + i).classList.remove('checked');
+                }
+                for (var i = 1; i <= oVrednost; i++) {
+                    document.querySelector('#o-' + i).classList.add('checked');
+                }
+            }
+        });
+
+        ocenaBtn.addEventListener('click', function () {
+            if (ocenaVrednost) {
+        <c:if test="${ocenaVrednost == -1}">
+                dodajOcenu(ocenaVrednost);
+        </c:if>
+        <c:if test="${ocenaVrednost != -1}">
+                promeniOcenu(ocenaVrednost);
+        </c:if>
+            }
+        });
+
+        function dodajOcenu(ocena) {
+            var xhr = new XMLHttpRequest();
+            var url = 'dodavanjeOcene';
+            var parametri = 'ocena=' + ocena + '&kursId=' + ${kurs.kursId};
+
+            xhr.open('POST', url);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    ocenaPotvrda.style.display = 'block';
+                }
+            }
+
+            xhr.send(parametri);
+        }
+
+        function promeniOcenu(ocena) {
+            var xhr = new XMLHttpRequest();
+            var url = 'promenaOcene';
+            var parametri = 'ocenaId=' + ${ocenaId} + '&ocena=' + ocena + '&kursId=' + ${kurs.kursId};
+
+            xhr.open('PUT', url);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    ocenaPotvrda.style.display = 'block';
+                }
+            }
+
+            xhr.send(parametri);
+        }
     </script>
 </c:if>

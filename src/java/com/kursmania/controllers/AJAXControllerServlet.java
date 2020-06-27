@@ -9,7 +9,9 @@ import com.kursmania.sessions.KomentarFacade;
 import com.kursmania.sessions.KursFacade;
 import com.kursmania.sessions.OcenaFacade;
 import com.kursmania.sessions.TagFacade;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +94,31 @@ public class AJAXControllerServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        String putanja = req.getServletPath();
+        HttpSession session = req.getSession();
+
+        if (putanja.equals("/promenaOcene")) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(req.getInputStream()));
+
+            String podaci = br.readLine();
+            
+            String[] parametri = podaci.split("&");
+            
+            int ocenaId = Integer.parseInt(parametri[0].split("=")[1]);
+            int ocenaVrednost = Integer.parseInt(parametri[1].split("=")[1]);
+            int kursId = Integer.parseInt(parametri[2].split("=")[1]);
+            
+            Kurs kurs = kursFacade.find(kursId);
+            korisnik = (Korisnik) session.getAttribute("korisnik");
+            
+            Ocena ocena = new Ocena();
+            ocena.setOcenaId(ocenaId);
+            ocena.setKorisnikId(korisnik);
+            ocena.setKursId(kurs);
+            ocena.setOcenaVrednost(ocenaVrednost);
+            
+            ocenaFacade.edit(ocena);
+        }
     }
 
     @Override
@@ -114,7 +140,7 @@ public class AJAXControllerServlet extends HttpServlet {
             int d = now.getDayOfMonth();
             int s = now.getHour();
             int min = now.getMinute();
-            
+
             String mesec = m > 9 ? String.valueOf(m) : "0" + String.valueOf(m);
             String dan = d > 9 ? String.valueOf(d) : "0" + String.valueOf(d);
             String sat = s > 9 ? String.valueOf(s) : "0" + String.valueOf(s);
@@ -128,6 +154,19 @@ public class AJAXControllerServlet extends HttpServlet {
             komentar.setKomentarVreme(sat + ":" + minut);
 
             komentarFacade.create(komentar);
+        } else if (putanja.equals("/dodavanjeOcene")) {
+
+            int ocenaVrednost = Integer.parseInt((String) req.getParameter("ocena"));
+            int kursId = Integer.parseInt((String) req.getParameter("kursId"));
+            Kurs kurs = kursFacade.find(kursId);
+            korisnik = (Korisnik) session.getAttribute("korisnik");
+
+            Ocena ocena = new Ocena();
+            ocena.setKorisnikId(korisnik);
+            ocena.setKursId(kurs);
+            ocena.setOcenaVrednost(ocenaVrednost);
+
+            ocenaFacade.create(ocena);
         }
     }
 }
