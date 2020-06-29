@@ -275,19 +275,7 @@
                                                         <div class="tab-pane fade show <c:if test="${loop.index == 0}">active</c:if>" id="list-${lekcija.lekcijaId}" role="tabpanel" aria-labelledby="list-${lekcija.lekcijaId}-list">
                                                             <p>${lekcija.lekcijaOpis}</p>
                                                             <br>
-                                                            <button class="btn btn-primary btn-primary video-open" data-video="https://www.youtube.com/watch?v=zhYdRCgCw7o" data-toggle="modal" data-target="#videoModal"><i class="fa fa-video-camera"></i> Prikazi snimak</button>
-                                                            <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-body">
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                                            <video controls width="100%">
-                                                                                <source src="" type="video/mp4">
-                                                                            </video>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <a href="lekcija?id=${lekcija.lekcijaId}"><button class="btn btn-primary btn-primary"><i class="fa fa-video-camera"></i> Idi na lekciju</button></a>
                                                         </div>
                                                     </c:forEach>
                                                 </div>

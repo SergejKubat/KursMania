@@ -15,6 +15,8 @@ import com.kursmania.sessions.JezikFacade;
 import com.kursmania.sessions.KategorijaFacade;
 import com.kursmania.sessions.KorisnikFacade;
 import com.kursmania.sessions.KursFacade;
+import com.kursmania.sessions.LekcijaFacade;
+import com.kursmania.sessions.SekcijaFacade;
 import com.kursmania.sessions.TagFacade;
 import com.kursmania.utils.HashUtil;
 import com.kursmania.utils.Utilities;
@@ -62,6 +64,12 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private TagFacade tagFacade;
+    
+    @EJB
+    private LekcijaFacade lekcijaFacade;
+    
+    @EJB
+    private SekcijaFacade sekcijaFacade;
 
     private Utilities utilities;
 
@@ -188,6 +196,34 @@ public class ControllerServlet extends HttpServlet {
                 if (id != null) {
                     initializePage(putanja, request, response);
                     request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+                } else {
+                    response.sendError(404);
+                }
+            } else {
+                response.sendError(404);
+            }
+
+        } else if (putanja.equals("/lekcija")) {
+
+            if (korisnik != null) {
+                String id = request.getParameter("id");
+                if (id != null) {
+                    Lekcija lekcija = lekcijaFacade.find(Integer.parseInt(id));
+                    Kurs kurs = lekcija.getSekcijaId().getKursId();
+                    boolean dostupna = false;
+                    
+                    for (Evidencija e : kurs.getEvidencijaCollection()) {
+                        if (Objects.equals(korisnik.getKorisnikId(), e.getKorisnikId().getKorisnikId())) {
+                            dostupna = true;
+                        }
+                    }
+                    
+                    if (dostupna) {
+                        initializePage(putanja, request, response);
+                        request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+                    } else {
+                        response.sendError(404);
+                    }
                 } else {
                     response.sendError(404);
                 }
@@ -774,6 +810,37 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("brojStudenata", brojStudenata);
             request.setAttribute("brojSekcija", brojSekcija);
             request.setAttribute("brojLekcija", brojLekcija);
+
+        } else if (pageName.equals("/lekcija")) {
+
+            stilovi.add("contact");
+            stilovi.add("contact_responsive");
+            
+            int lekcijaId = Integer.parseInt((String) request.getParameter("id"));
+            
+            Lekcija lekcija = lekcijaFacade.find(lekcijaId);
+            Sekcija sekcija = sekcijaFacade.find(lekcija.getSekcijaId().getSekcijaId());
+            
+            int sledecaPozicija = -1;
+            boolean pronadjen = false;
+            
+            for (Lekcija lekc : sekcija.getLekcijaCollection()) {
+                if (pronadjen) {
+                    sledecaPozicija = lekc.getLekcijaId();
+                    pronadjen = false;
+                }
+                if (lekcijaId == lekc.getLekcijaId()) {
+                    pronadjen = true;
+                }
+            }
+            
+            Lekcija sledecaLekcija = lekcijaFacade.find(sledecaPozicija);
+            
+            if (sledecaLekcija != null) {
+                request.setAttribute("sledecaLekcija", sledecaLekcija);
+            }
+            
+            request.setAttribute("lekcija", lekcija);
 
         } else if (pageName.equals("/kategorija")) {
 

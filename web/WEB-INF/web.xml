@@ -63,6 +63,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/lekcija</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/kontakt</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
