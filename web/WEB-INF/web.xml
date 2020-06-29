@@ -43,11 +43,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
-        <url-pattern>/korpa</url-pattern>
+        <url-pattern>/kupovina</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
-        <url-pattern>/kupovina</url-pattern>
+        <url-pattern>/potvrda</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>

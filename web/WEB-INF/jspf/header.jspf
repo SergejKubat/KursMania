@@ -58,7 +58,7 @@
                                 <div class="col">
                                     <div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
                                         <ul class="top_bar_contact_list">
-                                            <li><div class="question">Pitanja?</div></li>
+                                            <li><div class="question"><a href="kontakt">Pitanja?</a></div></li>
                                             <li>
                                                 <div><a href="tel:0116688933">(011) 6688933</a></div>
                                             </li>

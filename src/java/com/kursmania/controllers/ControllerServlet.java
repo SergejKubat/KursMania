@@ -10,6 +10,7 @@ import com.kursmania.jpa.entities.Lekcija;
 import com.kursmania.jpa.entities.Ocena;
 import com.kursmania.jpa.entities.Rola;
 import com.kursmania.jpa.entities.Sekcija;
+import com.kursmania.sessions.EvidencijaFacade;
 import com.kursmania.sessions.JezikFacade;
 import com.kursmania.sessions.KategorijaFacade;
 import com.kursmania.sessions.KorisnikFacade;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -45,6 +47,9 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private KursFacade kursFacade;
+
+    @EJB
+    private EvidencijaFacade evidencijaFacade;
 
     @EJB
     private KategorijaFacade kategorijaFacade;
@@ -154,13 +159,41 @@ public class ControllerServlet extends HttpServlet {
         } else if (putanja.equals("/kupovina")) {
 
             if (korisnik != null) {
-                initializePage(putanja, request, response);
-                request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+                String id = request.getParameter("id");
+                if (id != null) {
+                    Kurs kurs = kursFacade.find(Integer.parseInt(id));
+                    boolean kupljen = false;
+                    for (Evidencija e : kurs.getEvidencijaCollection()) {
+                        if (Objects.equals(korisnik.getKorisnikId(), e.getKorisnikId().getKorisnikId())) {
+                            kupljen = true;
+                        }
+                    }
+                    if (!kupljen) {
+                        initializePage(putanja, request, response);
+                        request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+                    } else {
+                        response.sendRedirect("kurs?id=" + id);
+                    }
+                } else {
+                    response.sendError(404);
+                }
             } else {
                 response.sendError(404);
             }
 
         } else if (putanja.equals("/potvrda")) {
+
+            if (korisnik != null) {
+                String id = request.getParameter("id");
+                if (id != null) {
+                    initializePage(putanja, request, response);
+                    request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+                } else {
+                    response.sendError(404);
+                }
+            } else {
+                response.sendError(404);
+            }
 
         } else if (putanja.equals("/kategorija")) {
 
@@ -227,7 +260,18 @@ public class ControllerServlet extends HttpServlet {
                 if (kor != null) {
                     session.setAttribute("korisnik", kor);
                     if (kursId != null) {
-                        response.sendRedirect("kupovina?id=" + Integer.parseInt(kursId));
+                        Kurs kurs = kursFacade.find(Integer.parseInt(kursId));
+                        boolean kupljen = false;
+                        for (Evidencija e : kurs.getEvidencijaCollection()) {
+                            if (Objects.equals(kor.getKorisnikId(), e.getKorisnikId().getKorisnikId())) {
+                                kupljen = true;
+                            }
+                        }
+                        if (!kupljen) {
+                            response.sendRedirect("kupovina?id=" + Integer.parseInt(kursId));
+                        } else {
+                            response.sendRedirect("nalog");
+                        }
                     } else {
                         response.sendRedirect("nalog");
                     }
@@ -296,6 +340,45 @@ public class ControllerServlet extends HttpServlet {
             }
 
         } else if (putanja.equals("/kupovina")) {
+
+            initializePage(putanja, request, response);
+
+            String ime = request.getParameter("ime");
+            String brojKartice = request.getParameter("brojKartice");
+            String mesec = request.getParameter("mesec");
+            String godina = request.getParameter("godina");
+            String cvv = request.getParameter("cvv");
+            int kursId = Integer.parseInt(request.getParameter("id"));
+
+            boolean valid = Validation.proveriIme(ime) && Validation.proveriBrojKartice(brojKartice) && Validation.proveriCVV(cvv);
+
+            if (valid) {
+
+                Kurs kurs = kursFacade.find(kursId);
+
+                LocalDateTime now = LocalDateTime.now();
+
+                int g = now.getYear();
+                int m = now.getMonthValue();
+                int d = now.getDayOfMonth();
+
+                String mesec2 = m > 9 ? String.valueOf(m) : "0" + String.valueOf(m);
+                String dan = d > 9 ? String.valueOf(d) : "0" + String.valueOf(d);
+
+                Evidencija evidencija = new Evidencija();
+                evidencija.setKursId(kurs);
+                evidencija.setKorisnikId(korisnik);
+                evidencija.setEvidencijaDatum(g + "-" + mesec2 + "-" + dan);
+
+                evidencijaFacade.create(evidencija);
+
+                response.sendRedirect("potvrda?id=" + kurs.getKursId());
+            } else {
+
+                request.setAttribute("poruka", "Podaci koji su uneti nisu validni!");
+                request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
+            }
 
         } else if (putanja.equals("/kontakt")) {
 
@@ -493,18 +576,27 @@ public class ControllerServlet extends HttpServlet {
                 }
 
                 request.setAttribute("preporuceniKursevi", preporuceniKursevi);
-                
+
                 int ocenaId = -1, ocenaVrednost = -1;
-                
-                for (Ocena o : korisnik.getOcenaCollection()) {
-                    if (o.getKursId().getKursId() == Integer.parseInt(kursId)) {
-                        ocenaVrednost = o.getOcenaVrednost();
-                        ocenaId = o.getOcenaId();
+
+                if (korisnik != null) {
+
+                    for (Ocena o : korisnik.getOcenaCollection()) {
+                        if (o.getKursId().getKursId() == Integer.parseInt(kursId)) {
+                            ocenaVrednost = o.getOcenaVrednost();
+                            ocenaId = o.getOcenaId();
+                        }
                     }
+
+                    request.setAttribute("ocenaVrednost", ocenaVrednost);
+                    request.setAttribute("ocenaId", ocenaId);
+
+                    int korisnikId = korisnik.getKorisnikId();
+                    boolean kupljen = false;
+                    kurs.getEvidencijaCollection().stream().filter((e) -> (korisnikId == e.getKorisnikId().getKorisnikId())).forEachOrdered((_item) -> {
+                        request.setAttribute("kupljen", !kupljen);
+                    });
                 }
-                
-                request.setAttribute("ocenaVrednost", ocenaVrednost);
-                request.setAttribute("ocenaId", ocenaId);
 
             }
         } else if (pageName.equals("/kursevi")) {
@@ -646,7 +738,42 @@ public class ControllerServlet extends HttpServlet {
             stilovi.add("contact_responsive");
             stilovi.add("payment");
 
+            int kursId = Integer.parseInt((String) request.getParameter("id"));
+            Kurs kurs = kursFacade.find(kursId);
+
+            int brojStudenata = kurs.getEvidencijaCollection().size();
+
+            int brojSekcija = kurs.getSekcijaCollection().size();
+
+            int brojLekcija = 0;
+
+            brojLekcija = kurs.getSekcijaCollection().stream().map((s) -> s.getLekcijaCollection().size()).reduce(brojLekcija, Integer::sum);
+
+            request.setAttribute("kurs", kurs);
+            request.setAttribute("brojStudenata", brojStudenata);
+            request.setAttribute("brojSekcija", brojSekcija);
+            request.setAttribute("brojLekcija", brojLekcija);
+
         } else if (pageName.equals("/potvrda")) {
+
+            stilovi.add("contact");
+            stilovi.add("contact_responsive");
+
+            int kursId = Integer.parseInt((String) request.getParameter("id"));
+            Kurs kurs = kursFacade.find(kursId);
+
+            int brojStudenata = kurs.getEvidencijaCollection().size();
+
+            int brojSekcija = kurs.getSekcijaCollection().size();
+
+            int brojLekcija = 0;
+
+            brojLekcija = kurs.getSekcijaCollection().stream().map((s) -> s.getLekcijaCollection().size()).reduce(brojLekcija, Integer::sum);
+
+            request.setAttribute("kurs", kurs);
+            request.setAttribute("brojStudenata", brojStudenata);
+            request.setAttribute("brojSekcija", brojSekcija);
+            request.setAttribute("brojLekcija", brojLekcija);
 
         } else if (pageName.equals("/kategorija")) {
 

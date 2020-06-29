@@ -72,7 +72,9 @@
                             <li class="list-group-item"><i class="fa fa-mobile"></i> Pristup preko mobilnog</li>
                         </ul>
                         <br><br>
-                        <h5 class="text-center"><a href="kupovina?id=${kurs.kursId}">Iskoristi kupon</a></h5>
+                        <c:if test="${korisnik != null}">
+                            <h5 class="text-center"><a href="kupovina?id=${kurs.kursId}&kupon=1">Iskoristi kupon</a></h5>
+                        </c:if>
                         <br>
                         <hr>
                         <br>
@@ -109,9 +111,9 @@
                         </div>
                     </div>
                     <br>
-                    <h4>${kurs.kursCena}$</h4>
+                    <h5>Cena: <span style="font-size: 24px">${kurs.kursCena}$</span></h5>
                     <br>
-                    <h5><a href="kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></h5>
+                    <h5>Kategorija: <a href="kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></h5>
                     <br>
                     <h5>Jezik: ${kurs.jezikId.jezikNaziv}</h5>
                     <br>
@@ -173,32 +175,34 @@
 
                     </c:if>
 
-                    <button id="kupovina" class="btn btn-lg btn-success" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-cart"></i> Kupi odmah</button>
-                    <c:if test="${korisnik == null}">
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Niste prijavljeni!</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div style="width: 80%;">
-                                            <form action="prijava" method="POST" id="prijava" class="contact_form">
-                                                <div><input type="email" name="email" class="contact_input" placeholder="Email" required="required"></div>
-                                                <div><input type="password" name="lozinka" class="contact_input" placeholder="Lozinka" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}"></div>
-                                                <div><input type="hidden" name="kursId" value="${kurs.kursId}"></div>
-                                                <button class="contact_button"><span>Prijava</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    <c:if test="${kupljen == null}">
+                        <button id="kupovina" class="btn btn-lg btn-success" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-cart"></i> Kupi odmah</button>
+                        <c:if test="${korisnik == null}">
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Niste prijavljeni!</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                                        <div class="modal-body">
+                                            <div style="width: 80%;">
+                                                <form action="prijava" method="POST" id="prijava" class="contact_form">
+                                                    <div><input type="email" name="email" class="contact_input" placeholder="Email" required="required"></div>
+                                                    <div><input type="password" name="lozinka" class="contact_input" placeholder="Lozinka" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}"></div>
+                                                    <div><input type="hidden" name="kursId" value="${kurs.kursId}"></div>
+                                                    <button class="contact_button"><span>Prijava</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
                     </c:if>
                     <br><br>
                     <h4>Sta treba da znate pre ovog kursa?</h4>
@@ -397,12 +401,14 @@
             xhr.send(parametri);
         }
 
+        <c:if test="${kupljen == null}">
         var kupovinaBtn = document.querySelector('#kupovina');
 
         kupovinaBtn.addEventListener('click', function () {
             window.location.href = '';
             window.location.replace("kupovina?id=${kurs.kursId}");
         });
+        </c:if>
 
         var ocena = document.querySelector('#ocena');
         var ocenaBtn = document.querySelector('#ocenaBtn');

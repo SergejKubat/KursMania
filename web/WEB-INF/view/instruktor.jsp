@@ -81,7 +81,7 @@
                                                 <div class="course_tag"><a href="kategorija?id=${kurs.kategorijaId.kategorijaId}">${kurs.kategorijaId.kategorijaNaziv}</a></div>
                                                 <div class="course_price ml-auto">Cena: <span>${kurs.kursCena}$</span></div>
                                             </div>
-                                            <div class="course_title"><h3><a href="/kurs?id=${kurs.kursId}">${kurs.kursIme}</a></h3></div>
+                                            <div class="course_title"><h3><a href="kurs?id=${kurs.kursId}">${kurs.kursIme}</a></h3></div>
                                             <div class="course_text">${kurs.kursOpis}</div>
                                             <div class="course_footer d-flex align-items-center justify-content-start">
                                                 <div class="course_author_image"><img src="${kurs.korisnikId.korisnikAvatar}" alt="${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}"></div>
