@@ -5,7 +5,7 @@
 
 <html lang="sr">
     <head>
-        <title>KursMania - Instruktori</title>
+        <title>KursMania - Izmena naloga</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="Elearn project">
@@ -16,9 +16,8 @@
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/animate.css">
-        <link rel="stylesheet" type="text/css" href="${initParam.stiloviPutanja}shop-item.css">
-        <link rel="stylesheet" type="text/css" href="${initParam.stiloviPutanja}courses.css">
-        <link rel="stylesheet" type="text/css" href="${initParam.stiloviPutanja}courses_responsive.css">
+        <link rel="stylesheet" type="text/css" href="${initParam.stiloviPutanja}contact.css">
+        <link rel="stylesheet" type="text/css" href="${initParam.stiloviPutanja}contact_responsive.css">
         <link href="resources/plugins/video-js/video-js.css" rel="stylesheet" type="text/css">
         <link rel="icon" href="resources/img/website/favicon/favicon.ico">
         <style>
@@ -56,11 +55,11 @@
                 <div class="row">
                     <div class="col">
                         <div class="home_content text-center">
-                            <div class="home_title">Instruktori</div>
+                            <div class="home_title">Izmena naloga</div>
                             <div class="breadcrumbs">
                                 <ul>
                                     <li><a href="/">Pocetna</a></li>
-                                    <li>Instruktori</li>
+                                    <li>Izmena informacija o nalogu</li>
                                 </ul>
                             </div>
                         </div>
@@ -70,50 +69,53 @@
         </div>
     </div>
 
-    <div class="teachers">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="teachers_title text-center">Upoznajte instruktore</div>
-                </div>
-            </div>
-            <div class="row teachers_row">
+    <div class="contact" style="width: 1000px; text-align: center; margin: 0 auto;">
+        <div class="container-fluid">
+            <div class="row row-xl-eq-height" style="margin-bottom: 36px">
 
-                <c:forEach var="instruktor" items="${instruktori}">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="teacher">
-                            <div class="teacher_image"><img src="${instruktor.korisnikAvatar}" alt="${instruktor.korisnikIme} ${instruktor.korisnikPrezime}"></div>
-                            <div class="teacher_body text-center">
-                                <div class="teacher_title"><a href="instruktor?id=${instruktor.korisnikId}">${instruktor.korisnikIme} ${instruktor.korisnikPrezime}</a></div>
-                                <div class="teacher_subtitle">${instruktor.korisnikTitula}</div>
-                                <div class="teacher_social">
-                                    <ul>
-                                        <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-facebook"></i></i></a></li>
-                                        <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
-                                    </ul>
+                <div class="contact_form_container" style="width: 80%;">
+                    <c:if test="${poruka == null}">
+                        <div class="col-lg-10 offset-lg-1">
+                            <div class="section_title text-center"><h2>Izmena</h2></div>
+                            <div>
+                                <p style="text-align: center">Izmenite informacije o vasem nalogu.</p>
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:if test="${poruka != null}">
+                        <div class="col-lg-10 offset-lg-1">
+                            <div class="section_title text-center"><h2>Greska</h2></div>
+                            <div>
+                                <p style="text-align: center">${poruka}</p>
+                            </div>
+                        </div>
+                    </c:if>
+                    <br>
+                    <form action="izmenaNaloga" method="POST" class="contact_form">
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-6 contact_name_col">
+                                    <input type="text" name="ime" class="contact_input" value="${korisnik.korisnikIme}" placeholder="Ime" required="required">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" name="prezime" class="contact_input" value="${korisnik.korisnikPrezime}" placeholder="Prezime" required="required">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
-
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="courses_paginations">
-                        <ul>
-                            <c:forEach var="i" begin="1" end="${brojStranica}">
-                                <li <c:if test="${i == index}">class="active"</c:if>><a href="instruktori?page=${i}">0${i}</a></li>
-                                </c:forEach>
-                        </ul>
-                    </div>
+                        <div><input type="email" name="email" class="contact_input" value="${korisnik.korisnikEmail}" placeholder="Email"></div>
+                        <div><input type="tel" name="brt" class="contact_input" value="${korisnik.korisnikBrojTelefona}" placeholder="Broj telefona" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"></div>
+                        <div><input type="text" name="mesto" class="contact_input" value="${korisnik.korisnikMesto}" placeholder="Mesto"></div>
+                        <div><input type="text" name="adresa" class="contact_input" value="${korisnik.korisnikAdresa}" placeholder="Adresa"></div>
+                        <div><input type="text" name="titula" class="contact_input" value="${korisnik.korisnikTitula}" placeholder="Titula"></div>
+                        <div><textarea name="opis" class="contact_input contact_textarea" value="${korisnik.korisnikOpis}" placeholder="Dodajte opis"></textarea></div>
+                        <button class="contact_button"><span>Izmena informacija</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    </form>
                 </div>
             </div>
+
         </div>
     </div>
-
+                        
     <jsp:include page="includes/footer.jsp" />
 
     <script src="resources/js/jquery-3.2.1.min.js"></script>

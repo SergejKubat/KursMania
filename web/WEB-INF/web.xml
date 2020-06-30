@@ -1,129 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
-        <param-name>file-upload</param-name>
+        <param-name>fileUpload</param-name>
         <param-value>resources/img/ostale</param-value>
     </context-param>
+    
     <context-param>
-        <param-name>slike-putanja</param-name>
+        <param-name>slikePutanja</param-name>
         <param-value>resources/img/website</param-value>
     </context-param>
+    
+    <context-param>
+        <param-name>stiloviPutanja</param-name>
+        <param-value>resources/css/</param-value>
+    </context-param>
+    
+    <filter>
+        <filter-name>LogInFilter</filter-name>
+        <filter-class>com.kursmania.filters.LogInFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>LogInFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
     <servlet>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>com.kursmania.controllers.ControllerServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>  
+        <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <servlet-class>com.kursmania.controllers.AJAXControllerServlet</servlet-class>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/prijava</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/pretraga</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/kurs</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/kursevi</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/kategorija</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/kupovina</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/potvrda</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/nalog</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/izmenaNaloga</url-pattern>
+    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/instruktori</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/instruktor</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/lekcija</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/kontakt</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/onama</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/odjava</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/azuriranjeSlike</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/preporuke</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/dodavanjeKomentara</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/obrisiKomentar</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/dodavanjeOcene</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/promenaOcene</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/obrisiOcenu</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             120
         </session-timeout>
     </session-config>
+    
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/error/404.jsp</location>
     </error-page>
+    
     <error-page>
         <error-code>500</error-code>
         <location>/WEB-INF/error/500.jsp</location>
     </error-page>
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>/WEB-INF/view/*</url-pattern>
-            <url-pattern>/index.jsp</url-pattern>
-            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
-            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
-        </jsp-property-group>
-    </jsp-config>
+    
 </web-app>
