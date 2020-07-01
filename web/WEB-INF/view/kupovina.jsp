@@ -81,7 +81,7 @@
                                     <div class="logo_container">
                                         <a href="#">
                                             <div class="logo_content d-flex flex-row align-items-end justify-content-start">
-                                                <div class="logo_text">${kurs.kursIme}</div>
+                                                <div class="logo_text">${kurs.kursIme} - <b>${kurs.kursCena}$</b></div>
                                             </div>
                                         </a>
                                     </div>
@@ -140,10 +140,11 @@
                                         <div class="tab-content">
                                             <div id="credit-card" class="tab-pane fade show active pt-3">
                                                 <form method="POST" action="kupovina?id=${kurs.kursId}" role="form">
-                                                    <div class="form-group"> <label for="username">
+                                                    <div class="form-group"> <label for="ime">
                                                             <h6>Vlasnik kartice</h6>
-                                                        </label> <input type="text" name="ime" placeholder="Ime" required pattern="[a-zA-Z0-9]{3,32}" class="form-control"> </div>
-                                                    <div class="form-group"> <label for="cardNumber">
+                                                        </label> <input type="text" name="ime" placeholder="Ime" required pattern="[a-zA-Z]{3,32}" class="form-control"> 
+                                                    </div>
+                                                    <div class="form-group"> <label for="brojKartice">
                                                             <h6>Broj kartice</h6>
                                                         </label>
                                                         <div class="input-group"> <input type="text" name="brojKartice" placeholder="Ispravan broj kartice" class="form-control " required pattern="^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$">
@@ -164,9 +165,15 @@
                                                                 </label> <input type="text" name="cvv" required pattern="[0-9]{3,4}" class="form-control"> </div>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group"> <label for="Kupon">
+                                                            <h6>Kupon</h6>
+                                                        </label> <input type="text" id="kupon" name="kupon" placeholder="Kupon" pattern="[A-Z0-9]{8}" class="form-control">
+                                                        <br>
+                                                        <button type="button" id="proveraKupona" class="btn btn-info">Proveri kupon</button>
+                                                        <p id="poruka"></p>
+                                                    </div>
                                                     <input type="hidden" name="kursId" value="${kursId}">
                                                     <div class="card-footer"> <input type="submit" class="subscribe btn btn-primary btn-block shadow-sm" value="Potvrdi">
-                                                        </form>
                                                     </div>
                                                 </form>
                                             </div>
@@ -201,8 +208,53 @@
             <script>
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip()
-                })
+                });
+
+                var proveraKuponaBtn = document.querySelector('#proveraKupona');
+
+                proveraKuponaBtn.addEventListener('click', function () {
+                    const regex = /[A-Z0-9]{8}/;
+                    var kuponVrednost = document.querySelector('#kupon').value;
+                    if (kuponVrednost) {
+
+                        if (kuponVrednost.match(regex)) {
+
+                            proveriKupon(kuponVrednost);
+
+                        } else {
+                            prikaziPoruku('Sifra koju ste uneli nije u validnom formatu!', false);
+                        }
+
+                    } else {
+                        prikaziPoruku('Niste uneli sifru kupona!', false);
+                    }
+                });
+
+                function proveriKupon(kupon) {
+                    var xhr = new XMLHttpRequest();
+                    var url = 'proveraKupona?sifra=' + kupon + '&kurs=' + ${kurs.kursId};
+                    xhr.open('GET', url);
+                    xhr.send();
+
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            var vrednost = xhr.responseText;
+                            if (vrednost !== '0') {
+                                prikaziPoruku('Popust koji donosi kupon je ' + vrednost + '%.', true);
+                            } else {
+                                prikaziPoruku('Ne postoji kupon sa tom sifrom!', false);
+                            }
+                        }
+                    }
+                    
+                }
+
+                function prikaziPoruku(poruka, tip) {
+                    var porukaElement = document.querySelector('#poruka');
+                    porukaElement.innerText = poruka;
+                    porukaElement.style.color = tip ? 'green' : 'red';
+                }
             </script>
-</body>
-</html>
+            </body>
+            </html>
 

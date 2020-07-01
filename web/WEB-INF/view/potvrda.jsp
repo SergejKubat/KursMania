@@ -118,9 +118,10 @@
 
                 <div class="col-xl-6 map_col">
 
-                    <div class="card">
+                    <div class="card mt-5 mr-5">
                         <div class="card-header">
                             <h1>Cestitamo, uspesno ste kupili kurs!</h1>
+                            <h3>Cena koju ste platili je: ${kurs.kursCena}$ - ${kupon.kuponPopust}% = <b>${krajnjaCena}$</b></h3>
                         </div>
                         <div class="card-body">
                             <a href="kurs?id=${kurs.kursId}"><button class="contact_button"><span>Idite na kurs</span><span class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button></a>

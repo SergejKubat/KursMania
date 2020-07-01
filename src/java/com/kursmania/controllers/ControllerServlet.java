@@ -4,6 +4,7 @@ import com.kursmania.jpa.entities.Evidencija;
 import com.kursmania.jpa.entities.Kategorija;
 import com.kursmania.jpa.entities.Komentar;
 import com.kursmania.jpa.entities.Korisnik;
+import com.kursmania.jpa.entities.Kupon;
 import com.kursmania.jpa.entities.Kurs;
 import com.kursmania.jpa.entities.KursTag;
 import com.kursmania.jpa.entities.Lekcija;
@@ -14,6 +15,7 @@ import com.kursmania.sessions.EvidencijaFacade;
 import com.kursmania.sessions.JezikFacade;
 import com.kursmania.sessions.KategorijaFacade;
 import com.kursmania.sessions.KorisnikFacade;
+import com.kursmania.sessions.KuponFacade;
 import com.kursmania.sessions.KursFacade;
 import com.kursmania.sessions.LekcijaFacade;
 import com.kursmania.sessions.SekcijaFacade;
@@ -70,6 +72,9 @@ public class ControllerServlet extends HttpServlet {
 
     @EJB
     private SekcijaFacade sekcijaFacade;
+
+    @EJB
+    private KuponFacade kuponFacade;
 
     private Utilities utilities;
 
@@ -430,6 +435,7 @@ public class ControllerServlet extends HttpServlet {
             String mesec = request.getParameter("mesec");
             String godina = request.getParameter("godina");
             String cvv = request.getParameter("cvv");
+            String kuponSifra = request.getParameter("kupon");
             int kursId = Integer.parseInt(request.getParameter("id"));
 
             boolean valid = Validation.proveriIme(ime) && Validation.proveriBrojKartice(brojKartice) && Validation.proveriCVV(cvv);
@@ -454,7 +460,28 @@ public class ControllerServlet extends HttpServlet {
 
                 evidencijaFacade.create(evidencija);
 
-                response.sendRedirect("potvrda?id=" + kurs.getKursId());
+                Kupon kupon = null;
+
+                if (Validation.proveriKupon(kuponSifra)) {
+                    Collection<Kupon> kuponi = kurs.getKuponCollection();
+
+                    if (kuponi != null) {
+                        for (Kupon k : kuponi) {
+                            if (kuponSifra.equals(k.getKuponKod()) && k.getKuponIsIskoriscen() == 0) {
+                                kupon = k;
+                            }
+                        }
+                    }
+                }
+
+                if (kupon != null) {
+                    kupon.setKuponIsIskoriscen(Short.parseShort("1"));
+                    kuponFacade.edit(kupon);
+                }
+
+                String kuponParam = kupon != null ? "&kupon=" + String.valueOf(kupon.getKuponId()) : "";
+
+                response.sendRedirect("potvrda?id=" + kurs.getKursId() + kuponParam);
             } else {
 
                 request.setAttribute("poruka", "Podaci koji su uneti nisu validni!");
@@ -851,7 +878,25 @@ public class ControllerServlet extends HttpServlet {
         } else if (pageName.equals("/potvrda")) {
 
             int kursId = Integer.parseInt((String) request.getParameter("id"));
+            String kuponSifra = request.getParameter("kupon");
+            int kuponId = -1;
+            Kupon kupon = null;
             Kurs kurs = kursFacade.find(kursId);
+            
+            if (kuponSifra != null) {
+                try {
+                    kuponId = Integer.parseInt(kuponSifra);
+                } catch (NumberFormatException ex) {
+                    System.out.println(ex);
+                }
+            }
+            
+            if (kuponId != -1) {
+                kupon = kuponFacade.find(kuponId);
+                request.setAttribute("kupon", kupon);
+                double krajnjaCena = kurs.getKursCena() - ((kurs.getKursCena() / 100) * kupon.getKuponPopust());
+                request.setAttribute("krajnjaCena", String.format("%.2f", krajnjaCena));
+            }
 
             int brojStudenata = kurs.getEvidencijaCollection().size();
 

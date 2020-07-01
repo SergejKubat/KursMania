@@ -123,13 +123,13 @@
                                 <li class="list-group-item"><i class="fa fa-universal-access"></i> Dozivotni pristup</i></li>
                                 <li class="list-group-item"><i class="fa fa-mobile"></i> Pristup preko mobilnog</li>
                             </ul>
-                            <br><br>
-                            <c:if test="${korisnik != null}">
-                                <h5 class="text-center"><a href="kupovina?id=${kurs.kursId}&kupon=1">Iskoristi kupon</a></h5>
+                            <c:if test="${kupljen == null}">
+                                <br><br>
+                                <h5 class="text-center"><a href="kupovina?id=${kurs.kursId}">Iskoristi kupon</a></h5>
+                                <br>
+                                <hr>
+                                <br>
                             </c:if>
-                            <br>
-                            <hr>
-                            <br>
                             <h5 class="text-center"><a href="#"><i class="fa fa-share"></i> Podeli</a></h5>
                         </div>
                     </div>

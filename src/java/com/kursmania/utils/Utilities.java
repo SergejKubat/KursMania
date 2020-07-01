@@ -8,10 +8,10 @@ import java.util.List;
 import javax.ejb.EJB;
 
 public class Utilities {
-    
+
     @EJB
     TagFacade tagFacade;
-    
+
     public String getShortenText(String text, int numOfWords) {
         String[] reci = text.split(" ");
         if (reci.length < numOfWords) {
@@ -77,5 +77,5 @@ public class Utilities {
         }
         return false;
     }
-    
+
 }

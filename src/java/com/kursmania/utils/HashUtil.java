@@ -26,7 +26,7 @@ public class HashUtil {
 
             return hashtext;
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Exception thrown for incorrect algorithm: " + e);
+            System.out.println(e);
             return null;
         }
     }

@@ -11,6 +11,7 @@ public class Validation {
     private static final String REGEX_BROJ_TELEFONA = "[0-9]{3}-[0-9]{3}-[0-9]{3,4}";
     private static final String REGEX_BROJ_KARTICE = "^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\\d{3})\\d{11})$";
     private static final String REGEX_CVV = "[0-9]{3,4}";
+    private static final String REGEX_KUPON = "[A-Z0-9]{8}";
 
     public static boolean proveriIme(String ime) {
         return Pattern.matches(REGEX_IME, ime);
@@ -36,5 +37,9 @@ public class Validation {
     
     public static boolean proveriCVV(String cvv) {
         return Pattern.matches(REGEX_CVV, cvv);
+    }
+    
+    public static boolean proveriKupon(String kupon) {
+        return Pattern.matches(REGEX_KUPON, kupon);
     }
 }

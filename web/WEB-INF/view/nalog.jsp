@@ -176,9 +176,16 @@
                             <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Moji kursevi</h2>
                             <c:forEach var="kurs" items="${mojiKursevi}">
                                 <div class="w3-container">
-                                    <h5 class="w3-opacity"><b><a href="kurs?id=${kurs.kursId}">${kurs.kursIme}</a></b></h5>
-                                    <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>${kurs.kursDatumObjavljivanja}</h6>
-                                    <p>${kurs.kursOpis}</p>
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <h5 class="w3-opacity"><b><a href="kurs?id=${kurs.kursId}">${kurs.kursIme}</a></b></h5>
+                                            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>${kurs.kursDatumObjavljivanja}</h6>
+                                            <p>${kurs.kursOpis}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <a href="pregledKursa?id=${kurs.kursId}"><button class="btn btn-info p-1" style="margin-top: 10px"><i class="fa fa-info-circle"></i> Pregledaj kurs</button></a>
+                                        </div>
+                                    </div>
                                     <hr>
                                 </div>
                             </c:forEach>
@@ -243,6 +250,10 @@
                             </div>
                         </c:forEach> 
                     </div>
+
+                    <c:if test="${korisnik.rolaId.rolaId == 2}">
+                        <a href="dodavanjeKursa"><button class="btn btn-success">Napravi novi kurs</button></a>
+                    </c:if>
 
                 </div>
 

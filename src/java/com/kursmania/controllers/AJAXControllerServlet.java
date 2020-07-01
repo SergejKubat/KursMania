@@ -2,18 +2,22 @@ package com.kursmania.controllers;
 
 import com.kursmania.jpa.entities.Komentar;
 import com.kursmania.jpa.entities.Korisnik;
+import com.kursmania.jpa.entities.Kupon;
 import com.kursmania.jpa.entities.Kurs;
 import com.kursmania.jpa.entities.Ocena;
 import com.kursmania.jpa.entities.Tag;
 import com.kursmania.sessions.KomentarFacade;
+import com.kursmania.sessions.KuponFacade;
 import com.kursmania.sessions.KursFacade;
 import com.kursmania.sessions.OcenaFacade;
 import com.kursmania.sessions.TagFacade;
+import com.kursmania.utils.Validation;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.EJB;
@@ -36,6 +40,9 @@ public class AJAXControllerServlet extends HttpServlet {
 
     @EJB
     private OcenaFacade ocenaFacade;
+
+    @EJB
+    private KuponFacade kuponFacade;
 
     private List<Tag> tagovi;
 
@@ -60,17 +67,55 @@ public class AJAXControllerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String q = (String) request.getParameter("q");
-        List<String> preporuke = reci.stream().filter(e -> e.toLowerCase().contains(q.toLowerCase())).collect(Collectors.toList());
-        if (preporuke.size() > 5) {
-            preporuke = preporuke.subList(0, 5);
+        String putanja = request.getServletPath();
+
+        if (putanja.equals("/preporuke")) {
+
+            String q = request.getParameter("q");
+            List<String> preporuke = reci.stream().filter(e -> e.toLowerCase().contains(q.toLowerCase())).collect(Collectors.toList());
+            if (preporuke.size() > 5) {
+                preporuke = preporuke.subList(0, 5);
+            }
+
+            response.setContentType("text/plain");
+            response.setCharacterEncoding("UTF-8");
+            for (String preporuka : preporuke) {
+                response.getWriter().write(preporuka + "|");
+            }
+
+        } else if (putanja.equals("/proveraKupona")) {
+
+            String sifra = request.getParameter("sifra");
+            String id = request.getParameter("kurs");
+
+            if (Validation.proveriKupon(sifra)) {
+                int kursId = Integer.parseInt(id);
+                Kurs kurs = kursFacade.find(kursId);
+                Collection<Kupon> kuponi = kurs.getKuponCollection();
+                
+                response.setContentType("text/plain");
+                response.setCharacterEncoding("UTF-8");
+                
+                if (kuponi != null) {
+                    Kupon kupon = null;
+                    for (Kupon k : kuponi) {
+                        if (sifra.equals(k.getKuponKod()) && k.getKuponIsIskoriscen() == 0) {
+                            kupon = k;
+                        }
+                    }
+                    if (kupon != null) {
+                        response.getWriter().write(kupon.getKuponPopust().toString());
+                    } else {
+                        response.getWriter().write("0");
+                    }
+                } else {
+                    response.getWriter().write("0");
+                }
+            } else {
+                response.getWriter().write("0");
+            }
         }
 
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("UTF-8");
-        for (String preporuka : preporuke) {
-            response.getWriter().write(preporuka + "|");
-        }
     }
 
     @Override
@@ -101,22 +146,22 @@ public class AJAXControllerServlet extends HttpServlet {
             BufferedReader br = new BufferedReader(new InputStreamReader(req.getInputStream()));
 
             String podaci = br.readLine();
-            
+
             String[] parametri = podaci.split("&");
-            
+
             int ocenaId = Integer.parseInt(parametri[0].split("=")[1]);
             int ocenaVrednost = Integer.parseInt(parametri[1].split("=")[1]);
             int kursId = Integer.parseInt(parametri[2].split("=")[1]);
-            
+
             Kurs kurs = kursFacade.find(kursId);
             korisnik = (Korisnik) session.getAttribute("korisnik");
-            
+
             Ocena ocena = new Ocena();
             ocena.setOcenaId(ocenaId);
             ocena.setKorisnikId(korisnik);
             ocena.setKursId(kurs);
             ocena.setOcenaVrednost(ocenaVrednost);
-            
+
             ocenaFacade.edit(ocena);
         }
     }
