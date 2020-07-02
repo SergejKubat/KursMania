@@ -309,6 +309,48 @@ public class ControllerServlet extends HttpServlet {
             initializePage(putanja, request, response);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
 
+        } else if (putanja.equals("/dodavanjeKursa")) {
+
+            if (korisnik.getRolaId().getRolaId() == 2) {
+
+                initializePage(putanja, request, response);
+                request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
+            } else {
+                response.sendError(404);
+            }
+
+        } else if (putanja.equals("/pregledKursa")) {
+
+            if (korisnik.getRolaId().getRolaId() == 2) {
+
+                String id = request.getParameter("id");
+
+                if (id != null) {
+
+                    try {
+                        int kursId = Integer.parseInt(id);
+                        Kurs kurs = kursFacade.find(kursId);
+
+                        if (kurs != null) {
+
+                            initializePage(putanja, request, response);
+                            request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
+                        } else {
+                            response.sendError(404);
+                        }
+                    } catch (NumberFormatException ex) {
+                        response.sendError(404);
+                    }
+                } else {
+                    response.sendError(404);
+                }
+
+            } else {
+                response.sendError(404);
+            }
+
         } else if (putanja.equals("/odjava")) {
 
             session.invalidate();
@@ -537,6 +579,10 @@ public class ControllerServlet extends HttpServlet {
             initializePage(putanja, request, response);
             request.setAttribute("poruka", true);
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+
+        } else if (putanja.equals("/dodavanjeKursa")) {
+
+        } else if (putanja.equals("/pregledKursa")) {
 
         } else if (putanja.equals("/azuriranjeSlike")) {
 
@@ -882,7 +928,7 @@ public class ControllerServlet extends HttpServlet {
             int kuponId = -1;
             Kupon kupon = null;
             Kurs kurs = kursFacade.find(kursId);
-            
+
             if (kuponSifra != null) {
                 try {
                     kuponId = Integer.parseInt(kuponSifra);
@@ -890,7 +936,7 @@ public class ControllerServlet extends HttpServlet {
                     System.out.println(ex);
                 }
             }
-            
+
             if (kuponId != -1) {
                 kupon = kuponFacade.find(kuponId);
                 request.setAttribute("kupon", kupon);
@@ -987,6 +1033,60 @@ public class ControllerServlet extends HttpServlet {
 
             navigationSelector = 1;
             request.setAttribute("instruktori", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()));
+
+        } else if (pageName.equals("/dodavanjeKursa")) {
+
+        } else if (pageName.equals("/pregledKursa")) {
+
+            int kursId = Integer.parseInt((String) request.getParameter("id"));
+            Kurs kurs = kursFacade.find(kursId);
+
+            request.setAttribute("kurs", kurs);
+
+            int kursBrojOcena, kursZbirOcena = 0, kursZvezdice;
+            double kursProsecnaOcena;
+
+            kursBrojOcena = kurs.getOcenaCollection().size();
+            kursZbirOcena = kurs.getOcenaCollection().stream().map((o) -> o.getOcenaVrednost()).reduce(kursZbirOcena, Integer::sum);
+
+            kursProsecnaOcena = (double) kursZbirOcena / kursBrojOcena;
+            kursZvezdice = kursZbirOcena / kursBrojOcena;
+
+            request.setAttribute("kursBrojOcena", kursBrojOcena);
+            request.setAttribute("kursProsecnaOcena", String.format("%.2f", kursProsecnaOcena));
+            request.setAttribute("kursZvezdice", kursZvezdice);
+
+            int brojJedinica, brojDvojki, brojTrojki, brojCetvorki, brojPetica;
+
+            Collection<Ocena> ocene = kurs.getOcenaCollection();
+
+            brojJedinica = ocene.stream().filter(e -> e.getOcenaVrednost() == 1).collect(Collectors.toList()).size();
+            brojDvojki = ocene.stream().filter(e -> e.getOcenaVrednost() == 2).collect(Collectors.toList()).size();
+            brojTrojki = ocene.stream().filter(e -> e.getOcenaVrednost() == 3).collect(Collectors.toList()).size();
+            brojCetvorki = ocene.stream().filter(e -> e.getOcenaVrednost() == 4).collect(Collectors.toList()).size();
+            brojPetica = ocene.stream().filter(e -> e.getOcenaVrednost() == 5).collect(Collectors.toList()).size();
+
+            request.setAttribute("brojJedinica", brojJedinica);
+            request.setAttribute("brojDvojki", brojDvojki);
+            request.setAttribute("brojTrojki", brojTrojki);
+            request.setAttribute("brojCetvorki", brojCetvorki);
+            request.setAttribute("brojPetica", brojPetica);
+
+            int kursBrojLekcija = 0;
+
+            kursBrojLekcija = kurs.getSekcijaCollection().stream().map((s) -> s.getLekcijaCollection().size()).reduce(kursBrojLekcija, Integer::sum);
+
+            request.setAttribute("brojLekcija", kursBrojLekcija);
+
+            int duzinaKursa = 0;
+
+            for (Sekcija s : kurs.getSekcijaCollection()) {
+                for (Lekcija l : s.getLekcijaCollection()) {
+                    duzinaKursa = l.getVideoCollection().stream().map((v) -> v.getVideoDuzinaTrajanja()).reduce(duzinaKursa, Integer::sum);
+                }
+            }
+
+            request.setAttribute("duzinaKursa", utilities.numberToTime(duzinaKursa));
 
         }
 

@@ -18,7 +18,7 @@ public class LogInFilter implements Filter {
 
     private static final String[] LOG_IN_REQUIRED_URLS = {
         "/kupovina", "/potvrda", "/nalog", "izmenaNaloga", "lekcija", "odjava", "azuriranjeSlike", "dodavanjeKomentara", "dodavanjeOcene", "promenaOcene", "obrisiKomentar",
-        "obrisiOcenu"
+        "obrisiOcenu", "dodavanjeKursa", "pregledKursa"
     };
 
     @Override

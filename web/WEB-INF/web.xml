@@ -122,6 +122,16 @@
     </servlet-mapping>
     
     <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/dodavanjeKursa</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ControllerServlet</servlet-name>
+        <url-pattern>/pregledKursa</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/preporuke</url-pattern>
     </servlet-mapping>

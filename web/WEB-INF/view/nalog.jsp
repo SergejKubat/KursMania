@@ -262,6 +262,8 @@
         </div>
     </div>
 
+    <jsp:include page="includes/footer.jsp" />
+
     <script>
         <c:forEach var="komentar" items="${komentari}">
         var btnKomentar${komentar.komentarId} = document.querySelector('#btnKomentar-${komentar.komentarId}');
@@ -295,8 +297,6 @@
             xhr.send();
         }
     </script>
-
-    <jsp:include page="includes/footer.jsp" />
 
     <script src="resources/js/jquery-3.2.1.min.js"></script>
     <script src="resources/css/bootstrap4/popper.js"></script>

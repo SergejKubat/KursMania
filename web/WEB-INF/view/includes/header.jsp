@@ -26,7 +26,7 @@
                                                 <li><a href="prijava">Prijava</a></li>
                                                 </c:if>
                                                 <c:if test="${korisnik != null}">
-                                                <li><a href="nalog"><img src="resources/img/ostale/default_avatar.png" alt="Korisnik" style="width: 32px; height: 32px; border-radius: 100%; margin-right: 5px" />${korisnik.korisnikIme} ${korisnik.korisnikPrezime}</a></li>
+                                                <li><a href="nalog"><img src="${korisnik.korisnikAvatar}" alt="Korisnik" style="width: 32px; height: 32px; border-radius: 100%; margin-right: 5px" />${korisnik.korisnikIme} ${korisnik.korisnikPrezime}</a></li>
                                                 <li><a href="odjava">Odjava</a></li>
                                                 </c:if>
                                         </ul>
