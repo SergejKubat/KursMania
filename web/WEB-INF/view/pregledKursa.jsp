@@ -5,7 +5,7 @@
 
 <html lang="sr">
     <head>
-        <title>KursMania - ${kurs.kursIme}</title>
+        <title>KursMania - ${kurs.kursIme} - Pregled</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="Elearn project">
@@ -49,6 +49,10 @@
 
             .checked {
                 color: #ff8a00;
+            }
+
+            .tag:hover {
+                background-color: #007E33;
             }
         </style>
     </head>
@@ -117,111 +121,120 @@
                 <p class="card-text">${kurs.kursOpis}</p>
                 <br>
                 <h5>Tagovi:</h5>
-                <c:forEach var="tag" items="${kurs.kursTagCollection}">
-                    <div class="badge badge-success" style="font-size: 14px">${tag.tagId.tagIme} <i class="fa fa-times-circle"></i></div>
-                    </c:forEach>
+                <div id="tagovi">
+                    <c:forEach var="tag" items="${kurs.kursTagCollection}">
+                        <div class="badge badge-success tag" style="font-size: 14px">${tag.tagId.tagIme} <i id="tag-${tag.ktId}" class="fa fa-times-circle"></i></div>
+                        </c:forEach>
+                </div>
                 <br><br>
-
-                <h5>Ocene:</h5>
-                <c:forEach var = "i" begin = "0" end = "5">
-                    <c:if test="${kursZvezdice > i}">
-                        <span class="fa fa-star checked" style="font-size: 20px"></span>
-                    </c:if>
-                    <c:if test="${kursZvezdice < i}">
-                        <span class="fa fa-star" style="font-size: 20px"></span>
-                    </c:if>
-                </c:forEach> ${kursProsecnaOcena} (${kursBrojOcena} ocena)
-                <br><br>
-
-                <h5>Ocene - detaljan pregled:</h5>
                 <div class="card">
 
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <p>Ocena:</p>
-                            </div>
-                            <div class="col">
-                                <p class="float-right mr-3">Broj ocena:</p>
-                            </div>
-                        </div>
+                        <h3>Pregled ocena:</h3>
                     </div>
 
                     <br>
 
                     <div class="card-body">
 
-                        <div class="row">                      
-                            <div class="col">
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span> (1)
-                            </div>
-                            <div class="col">
-                                <p class="float-right mr-5">${brojJedinica}</p>
-                            </div>
-                        </div>
-
-                        <br>
-
                         <div class="row">
-                            <div class="col">
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span> (2)
+                            <div class="col-3">
+                                <div style="margin-top: 40px">
+                                    <h1 class="text-center">${kursProsecnaOcena}</h1>
+                                    <div class="text-center">
+                                        <c:forEach var = "i" begin = "0" end = "5">
+                                            <c:if test="${kursZvezdice > i}">
+                                                <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                            </c:if>
+                                            <c:if test="${kursZvezdice < i}">
+                                                <span class="fa fa-star" style="font-size: 20px"></span>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                    <p class="text-center">${kursBrojOcena} ocena</p>
+                                </div>
                             </div>
-                            <div class="col">
-                                <p class="float-right mr-5">${brojDvojki}</p>
-                            </div>
-                        </div>
+                            <div class="col-6">                    
+                                <br>
 
-                        <br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${procenatPetica}%" aria-valuenow="${procenatPetica}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span> (3)
-                            </div>
-                            <div class="col">
-                                <p class="float-right mr-5">${brojTrojki}</p>
-                            </div>
-                        </div>
+                                <br>
 
-                        <br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${procenatCetvorki}%" aria-valuenow="${procenatCetvorki}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star" style="font-size: 20px"></span> (4)
-                            </div>
-                            <div class="col">
-                                <p class="float-right mr-5">${brojCetvorki}</p>
-                            </div>
-                        </div>
+                                <br>
 
-                        <br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${procenatTrojki}%" aria-valuenow="${procenatTrojki}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span>
-                                <span class="fa fa-star checked" style="font-size: 20px"></span> (5)
+                                <br>
+
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${procenatDvojki}%" aria-valuenow="${procenatDvojki}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+
+                                <br>
+
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: ${procenatJedinica}%" aria-valuenow="${procenatJedinica}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+
+                                <br>
                             </div>
-                            <div class="col">
-                                <p class="float-right mr-5">${brojPetica}</p>
+                            <div class="col-3">
+
+                                <br>
+
+                                <div class="ml-3" style="position: relative; bottom: 5px;">
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px; margin-right: 5px"></span> ${procenatPetica}%
+                                </div>
+
+                                <div class="ml-3" style="position: relative; top: 10px;">
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px; margin-right: 5px"></span> ${procenatCetvorki}%
+                                </div>
+
+                                <div class="ml-3" style="position: relative; top: 20px;">
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px; margin-right: 5px"></span> ${procenatTrojki}%
+                                </div>
+
+                                <div class="ml-3" style="position: relative; top: 35px;">
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px; margin-right: 5px"></span> ${procenatDvojki}%
+                                </div>
+
+                                <div class="ml-3" style="position: relative; top: 50px;">
+                                    <span class="fa fa-star checked" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px"></span>
+                                    <span class="fa fa-star" style="font-size: 20px; margin-right: 5px"></span> ${procenatJedinica}%
+                                </div>
+
+                                <br>
+
                             </div>
+
                         </div>
 
                     </div>
@@ -375,14 +388,28 @@
             id = e.target.id.split('-')[1];
             var komentar = document.querySelector('#komentar-' + id);
             komentar.remove();
-            brisanje(id);
+            brisanje('komentar', id);
+        });
+        </c:forEach>
+
+        <c:forEach var="tag" items="${kurs.kursTagCollection}">
+        var btnTag${tag.ktId} = document.querySelector('#tag-${tag.ktId}');
+        btnTag${tag.ktId}.addEventListener('click', function (e) {
+            id = e.target.id.split('-')[1];
+            e.target.parentElement.remove();
+            brisanje('tag', id);
         });
         </c:forEach>
 
         function brisanje(tip, id) {
             var xhr = new XMLHttpRequest();
             var url;
-            url = 'obrisiKomentar?id=' + id;
+            if (tip === 'komentar') {
+                url = 'obrisiKomentar?id=' + id;
+            }
+            if (tip === 'tag') {
+                url = 'obrisiTag?id=' + id;
+            }
             xhr.open('DELETE', url);
             xhr.send();
         }

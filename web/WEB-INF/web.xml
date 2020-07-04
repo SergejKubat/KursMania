@@ -160,6 +160,11 @@
         <servlet-name>AJAXControllerServlet</servlet-name>
         <url-pattern>/obrisiOcenu</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>AJAXControllerServlet</servlet-name>
+        <url-pattern>/obrisiTag</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>AJAXControllerServlet</servlet-name>

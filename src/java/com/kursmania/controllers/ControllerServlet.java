@@ -1,6 +1,7 @@
 package com.kursmania.controllers;
 
 import com.kursmania.jpa.entities.Evidencija;
+import com.kursmania.jpa.entities.Jezik;
 import com.kursmania.jpa.entities.Kategorija;
 import com.kursmania.jpa.entities.Komentar;
 import com.kursmania.jpa.entities.Korisnik;
@@ -581,7 +582,54 @@ public class ControllerServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
 
         } else if (putanja.equals("/dodavanjeKursa")) {
-
+            
+            String ime = request.getParameter("ime");
+            String opis = request.getParameter("opis");
+            String zahtevi = request.getParameter("zahtevi");
+            String kategorijaParam = request.getParameter("kategorija");
+            String jezikParam = request.getParameter("jezik");
+            String cena = request.getParameter("cena");
+            
+            int kategorijaId = Integer.parseInt(kategorijaParam);
+            int jezikId = Integer.parseInt(jezikParam);
+            float cenaVrednost = Float.parseFloat(cena);
+            
+            Kategorija kategorija = kategorijaFacade.find(kategorijaId);
+            Jezik jezik = jezikFacade.find(jezikId);
+            
+            LocalDateTime now = LocalDateTime.now();
+            
+            int g = now.getYear();
+            int m = now.getMonthValue();
+            int d = now.getDayOfMonth();
+            
+            String mesec = m > 9 ? String.valueOf(m) : "0" + String.valueOf(m);
+            String dan = d > 9 ? String.valueOf(d) : "0" + String.valueOf(d);
+            
+            String datumObjavljivanja = mesec + "-" + dan + "-" + g;
+            String datumPoslednjePromene = mesec + "-" + dan + "-" + g;
+            
+            Kurs kurs = new Kurs();
+            kurs.setKorisnikId(korisnik);
+            kurs.setKategorijaId(kategorija);
+            kurs.setJezikId(jezik);
+            kurs.setKursIme(ime);
+            kurs.setKursOpis(opis);
+            kurs.setKursZahtevi(zahtevi);
+            kurs.setKursDatumObjavljivanja(datumObjavljivanja);
+            kurs.setDatumPoslednjePromene(datumPoslednjePromene);
+            kurs.setKursCena(cenaVrednost);
+            kurs.setKursSlika("resources/img/website/course_4.jpg");
+            kurs.setKursVideo("https://youtu.be/5_MRXyYjHDk");
+            kurs.setKursPregledi(0);
+            kurs.setKursJavan(Short.parseShort("0"));
+            
+            kursFacade.create(kurs);
+            
+            initializePage(putanja, request, response);
+            request.setAttribute("poruka", "Kurs je uspesno kreiran. Ukoliko zelite da dodajete sekcije ili lekcija, idite na vas nalog i odaberite kurs.");
+            request.getRequestDispatcher("/WEB-INF/view" + putanja + ".jsp").forward(request, response);
+            
         } else if (putanja.equals("/pregledKursa")) {
 
         } else if (putanja.equals("/azuriranjeSlike")) {
@@ -589,8 +637,7 @@ public class ControllerServlet extends HttpServlet {
             File file;
             int maxFileSize = 5000 * 1024;
             int maxMemSize = 5000 * 1024;
-
-            String filePath = "resources/img/ostale";
+            String filePath = "C:\\Users\\Andrej Kubat\\Documents\\NetBeansProjects\\KursMania\\web\\resources\\img\\ostale\\";
 
             String contentType = request.getContentType();
 
@@ -598,14 +645,13 @@ public class ControllerServlet extends HttpServlet {
                 DiskFileItemFactory factory = new DiskFileItemFactory();
                 factory.setSizeThreshold(maxMemSize);
 
-                factory.setRepository(new File("C:\\Users\\Andrej Kubat\\Documents\\NetBeansProjects\\KursMania\\web"));
+                factory.setRepository(new File("c:\\temp"));
 
                 ServletFileUpload upload = new ServletFileUpload(factory);
 
                 upload.setSizeMax(maxFileSize);
 
                 try {
-
                     List fileItems = upload.parseRequest(request);
 
                     Iterator i = fileItems.iterator();
@@ -613,7 +659,6 @@ public class ControllerServlet extends HttpServlet {
                     while (i.hasNext()) {
                         FileItem fi = (FileItem) i.next();
                         if (!fi.isFormField()) {
-
                             String fieldName = fi.getFieldName();
                             String fileName = fi.getName();
                             boolean isInMemory = fi.isInMemory();
@@ -627,14 +672,18 @@ public class ControllerServlet extends HttpServlet {
                                         + fileName.substring(fileName.lastIndexOf("\\") + 1));
                             }
                             fi.write(file);
+                            System.out.println("Uploaded Filename: " + filePath + "\\" + fileName + "<br>");
+                            korisnik.setKorisnikAvatar("resources/img/ostale/" + fileName);
+                            korisnikFacade.edit(korisnik);
+                            response.sendRedirect("nalog");
                         }
                     }
-
                 } catch (Exception ex) {
                     System.out.println(ex);
+                    response.sendError(500);
                 }
             } else {
-                System.out.println("Greska!");
+                response.sendError(500);
             }
 
         }
@@ -1036,6 +1085,8 @@ public class ControllerServlet extends HttpServlet {
 
         } else if (pageName.equals("/dodavanjeKursa")) {
 
+            request.setAttribute("jezici", jezikFacade.findAll());
+
         } else if (pageName.equals("/pregledKursa")) {
 
             int kursId = Integer.parseInt((String) request.getParameter("id"));
@@ -1056,9 +1107,12 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("kursProsecnaOcena", String.format("%.2f", kursProsecnaOcena));
             request.setAttribute("kursZvezdice", kursZvezdice);
 
-            int brojJedinica, brojDvojki, brojTrojki, brojCetvorki, brojPetica;
+            int ukupanBrojOcena, brojJedinica, brojDvojki, brojTrojki, brojCetvorki, brojPetica;
+            double procenatJedinica, procenatDvojki, procenatTrojki, procenatCetvorki, procenatPetica;
 
             Collection<Ocena> ocene = kurs.getOcenaCollection();
+
+            ukupanBrojOcena = ocene.size();
 
             brojJedinica = ocene.stream().filter(e -> e.getOcenaVrednost() == 1).collect(Collectors.toList()).size();
             brojDvojki = ocene.stream().filter(e -> e.getOcenaVrednost() == 2).collect(Collectors.toList()).size();
@@ -1066,11 +1120,17 @@ public class ControllerServlet extends HttpServlet {
             brojCetvorki = ocene.stream().filter(e -> e.getOcenaVrednost() == 4).collect(Collectors.toList()).size();
             brojPetica = ocene.stream().filter(e -> e.getOcenaVrednost() == 5).collect(Collectors.toList()).size();
 
-            request.setAttribute("brojJedinica", brojJedinica);
-            request.setAttribute("brojDvojki", brojDvojki);
-            request.setAttribute("brojTrojki", brojTrojki);
-            request.setAttribute("brojCetvorki", brojCetvorki);
-            request.setAttribute("brojPetica", brojPetica);
+            procenatJedinica = (brojJedinica * 1.0 / ukupanBrojOcena) * 100;
+            procenatDvojki = (brojDvojki * 1.0 / ukupanBrojOcena) * 100;
+            procenatTrojki = (brojTrojki * 1.0 / ukupanBrojOcena) * 100;
+            procenatCetvorki = (brojCetvorki * 1.0 / ukupanBrojOcena) * 100;
+            procenatPetica = (brojPetica * 1.0 / ukupanBrojOcena) * 100;
+
+            request.setAttribute("procenatJedinica", (int) procenatJedinica);
+            request.setAttribute("procenatDvojki", (int) procenatDvojki);
+            request.setAttribute("procenatTrojki", (int) procenatTrojki);
+            request.setAttribute("procenatCetvorki", (int) procenatCetvorki);
+            request.setAttribute("procenatPetica", (int) procenatPetica);
 
             int kursBrojLekcija = 0;
 

@@ -4,11 +4,13 @@ import com.kursmania.jpa.entities.Komentar;
 import com.kursmania.jpa.entities.Korisnik;
 import com.kursmania.jpa.entities.Kupon;
 import com.kursmania.jpa.entities.Kurs;
+import com.kursmania.jpa.entities.KursTag;
 import com.kursmania.jpa.entities.Ocena;
 import com.kursmania.jpa.entities.Tag;
 import com.kursmania.sessions.KomentarFacade;
 import com.kursmania.sessions.KuponFacade;
 import com.kursmania.sessions.KursFacade;
+import com.kursmania.sessions.KursTagFacade;
 import com.kursmania.sessions.OcenaFacade;
 import com.kursmania.sessions.TagFacade;
 import com.kursmania.utils.Validation;
@@ -34,6 +36,9 @@ public class AJAXControllerServlet extends HttpServlet {
 
     @EJB
     private TagFacade tagFacade;
+    
+    @EJB
+    private KursTagFacade kursTagFacade;
 
     @EJB
     private KomentarFacade komentarFacade;
@@ -134,6 +139,12 @@ public class AJAXControllerServlet extends HttpServlet {
             Ocena ocena = ocenaFacade.find(ocenaId);
             ocenaFacade.remove(ocena);
 
+        } else if (putanja.equals("/obrisiTag")) {
+            
+            int tagId = Integer.parseInt((String) req.getParameter("id"));
+            KursTag tag = kursTagFacade.find(tagId);
+            kursTagFacade.remove(tag);
+            
         }
     }
 
