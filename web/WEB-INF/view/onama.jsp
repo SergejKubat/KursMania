@@ -155,7 +155,7 @@
                         <div class="teacher">
                             <div class="teacher_image"><img src="${instruktor.korisnikAvatar}" alt="${instruktor.korisnikIme} ${instruktor.korisnikIme}"></div>
                             <div class="teacher_body text-center">
-                                <div class="teacher_title"><a href="instruktor?id=${instruktor.korisnikId}">${instruktor.korisnikIme} ${instruktor.korisnikIme}</a></div>
+                                <div class="teacher_title"><a href="instruktor?id=${instruktor.korisnikId}">${instruktor.korisnikIme} ${instruktor.korisnikPrezime}</a></div>
                                 <div class="teacher_subtitle">${instruktor.korisnikTitula}</div>
                                 <div class="teacher_social">
                                     <ul>

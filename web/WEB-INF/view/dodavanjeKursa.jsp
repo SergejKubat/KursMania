@@ -95,6 +95,7 @@
                             <div><input type="text" name="ime" class="contact_input" placeholder="Ime kursa" required="required"></div>
                             <div><textarea name="opis" class="contact_input contact_textarea" placeholder="Opis kursa"></textarea></div>
                             <div><textarea name="zahtevi" class="contact_input contact_textarea" placeholder="Zahtevi kursa"></textarea></div>
+                            <p>Kategorija:</p>
                             <div>
                                 <select name="kategorija" id="cars" class="contact_input" required>
                                     <c:forEach var="kategorija" items="${kategorije}">
@@ -102,6 +103,7 @@
                                     </c:forEach>
                                 </select>
                             </div>
+                            <p>Jezik:</p>
                             <div>
                                 <select name="jezik" id="cars" class="contact_input" required>
                                     <c:forEach var="jezik" items="${jezici}">

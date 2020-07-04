@@ -11,7 +11,6 @@
         <meta name="description" content="Elearn project">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="resources/css/bootstrap4/bootstrap.min.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link href="resources/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
         <link rel="stylesheet" type="text/css" href="resources/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
@@ -140,19 +139,19 @@
                                 <div class="featured_content">
                                     <div class="featured_header d-flex flex-row align-items-center justify-content-start">
                                         <div class="featured_tag"><a href="#">Popularni</a></div>
-                                        <div class="featured_price ml-auto">Cena: <span>$35</span></div>
+                                        <div class="featured_price ml-auto">Cena: <span>${najpopularnijiKurs.kursCena}$</span></div>
                                     </div>
-                                    <div class="featured_title"><h3><a href="courses.html">JavaScript ES6/7/8</a></h3></div>
-                                    <div class="featured_text">Maecenas rutrum viverra sapien sed fermentum. Morbi tempor odio eget lacus tempus pulvinar. Donec vehicula efficitur nibh, in pretium nulla interdum non.</div>
+                                    <div class="featured_title"><h3><a href="kurs?id=${najpopularnijiKurs.kursId}">${najpopularnijiKurs.kursIme}</a></h3></div>
+                                    <div class="featured_text">${najpopularnijiKurs.kursOpis}</div>
                                     <div class="featured_footer d-flex align-items-center justify-content-start">
-                                        <div class="featured_author_image"><img src="resources/img/website/featured_author.jpg" alt=""></div>
-                                        <div class="featured_author_name">Autor: <a href="#">James S. Morrison</a></div>
-                                        <div class="featured_sales ml-auto"><span>352</span> ucenika</div>
+                                        <div class="featured_author_image"><img src="${najpopularnijiKurs.korisnikId.korisnikAvatar}" alt="${najpopularnijiKurs.korisnikId.korisnikIme} ${najpopularnijiKurs.korisnikId.korisnikPrezime}"></div>
+                                        <div class="featured_author_name">Autor: <a href="instruktor?id=${najpopularnijiKurs.korisnikId.korisnikId}">${najpopularnijiKurs.korisnikId.korisnikIme} ${najpopularnijiKurs.korisnikId.korisnikPrezime}</a></div>
+                                        <div class="featured_sales ml-auto"><span>${najpopularnijiKurs.evidencijaCollection.size()}</span> ucenika</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 featured_col">
-                                <div class="featured_background" style="background-image:url(resources/img/website/featured.jpg)"></div>
+                                <div class="featured_background" style="background-image:url(${najpopularnijiKurs.kursSlika})"></div>
                             </div>
                         </div>
                     </div>
@@ -193,81 +192,26 @@
                     <div class="courses_slider_container">
                         <div class="owl-carousel owl-theme courses_slider">
 
-                            <div class="owl-item">
-                                <div class="course">
-                                    <div class="course_image"><img src="resources/img/website/course_1.jpg" alt=""></div>
-                                    <div class="course_body">
-                                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                            <div class="course_tag"><a href="#">Popularno</a></div>
-                                            <div class="course_price ml-auto">Cena: <span>$35</span></div>
-                                        </div>
-                                        <div class="course_title"><h3><a href="courses.html">JavaScript ES6/7/8</a></h3></div>
-                                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                                        <div class="course_footer d-flex align-items-center justify-content-start">
-                                            <div class="course_author_image"><img src="resources/img/website/featured_author.jpg" alt="https://unsplash.com/@anthonytran"></div>
-                                            <div class="course_author_name">Autor <a href="#">James S. Morrison</a></div>
-                                            <div class="course_sales ml-auto"><span>352</span> ucenika</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="owl-item">
-                                <div class="course">
-                                    <div class="course_image"><img src="resources/img/website/course_2.jpg" alt=""></div>
-                                    <div class="course_body">
-                                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                            <div class="course_tag"><a href="#">Novo</a></div>
-                                            <div class="course_price ml-auto">Cena: <span>$35</span></div>
-                                        </div>
-                                        <div class="course_title"><h3><a href="courses.html">Social Media Course</a></h3></div>
-                                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                                        <div class="course_footer d-flex align-items-center justify-content-start">
-                                            <div class="course_author_image"><img src="resources/img/website/course_author_2.jpg" alt=""></div>
-                                            <div class="course_author_name">By <a href="#">Mark Smith</a></div>
-                                            <div class="course_sales ml-auto"><span>352</span> ucenika</div>
+                            <c:forEach var="kurs" items="${promoKursevi}">
+                                <div class="owl-item">
+                                    <div class="course">
+                                        <div class="course_image"><img src="${kurs.kursSlika}" alt="${kurs.kursIme}"></div>
+                                        <div class="course_body">
+                                            <div class="course_header d-flex flex-row align-items-center justify-content-start">
+                                                <div class="course_tag"><a href="#">Popularno</a></div>
+                                                <div class="course_price ml-auto">Cena: <span>${kurs.kursCena}$</span></div>
+                                            </div>
+                                            <div class="course_title"><h3><a href="kurs?id=${kurs.kursId}">${kurs.kursIme}</a></h3></div>
+                                            <div class="course_text">${kurs.kursOpis}</div>
+                                            <div class="course_footer d-flex align-items-center justify-content-start">
+                                                <div class="course_author_image"><img src="${kurs.korisnikId.korisnikAvatar}" alt="${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}"></div>
+                                                <div class="course_author_name">Autor <a href="instruktor?id=${kurs.korisnikId.korisnikId}">${kurs.korisnikId.korisnikIme} ${kurs.korisnikId.korisnikPrezime}</a></div>
+                                                <div class="course_sales ml-auto"><span>${kurs.evidencijaCollection.size()}</span> ucenika</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="owl-item">
-                                <div class="course">
-                                    <div class="course_image"><img src="resources/img/website/course_3.jpg" alt="https://unsplash.com/@annademy"></div>
-                                    <div class="course_body">
-                                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                            <div class="course_tag"><a href="#">Popularno</a></div>
-                                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                                        </div>
-                                        <div class="course_title"><h3><a href="courses.html">Marketing Course</a></h3></div>
-                                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                                        <div class="course_footer d-flex align-items-center justify-content-start">
-                                            <div class="course_author_image"><img src="resources/img/website/course_author_3.jpg" alt=""></div>
-                                            <div class="course_author_name">By <a href="#">Julia Williams</a></div>
-                                            <div class="course_sales ml-auto"><span>352</span> ucenika</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="owl-item">
-                                <div class="course">
-                                    <div class="course_image"><img src="resources/img/website/course_3.jpg" alt="https://unsplash.com/@annademy"></div>
-                                    <div class="course_body">
-                                        <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                            <div class="course_tag"><a href="#">Popularno</a></div>
-                                            <div class="course_price ml-auto">Price: <span>$35</span></div>
-                                        </div>
-                                        <div class="course_title"><h3><a href="courses.html">Novi kurs</a></h3></div>
-                                        <div class="course_text">Maecenas rutrum viverra sapien sed ferm entum. Morbi tempor odio eget lacus tempus pulvinar.</div>
-                                        <div class="course_footer d-flex align-items-center justify-content-start">
-                                            <div class="course_author_image"><img src="resources/img/website/course_author_3.jpg" alt=""></div>
-                                            <div class="course_author_name">By <a href="#">Julia Williams</a></div>
-                                            <div class="course_sales ml-auto"><span>352</span> ucenika</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </c:forEach>
 
                         </div>
 
@@ -323,19 +267,10 @@
 
     <div class="grouped_title" style="text-align: center; margin: 20px 0;">Zasto?</div>
 
-    <div class="video">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="video_container_outer">
-                        <div class="video_container">
-                            <video id="vid1" class="video-js vjs-default-skin" controls data-setup='{ "poster": "resources/img/website/video.jpg", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://youtu.be/5_MRXyYjHDk"}], "youtube": { "iv_load_policy": 1 } }'>
-                            </video>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div style="text-align: center">
+        <video poster="resources/img/website/about_1.jpg" controls>
+            <source src="resources/video.mp4" type="video/mp4">                      
+        </video>
     </div>
 
     <div class="join">
@@ -349,7 +284,7 @@
         </div>
         <div class="button join_button"><a href="registracija">Registracija<div class="button_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></div></a></div>
     </div>
-    
+
     <jsp:include page="WEB-INF/view/includes/footer.jsp" />
 
     <script src="resources/js/preporuke.js"></script>
@@ -367,6 +302,5 @@
     <script src="resources/plugins/video-js/Youtube.min.js"></script>
     <script src="resources/plugins/parallax-js-master/parallax.min.js"></script>
     <script src="resources/js/custom.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
 </body>
 </html>

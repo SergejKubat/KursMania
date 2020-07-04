@@ -88,6 +88,15 @@ public class ControllerServlet extends HttpServlet {
         getServletContext().setAttribute("brojStudenata", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 1).collect(Collectors.toList()).size());
         getServletContext().setAttribute("brojInstruktora", korisnikFacade.findAll().stream().filter(e -> e.getRolaId().getRolaId() == 2).collect(Collectors.toList()).size());
         getServletContext().setAttribute("brojJezika", jezikFacade.findAll().size());
+        
+        List<Kurs> kursevi = kursFacade.findAll();        
+        Collections.sort(kursevi);
+        if (kursevi.size() > 6) {
+            kursevi.subList(0, 5);
+        }
+        getServletContext().setAttribute("najpopularnijiKurs", kursevi.get(kursevi.size() - 1));
+        kursevi.remove(kursevi.size() - 1);
+        getServletContext().setAttribute("promoKursevi", kursevi);
     }
 
     @Override
@@ -710,6 +719,7 @@ public class ControllerServlet extends HttpServlet {
             filtriraniKursevi = kursevi.stream().filter(e -> e.getKursIme().toLowerCase().contains(q.toLowerCase())).collect(Collectors.toList());
 
             Collections.sort(kursevi);
+            Collections.reverse(kursevi);
             if (filtriraniKursevi.isEmpty()) {
                 request.setAttribute("poruka", "Nazalost, nije pronadjen ni jedan kurs.");
             } else {
@@ -795,10 +805,13 @@ public class ControllerServlet extends HttpServlet {
                 kursBrojKomentara = komentari.size();
                 request.setAttribute("kursBrojKomentara", kursBrojKomentara);
 
-                List<Kurs> preporuceniKursevi = kursFacade.findAll().stream().filter(e -> Objects.equals(e.getKategorijaId().getKategorijaId(), kurs.getKategorijaId().getKategorijaId())).collect(Collectors.toList());
+                List<Kurs> preporuceniKursevi = kursFacade.findAll().stream().filter(e -> Objects.equals(e.getKorisnikId().getKorisnikId(), kurs.getKorisnikId().getKorisnikId())).collect(Collectors.toList());
+                if (preporuceniKursevi.isEmpty()) {
+                    kursFacade.findAll().stream().filter(e -> Objects.equals(e.getKategorijaId().getKategorijaId(), kurs.getKategorijaId().getKategorijaId())).collect(Collectors.toList());
+                }
                 preporuceniKursevi.remove(kurs);
                 if (preporuceniKursevi.size() > 2) {
-                    preporuceniKursevi = preporuceniKursevi.subList(0, 2);
+                    preporuceniKursevi = preporuceniKursevi.subList(0, 1);
                 }
 
                 request.setAttribute("preporuceniKursevi", preporuceniKursevi);

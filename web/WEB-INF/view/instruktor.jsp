@@ -124,7 +124,7 @@
                             <br>
                             <div class="row">
                                 <c:forEach var="kurs" items="${kursevi}">
-                                    <div class="col">
+                                    <div class="col-6">
                                         <div class="course">
                                             <div class="course_image"><img src="${kurs.kursSlika}" alt="${kurs.kursIme}"></div>
                                             <div class="course_body">

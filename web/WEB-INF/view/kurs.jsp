@@ -139,19 +139,10 @@
             <div class="col-lg-9">
 
                 <div class="card mt-4">
-                    <div class="video">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="video_container_outer">
-                                        <div class="video_container">
-                                            <video id="vid1" class="video-js vjs-default-skin" controls data-setup='{ "poster": "${kurs.kursSlika}", "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "${kurs.kursVideo}"}], "youtube": { "iv_load_policy": 1 } }'>
-                                            </video>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div style="text-align: center">
+                        <video style="height: 600px; width: 800px" poster="${kurs.kursSlika}" controls>
+                            <source src="${kurs.kursVideo}" type="video/mp4">                      
+                        </video>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -254,9 +245,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br><br>
                             </c:if>
                         </c:if>
-                        <br><br>
                         <h4>Sta treba da znate pre ovog kursa?</h4>
                         <br>
                         <div id="zahtevi">
