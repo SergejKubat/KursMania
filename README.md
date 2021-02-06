@@ -1,2 +1,2 @@
 # KursMania
-Web aplikacija kupovinu online kurseva.
+Web aplikacija za kupovinu online kurseva.
